@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { Winner, COLORS } from "@/lib/constants";
+import { getWinnerImage } from "@/lib/image-manifest";
 
 interface WinnerCardProps {
   winner: Winner;
@@ -8,17 +10,25 @@ interface WinnerCardProps {
 }
 
 export function WinnerCard({ winner, showYear = true }: WinnerCardProps) {
+  const image = getWinnerImage(winner.year, "portrait");
+
   return (
     <div
-      className="rounded-lg border-2 p-6 transition-all hover:shadow-lg"
+      className="rounded-lg border-2 p-6 transition-all hover:shadow-lg overflow-hidden"
       style={{
         backgroundColor: COLORS.light,
         borderColor: COLORS.border,
       }}
     >
-      {winner.imageUrl && (
-        <div className="mb-4 h-48 bg-gradient-to-b from-slate-300 to-slate-200 rounded-lg flex items-center justify-center text-slate-400">
-          <span className="text-sm">Photo</span>
+      {image && (
+        <div className="mb-4 relative w-full h-64 rounded-lg overflow-hidden bg-slate-200">
+          <Image
+            src={image.jpg}
+            alt={`${winner.name} - ${winner.year}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 400px"
+          />
         </div>
       )}
       {showYear && (
