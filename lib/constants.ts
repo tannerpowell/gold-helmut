@@ -112,16 +112,6 @@ export const getRecentWinners = (count: number = 12) => {
   return WINNERS_BY_YEAR.slice(0, count);
 };
 
-// Color palette for luxury design
-export const COLORS = {
-  primary: "#0f172a", // slate-900
-  accent: "#d4af37", // luxury gold
-  light: "#f8fafc", // slate-50
-  border: "#1e293b", // slate-800
-  text: "#0f172a", // slate-900
-  textMuted: "#64748b", // slate-500
-};
-
 // Award decades for filter
 export const DECADES = [
   { label: "2020s", value: 2020 },

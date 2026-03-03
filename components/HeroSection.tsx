@@ -1,101 +1,106 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { AWARD_INFO, COLORS } from "@/lib/constants";
+import { getWinnerImage } from "@/lib/image-manifest";
+import { AWARD_INFO } from "@/lib/constants";
 
 export function HeroSection() {
-  return (
-    <section
-      className="py-24 px-6"
-      style={{ backgroundColor: COLORS.primary }}
-    >
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-12 text-center">
-          <h1
-            className="text-5xl md:text-6xl font-bold mb-6"
-            style={{ color: COLORS.light }}
-          >
-            The Gold Helmet Award
-          </h1>
-          <p
-            className="text-xl md:text-2xl mb-2"
-            style={{ color: COLORS.accent }}
-          >
-            Colorado's Most Prestigious High School Football Honor
-          </p>
-          <p
-            className="text-lg max-w-2xl mx-auto"
-            style={{ color: "#cbd5e1" }} // slate-300
-          >
-            Celebrating {AWARD_INFO.yearsOfHistory} years of excellence, leadership, and character on and off the field.
-          </p>
-        </div>
+  const image = getWinnerImage(2025, "web");
 
-        {/* 2025 Winner Spotlight */}
-        <div
-          className="mb-16 p-8 rounded-lg border-2"
-          style={{
-            backgroundColor: COLORS.light,
-            borderColor: COLORS.accent,
-          }}
-        >
-          <div className="text-center">
-            <p
-              className="text-sm font-semibold mb-2"
-              style={{ color: COLORS.accent }}
-            >
-              2025 WINNER
-            </p>
-            <h2
-              className="text-4xl font-bold mb-4"
-              style={{ color: COLORS.primary }}
-            >
+  return (
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      {/* Background Image (always visible) */}
+      <div className="absolute inset-0 z-0">
+        {image && (
+          <Image
+            src={image.jpg}
+            alt="Elian Oliva - 2025 Gold Helmet Award Winner"
+            fill
+            className="object-cover object-center"
+            priority
+            quality={80}
+            sizes="100vw"
+          />
+        )}
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full mx-auto max-w-6xl px-6 lg:px-8 py-20">
+        <div className="max-w-2xl">
+          {/* Gold accent line */}
+          <div className="mb-8 h-px w-16 bg-gold" />
+
+          {/* Eyebrow */}
+          <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
+            Colorado&apos;s Premier Award
+          </p>
+
+          {/* Main Headline */}
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium italic leading-tight text-white mb-6">
+            The Gold Helmet
+          </h1>
+
+          {/* Subheading */}
+          <p className="text-xl md:text-2xl text-white/80 leading-relaxed mb-12 max-w-xl">
+            Honoring {AWARD_INFO.yearsOfHistory} years of excellence, character,
+            and leadership in Colorado high school football.
+          </p>
+
+          {/* 2025 Winner Spotlight */}
+          <div className="mb-12 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
+            <div className="border-b border-gold/30 pb-4 mb-4">
+              <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
+                2025 Winner
+              </p>
+            </div>
+            <h2 className="font-display italic text-3xl font-medium text-white mb-3">
               Elian Oliva
             </h2>
-            <p className="text-lg mb-2" style={{ color: COLORS.primary }}>
-              Northfield High School
-            </p>
-            <p style={{ color: COLORS.textMuted }}>
-              Linebacker/Safety | Committed to Air Force Academy
+            <p className="text-white/80 mb-1">Northfield High School</p>
+            <p className="text-gold font-medium">
+              Linebacker/Safety &bull; Air Force Academy
             </p>
           </div>
-        </div>
 
-        {/* CTAs */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Link
-            href="/winners-timeline"
-            className="block p-6 rounded-lg border-2 transition-all hover:shadow-lg text-center font-semibold"
-            style={{
-              backgroundColor: COLORS.light,
-              borderColor: COLORS.border,
-              color: COLORS.primary,
-            }}
-          >
-            View Timeline
-          </Link>
-          <Link
-            href="/winners-grid"
-            className="block p-6 rounded-lg border-2 transition-all hover:shadow-lg text-center font-semibold"
-            style={{
-              backgroundColor: COLORS.light,
-              borderColor: COLORS.border,
-              color: COLORS.primary,
-            }}
-          >
-            View Grid
-          </Link>
-          <a
-            href="#apply"
-            className="block p-6 rounded-lg border-2 transition-all hover:shadow-lg text-center font-semibold"
-            style={{
-              backgroundColor: COLORS.accent,
-              borderColor: COLORS.accent,
-              color: COLORS.primary,
-            }}
-          >
-            Apply Now
-          </a>
+          {/* Trust Indicators */}
+          <div className="mb-12 flex flex-wrap gap-8 border-t border-white/20 pt-8">
+            <div>
+              <div className="font-display text-3xl font-medium text-gold">
+                {AWARD_INFO.yearsOfHistory}
+              </div>
+              <div className="mt-1 text-sm text-white/60">Years of History</div>
+            </div>
+            <div>
+              <div className="font-display text-3xl font-medium text-gold">
+                ${AWARD_INFO.scholarshipAmount.toLocaleString()}
+              </div>
+              <div className="mt-1 text-sm text-white/60">Scholarships</div>
+            </div>
+            <div>
+              <div className="font-display text-3xl font-medium text-gold">
+                501(c)(3)
+              </div>
+              <div className="mt-1 text-sm text-white/60">Non-Profit</div>
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/winners-grid"
+              className="inline-flex items-center justify-center px-8 py-3 bg-gold text-[#1a1a1a] font-medium hover:brightness-110 transition-all"
+            >
+              View All Winners
+            </Link>
+            <Link
+              href="#apply"
+              className="inline-flex items-center justify-center px-8 py-3 border border-white/30 text-white font-medium hover:bg-white/10 transition-colors"
+            >
+              Apply
+            </Link>
+          </div>
         </div>
       </div>
     </section>

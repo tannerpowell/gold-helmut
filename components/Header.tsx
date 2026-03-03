@@ -1,59 +1,88 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { COLORS } from "@/lib/constants";
+import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <header
-      className="sticky top-0 z-50 border-b"
-      style={{
-        backgroundColor: COLORS.light,
-        borderColor: COLORS.border,
-      }}
-    >
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div
-            className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white"
-            style={{ backgroundColor: COLORS.accent }}
-          >
-            🏆
+    <header className="sticky top-0 z-50 chrome-bar border-b border-white/10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3">
+          <div className="w-9 h-9 flex items-center justify-center bg-gold text-[#1a1a1a] font-display text-sm font-bold italic">
+            GH
           </div>
-          <span
-            className="font-bold text-xl hidden sm:inline"
-            style={{ color: COLORS.primary }}
-          >
+          <span className="hidden sm:inline font-display italic text-xl font-medium text-white">
             Gold Helmet
           </span>
         </Link>
-        <nav className="flex items-center gap-6">
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-6">
           <Link
             href="/winners-timeline"
-            className="text-sm font-medium transition-colors"
-            style={{ color: COLORS.textMuted }}
+            className="text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
           >
             Timeline
           </Link>
           <Link
             href="/winners-grid"
-            className="text-sm font-medium transition-colors"
-            style={{ color: COLORS.textMuted }}
+            className="text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
           >
-            Grid
+            Winners
           </Link>
-          <a
+          <ThemeToggle />
+          <Link
             href="#apply"
-            className="text-sm font-medium px-4 py-2 rounded-lg transition-colors"
-            style={{
-              backgroundColor: COLORS.accent,
-              color: COLORS.primary,
-            }}
+            className="px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium hover:brightness-110 transition-all"
           >
             Apply
-          </a>
+          </Link>
         </nav>
+
+        {/* Mobile: toggle + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="p-2 chrome-bar-text"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <nav className="md:hidden chrome-bar border-t border-white/10 px-6 py-4 space-y-3">
+          <Link
+            href="/winners-timeline"
+            onClick={() => setMobileOpen(false)}
+            className="block text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
+          >
+            Timeline
+          </Link>
+          <Link
+            href="/winners-grid"
+            onClick={() => setMobileOpen(false)}
+            className="block text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
+          >
+            Winners
+          </Link>
+          <Link
+            href="#apply"
+            onClick={() => setMobileOpen(false)}
+            className="block w-full text-center px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium"
+          >
+            Apply
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }

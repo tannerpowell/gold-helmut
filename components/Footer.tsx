@@ -1,94 +1,82 @@
 "use client";
 
-import { AWARD_INFO, COLORS } from "@/lib/constants";
+import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer
-      className="border-t py-12"
-      style={{ borderColor: COLORS.border, backgroundColor: COLORS.light }}
-    >
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="chrome-bar border-t border-white/10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+          {/* Brand */}
           <div>
-            <h3
-              className="font-bold text-lg mb-4"
-              style={{ color: COLORS.primary }}
-            >
-              {AWARD_INFO.name}
+            <h3 className="font-display italic text-xl font-medium text-white mb-3">
+              Gold Helmet Award
             </h3>
-            <p
-              className="text-sm"
-              style={{ color: COLORS.textMuted }}
-            >
-              Recognizing excellence in Colorado high school football since {AWARD_INFO.founded}.
+            <p className="chrome-bar-text text-sm leading-relaxed">
+              Recognizing excellence in Colorado high school football since
+              1951. Honoring character, leadership, and achievement on and off
+              the field.
             </p>
           </div>
+
+          {/* Links */}
           <div>
-            <h4
-              className="font-semibold mb-4"
-              style={{ color: COLORS.primary }}
-            >
+            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-gold mb-4">
               Quick Links
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-sm">
               <li>
-                <a
+                <Link
                   href="/winners-timeline"
-                  className="text-sm transition-colors"
-                  style={{ color: COLORS.textMuted }}
+                  className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
                 >
-                  View Timeline
-                </a>
+                  Timeline
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/winners-grid"
-                  className="text-sm transition-colors"
-                  style={{ color: COLORS.textMuted }}
+                  className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
                 >
-                  View Grid
-                </a>
+                  Winners
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#apply"
-                  className="text-sm transition-colors"
-                  style={{ color: COLORS.textMuted }}
+                  className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
                 >
                   Apply
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
+
+          {/* Contact */}
           <div>
-            <h4
-              className="font-semibold mb-4"
-              style={{ color: COLORS.primary }}
-            >
+            <h4 className="text-xs font-medium uppercase tracking-[0.2em] text-gold mb-4">
               Contact
             </h4>
-            <p className="text-sm" style={{ color: COLORS.textMuted }}>
+            <p className="text-sm chrome-bar-text mb-2">
               <a
-                href={`mailto:${AWARD_INFO.contactEmail}`}
-                className="hover:underline"
+                href="mailto:goldhelmet2025@gmail.com"
+                className="hover:text-[hsl(var(--gold))] transition-colors"
               >
-                {AWARD_INFO.contactEmail}
+                goldhelmet2025@gmail.com
               </a>
             </p>
-            <p className="text-sm mt-2" style={{ color: COLORS.textMuted }}>
-              Chair: {AWARD_INFO.chair}
-            </p>
+            <p className="text-sm chrome-bar-text">Chair: Kyle Newman</p>
           </div>
         </div>
-        <div
-          className="border-t pt-8 text-center text-sm"
-          style={{ borderColor: COLORS.border, color: COLORS.textMuted }}
-        >
-          <p>
-            © {new Date().getFullYear()} {AWARD_INFO.charity}. All rights reserved.
-          </p>
-        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-white/10 mb-8" />
+
+        {/* Copyright */}
+        <p className="text-center text-xs text-white/40">
+          &copy; {new Date().getFullYear()} Gold Helmet Award Corp. All rights
+          reserved.
+        </p>
       </div>
     </footer>
   );

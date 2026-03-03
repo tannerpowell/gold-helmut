@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { AWARD_INFO, COLORS } from "@/lib/constants";
+import { AWARD_INFO } from "@/lib/constants";
 
 const DONATION_TIERS = [
-  { amount: 50, label: "Bronze Supporter" },
-  { amount: 100, label: "Silver Supporter" },
-  { amount: 250, label: "Gold Supporter" },
-  { amount: 500, label: "Platinum Supporter" },
+  { amount: 50, label: "Bronze" },
+  { amount: 100, label: "Silver" },
+  { amount: 250, label: "Gold" },
+  { amount: 500, label: "Platinum" },
   { amount: 1000, label: "Title Sponsor" },
 ];
 
@@ -18,120 +18,96 @@ export function DonateSection() {
   const finalAmount = customAmount ? parseInt(customAmount) : selectedAmount;
 
   const handleDonate = () => {
-    // TODO: Integrate with Stripe
-    alert(`Donation of $${finalAmount} - Stripe integration coming soon`);
+    // TODO: Integrate with Stripe when backend is built
+    alert(`Donation of $${finalAmount} — Stripe integration coming soon`);
   };
 
   return (
-    <section className="py-16 px-6" style={{ backgroundColor: COLORS.primary }}>
+    <section className="py-24 lg:py-32 px-6 chrome-bar">
       <div className="max-w-3xl mx-auto">
+        {/* Section Header */}
         <div className="text-center mb-12">
-          <h2
-            className="text-4xl font-bold mb-4"
-            style={{ color: COLORS.light }}
-          >
-            Support the Gold Helmet Award
-          </h2>
-          <p
-            className="text-lg mb-4"
-            style={{ color: "#cbd5e1" }} // slate-300
-          >
-            Your donation directly funds $1,000 scholarships for student-athletes who exemplify character, leadership, and excellence.
+          <div className="h-px w-16 bg-gold mx-auto mb-6" />
+          <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
+            Support the Mission
           </p>
-          <p style={{ color: COLORS.accent }}>
-            {AWARD_INFO.charity} is a registered 501(c)(3) non-profit organization.
+          <h2 className="font-display text-3xl md:text-4xl font-medium italic text-white mb-4">
+            Fund a Scholarship
+          </h2>
+          <p className="text-lg chrome-bar-text leading-relaxed mb-4">
+            Your donation directly funds ${AWARD_INFO.scholarshipAmount.toLocaleString()} scholarships
+            for student-athletes who exemplify character, leadership, and
+            excellence.
+          </p>
+          <p className="text-gold text-sm">
+            {AWARD_INFO.charity} is a registered 501(c)(3) non-profit.
           </p>
         </div>
 
-        <div className="mb-12">
-          <p
-            className="text-sm font-semibold mb-4"
-            style={{ color: COLORS.light }}
-          >
+        {/* Donation Tiers */}
+        <div className="mb-8">
+          <p className="text-sm font-medium text-white mb-4">
             Select a donation amount:
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-            {DONATION_TIERS.map((tier) => (
-              <button
-                key={tier.amount}
-                onClick={() => {
-                  setSelectedAmount(tier.amount);
-                  setCustomAmount("");
-                }}
-                className="p-4 rounded-lg border-2 transition-all font-semibold"
-                style={{
-                  backgroundColor:
-                    selectedAmount === tier.amount && !customAmount
-                      ? COLORS.accent
-                      : "transparent",
-                  borderColor:
-                    selectedAmount === tier.amount && !customAmount
-                      ? COLORS.accent
-                      : COLORS.border,
-                  color:
-                    selectedAmount === tier.amount && !customAmount
-                      ? COLORS.primary
-                      : COLORS.light,
-                }}
-              >
-                <div className="text-lg">${tier.amount}</div>
-                <div className="text-xs">{tier.label}</div>
-              </button>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+            {DONATION_TIERS.map((tier) => {
+              const isActive =
+                selectedAmount === tier.amount && !customAmount;
+              return (
+                <button
+                  key={tier.amount}
+                  onClick={() => {
+                    setSelectedAmount(tier.amount);
+                    setCustomAmount("");
+                  }}
+                  className={`p-4 border font-medium transition-all ${
+                    isActive
+                      ? "bg-gold text-[#1a1a1a] border-gold"
+                      : "bg-transparent text-white border-white/20 hover:border-gold/50"
+                  }`}
+                >
+                  <div className="text-lg">${tier.amount}</div>
+                  <div className="text-xs opacity-70">{tier.label}</div>
+                </button>
+              );
+            })}
           </div>
 
+          {/* Custom Amount */}
           <div>
-            <label
-              className="block text-sm font-semibold mb-2"
-              style={{ color: COLORS.light }}
-            >
+            <label className="block text-sm font-medium text-white mb-2">
               Or enter a custom amount:
             </label>
-            <div className="flex gap-2">
-              <div className="flex-1 relative">
-                <span
-                  className="absolute left-4 top-3 font-semibold"
-                  style={{ color: COLORS.textMuted }}
-                >
-                  $
-                </span>
-                <input
-                  type="number"
-                  value={customAmount}
-                  onChange={(e) => {
-                    setCustomAmount(e.target.value);
-                    if (e.target.value) setSelectedAmount(0);
-                  }}
-                  className="w-full pl-8 pr-4 py-2 rounded-lg border-2"
-                  style={{
-                    borderColor: COLORS.border,
-                    backgroundColor: "#1e293b", // slate-800
-                    color: COLORS.light,
-                  }}
-                  placeholder="Enter amount"
-                  min="1"
-                />
-              </div>
+            <div className="relative">
+              <span className="absolute left-4 top-3 text-white/50 font-medium">
+                $
+              </span>
+              <input
+                type="number"
+                value={customAmount}
+                onChange={(e) => {
+                  setCustomAmount(e.target.value);
+                  if (e.target.value) setSelectedAmount(0);
+                }}
+                className="w-full pl-8 pr-4 py-3 bg-white/5 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
+                placeholder="Enter amount"
+                min="1"
+              />
             </div>
           </div>
         </div>
 
+        {/* Donate Button */}
         <button
           onClick={handleDonate}
-          className="w-full py-4 rounded-lg font-bold text-lg transition-all hover:shadow-lg"
-          style={{
-            backgroundColor: COLORS.accent,
-            color: COLORS.primary,
-          }}
+          className="w-full py-4 bg-gold text-[#1a1a1a] font-semibold text-lg hover:brightness-110 transition-all"
         >
-          Donate ${finalAmount}
+          Donate ${finalAmount || 0}
         </button>
 
-        <p
-          className="text-center text-sm mt-6"
-          style={{ color: "#cbd5e1" }} // slate-300
-        >
-          Your donation is secure and encrypted. We accept all major credit cards.
+        <p className="text-center text-sm text-white/40 mt-6">
+          Your donation is secure and encrypted. We accept all major credit
+          cards.
         </p>
       </div>
     </section>
