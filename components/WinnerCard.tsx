@@ -34,14 +34,14 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
   if (variant === "timeline") {
     return (
       <div className="flex gap-6 items-start">
-        <div className="relative w-20 h-20 flex-shrink-0 rounded-full overflow-hidden border-[5px] border-[#fafafa] shadow-sm bg-surface-elevated">
+        <div className="relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-full overflow-hidden border-[5px] border-[#fafafa] shadow-md bg-surface-elevated">
           {image ? (
             <Image
               src={image.jpg}
               alt={winner.name}
               fill
               className="object-cover"
-              sizes="80px"
+              sizes="(min-width: 768px) 144px, 112px"
             />
           ) : (
             <Initials name={winner.name} />

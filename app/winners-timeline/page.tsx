@@ -1,9 +1,62 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import { WINNERS_BY_YEAR } from "@/lib/constants";
 import { WinnerCard } from "@/components/WinnerCard";
+import { TimelineScrubber } from "@/components/TimelineScrubber";
+
+const allYears = WINNERS_BY_YEAR.map((w) => w.year);
 
 export default function WinnersTimeline() {
+  const [activeYear, setActiveYear] = useState<number | null>(allYears[0]);
+  const yearRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const isScrollingTo = useRef(false);
+
+  // Track which year is visible via IntersectionObserver
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    yearRefs.current.forEach((el, year) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !isScrollingTo.current) {
+            setActiveYear(year);
+          }
+        },
+        { rootMargin: "-30% 0px -60% 0px" }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  const handleYearClick = useCallback((year: number) => {
+    const el = yearRefs.current.get(year);
+    if (!el) return;
+
+    isScrollingTo.current = true;
+    setActiveYear(year);
+
+    // Offset for sticky header + scrubber
+    const offset = 140;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+
+    // Release scroll lock after animation
+    setTimeout(() => {
+      isScrollingTo.current = false;
+    }, 800);
+  }, []);
+
+  const setYearRef = useCallback(
+    (year: number) => (el: HTMLDivElement | null) => {
+      if (el) yearRefs.current.set(year, el);
+    },
+    []
+  );
+
   return (
     <div className="min-h-screen bg-background">
       {/* Page Header */}
@@ -22,30 +75,44 @@ export default function WinnersTimeline() {
         </div>
       </div>
 
-      {/* Timeline */}
-      <div className="py-24 px-6">
+      {/* Horizontal Scrubber */}
+      <TimelineScrubber
+        years={allYears}
+        activeYear={activeYear}
+        onYearClick={handleYearClick}
+      />
+
+      {/* Vertical Timeline */}
+      <div className="py-16 md:py-24 px-6">
         <div className="max-w-4xl mx-auto relative">
-          {/* Gold vertical timeline line */}
-          <div className="absolute left-0 md:left-12 top-0 bottom-0 w-px bg-gold/20" />
+          {/* Gold vertical line */}
+          <div className="absolute left-5 md:left-[4.5rem] top-0 bottom-0 w-px bg-gold/20" />
 
-          <div className="space-y-10 pl-8 md:pl-24">
-            {WINNERS_BY_YEAR.map((winner, i) => (
-              <div key={winner.year} className="relative">
-                {/* Timeline dot */}
-                <div className="absolute -left-8 md:-left-24 top-3 w-3 h-3 rounded-full bg-gold border-2 border-background" />
+          <div className="space-y-10 pl-12 md:pl-28">
+            {WINNERS_BY_YEAR.map((winner, i) => {
+              const isNewDecade =
+                i === 0 ||
+                Math.floor(winner.year / 10) !==
+                  Math.floor(WINNERS_BY_YEAR[i - 1].year / 10);
 
-                {/* Decade marker */}
-                {(i === 0 || Math.floor(winner.year / 10) !== Math.floor(WINNERS_BY_YEAR[i - 1].year / 10)) && (
-                  <div className="mb-4">
-                    <span className="font-display text-2xl font-medium text-gold">
-                      {Math.floor(winner.year / 10) * 10}s
-                    </span>
-                  </div>
-                )}
+              return (
+                <div key={winner.year} ref={setYearRef(winner.year)} className="relative">
+                  {/* Timeline dot */}
+                  <div className="absolute -left-12 md:-left-28 top-4 md:top-6 w-3 h-3 rounded-full bg-gold border-2 border-background" />
 
-                <WinnerCard winner={winner} variant="timeline" />
-              </div>
-            ))}
+                  {/* Decade marker */}
+                  {isNewDecade && (
+                    <div className="mb-6">
+                      <span className="font-display text-2xl font-medium text-gold">
+                        {Math.floor(winner.year / 10) * 10}s
+                      </span>
+                    </div>
+                  )}
+
+                  <WinnerCard winner={winner} variant="timeline" />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
