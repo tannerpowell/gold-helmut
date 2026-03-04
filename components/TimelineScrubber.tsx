@@ -58,15 +58,15 @@ export function TimelineScrubber({
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div
           ref={scrollRef}
-          className="overflow-x-auto scrollbar-hide py-3 cursor-grab active:cursor-grabbing select-none"
+          className="overflow-x-auto scrollbar-hide py-5 cursor-grab active:cursor-grabbing select-none"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          <div className="relative flex items-center gap-0 min-w-max">
+          <div className="relative flex items-end min-w-max pb-7">
             {/* The horizontal line */}
-            <div className="absolute top-1/2 left-0 right-0 h-px bg-white/20" />
+            <div className="absolute bottom-7 left-0 right-0 h-[2px] bg-white/15" />
 
             {years.map((year) => {
               const isDecadeStart = year % 10 === 0 || year === years[0];
@@ -77,35 +77,32 @@ export function TimelineScrubber({
                   key={year}
                   data-year={year}
                   onClick={() => onYearClick(year)}
-                  className={`group relative flex flex-col items-center ${
-                    isDecadeStart ? "px-3 md:px-4" : "px-2 md:px-2.5"
-                  }`}
+                  className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] justify-end"
                   title={String(year)}
                 >
-                  {/* Decade label */}
+                  {/* Decade label above */}
                   {isDecadeStart && (
                     <span
-                      className={`text-[10px] font-medium mb-1.5 transition-colors ${
-                        isActive ? "text-gold" : "text-white/50"
+                      className={`text-xs font-medium mb-3 transition-colors ${
+                        isActive ? "text-gold" : "text-white/50 group-hover:text-white/70"
                       }`}
                     >
                       {year === years[0] ? year : `${year}s`}
                     </span>
                   )}
-                  {!isDecadeStart && <span className="h-[22px]" />}
 
-                  {/* Notch: active = gold circle, decade = circle, others = dash that becomes circle on hover */}
+                  {/* Notch */}
                   {isActive ? (
-                    <div className="w-3.5 h-3.5 rounded-full bg-gold shadow-[0_0_8px_rgba(184,149,62,0.5)]" />
+                    <div className="w-5 h-5 rounded-full bg-gold shadow-[0_0_12px_rgba(184,149,62,0.6)] z-10" />
                   ) : isDecadeStart ? (
-                    <div className="w-2.5 h-2.5 rounded-full bg-white/40 group-hover:bg-gold/60 transition-all" />
+                    <div className="w-4 h-4 rounded-full bg-white/35 group-hover:bg-gold/50 group-hover:scale-110 transition-all" />
                   ) : (
-                    <div className="w-3 h-[3px] rounded-full bg-white/20 group-hover:w-2.5 group-hover:h-2.5 group-hover:rounded-full group-hover:bg-white/40 transition-all" />
+                    <div className="w-[3px] h-4 rounded-sm bg-white/25 group-hover:w-4 group-hover:h-4 group-hover:rounded-full group-hover:bg-white/40 transition-all" />
                   )}
 
-                  {/* Year label on active (non-decade) */}
-                  {isActive && !isDecadeStart && (
-                    <span className="absolute -bottom-5 text-[10px] font-medium text-gold whitespace-nowrap">
+                  {/* Year label below active */}
+                  {isActive && (
+                    <span className="absolute -bottom-6 text-xs font-medium text-gold whitespace-nowrap">
                       {year}
                     </span>
                   )}
