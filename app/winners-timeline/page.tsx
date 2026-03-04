@@ -60,16 +60,16 @@ export default function WinnersTimeline() {
   return (
     <div className="min-h-screen bg-background">
       {/* Page Header */}
-      <div className="py-24 px-6 chrome-bar">
+      <div className="py-10 md:py-14 px-6 chrome-bar">
         <div className="max-w-6xl mx-auto">
-          <div className="h-px w-16 bg-gold mb-6" />
-          <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
+          <div className="h-px w-16 bg-gold mb-4" />
+          <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-3">
             Year by Year
           </p>
-          <h1 className="font-display italic text-5xl font-medium text-white mb-4">
+          <h1 className="font-display italic text-4xl md:text-5xl font-medium text-white mb-2">
             Winners Timeline
           </h1>
-          <p className="text-lg chrome-bar-text max-w-2xl">
+          <p className="text-base chrome-bar-text max-w-2xl">
             Seventy-five years of award recipients, from 2025 back to 1951.
           </p>
         </div>
@@ -83,12 +83,12 @@ export default function WinnersTimeline() {
       />
 
       {/* Vertical Timeline */}
-      <div className="py-16 md:py-24 px-6">
+      <div className="py-10 md:py-16 px-6">
         <div className="max-w-4xl mx-auto relative">
           {/* Gold vertical line */}
           <div className="absolute left-5 md:left-[4.5rem] top-0 bottom-0 w-px bg-gold/20" />
 
-          <div className="space-y-10 pl-12 md:pl-28">
+          <div className="space-y-8 pl-12 md:pl-28">
             {WINNERS_BY_YEAR.map((winner, i) => {
               const isNewDecade =
                 i === 0 ||

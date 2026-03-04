@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DECADES } from "@/lib/constants";
 
 interface TimelineScrubberProps {
   years: number[];
@@ -19,9 +18,6 @@ export function TimelineScrubber({
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
 
-  // Group years by decade for labels
-  const decades = DECADES.map((d) => d.value);
-
   // Scroll the active year notch into view
   useEffect(() => {
     if (!activeYear || !scrollRef.current) return;
@@ -29,7 +25,11 @@ export function TimelineScrubber({
       `[data-year="${activeYear}"]`
     ) as HTMLElement | null;
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      el.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
     }
   }, [activeYear]);
 
@@ -58,7 +58,7 @@ export function TimelineScrubber({
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div
           ref={scrollRef}
-          className="overflow-x-auto scrollbar-hide py-4 cursor-grab active:cursor-grabbing select-none"
+          className="overflow-x-auto scrollbar-hide py-3 cursor-grab active:cursor-grabbing select-none"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -71,15 +71,14 @@ export function TimelineScrubber({
             {years.map((year) => {
               const isDecadeStart = year % 10 === 0 || year === years[0];
               const isActive = activeYear === year;
-              const hasImage = false; // could be enhanced
 
               return (
                 <button
                   key={year}
                   data-year={year}
                   onClick={() => onYearClick(year)}
-                  className={`relative flex flex-col items-center transition-all ${
-                    isDecadeStart ? "px-3" : "px-1.5"
+                  className={`group relative flex flex-col items-center ${
+                    isDecadeStart ? "px-3 md:px-4" : "px-2 md:px-2.5"
                   }`}
                   title={String(year)}
                 >
@@ -95,18 +94,16 @@ export function TimelineScrubber({
                   )}
                   {!isDecadeStart && <span className="h-[22px]" />}
 
-                  {/* Notch */}
-                  <div
-                    className={`rounded-full transition-all ${
-                      isActive
-                        ? "w-3.5 h-3.5 bg-gold shadow-[0_0_8px_rgba(184,149,62,0.5)]"
-                        : isDecadeStart
-                          ? "w-2.5 h-2.5 bg-white/40 hover:bg-gold/60"
-                          : "w-1.5 h-1.5 bg-white/20 hover:bg-white/40"
-                    }`}
-                  />
+                  {/* Notch: active = gold circle, decade = circle, others = dash that becomes circle on hover */}
+                  {isActive ? (
+                    <div className="w-3.5 h-3.5 rounded-full bg-gold shadow-[0_0_8px_rgba(184,149,62,0.5)]" />
+                  ) : isDecadeStart ? (
+                    <div className="w-2.5 h-2.5 rounded-full bg-white/40 group-hover:bg-gold/60 transition-all" />
+                  ) : (
+                    <div className="w-3 h-[3px] rounded-full bg-white/20 group-hover:w-2.5 group-hover:h-2.5 group-hover:rounded-full group-hover:bg-white/40 transition-all" />
+                  )}
 
-                  {/* Year label on active */}
+                  {/* Year label on active (non-decade) */}
                   {isActive && !isDecadeStart && (
                     <span className="absolute -bottom-5 text-[10px] font-medium text-gold whitespace-nowrap">
                       {year}
