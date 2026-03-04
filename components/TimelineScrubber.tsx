@@ -64,9 +64,9 @@ export function TimelineScrubber({
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
         >
-          <div className="relative flex items-end min-w-max pb-7">
-            {/* The horizontal line */}
-            <div className="absolute bottom-7 left-0 right-0 h-[2px] bg-white/15" />
+          <div className="relative flex items-center min-w-max pb-7 pt-8">
+            {/* The horizontal line - centered on notches */}
+            <div className="absolute top-[calc(50%+2px)] left-0 right-0 h-[2px] bg-white/15" />
 
             {years.map((year) => {
               const isDecadeStart = year % 10 === 0 || year === years[0];
@@ -77,13 +77,13 @@ export function TimelineScrubber({
                   key={year}
                   data-year={year}
                   onClick={() => onYearClick(year)}
-                  className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] justify-end"
+                  className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] justify-center"
                   title={String(year)}
                 >
                   {/* Decade label above */}
                   {isDecadeStart && (
                     <span
-                      className={`text-xs font-medium mb-3 transition-colors ${
+                      className={`absolute -top-6 text-xs font-medium transition-colors whitespace-nowrap ${
                         isActive ? "text-gold" : "text-white/50 group-hover:text-white/70"
                       }`}
                     >
@@ -97,7 +97,7 @@ export function TimelineScrubber({
                   ) : isDecadeStart ? (
                     <div className="w-4 h-4 rounded-full bg-white/35 group-hover:bg-gold/50 group-hover:scale-110 transition-all" />
                   ) : (
-                    <div className="w-[3px] h-4 rounded-sm bg-white/25 group-hover:w-4 group-hover:h-4 group-hover:rounded-full group-hover:bg-white/40 transition-all" />
+                    <div className="w-[2px] h-4 rounded-full bg-white/25 group-hover:w-[3px] group-hover:h-6 group-hover:bg-white/40 transition-all" />
                   )}
 
                   {/* Year label below active */}
