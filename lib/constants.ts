@@ -98,8 +98,8 @@ export const WINNERS: Winner[] = [
   { year: 1951, name: "Bill Faddis", school: "Regis", position: "", college: "" },
 ];
 
-// Reverse order for display (most recent first)
-export const WINNERS_BY_YEAR = [...WINNERS].reverse();
+// WINNERS is already ordered most recent first (2025 → 1951)
+export const WINNERS_BY_YEAR = WINNERS;
 
 // Get winners by decade for filtering
 export const getWinnersByDecade = (decade: number) => {

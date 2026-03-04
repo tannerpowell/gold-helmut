@@ -17,7 +17,7 @@ function Initials({ name }: { name: string }) {
     .slice(0, 2);
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-gold/20">
+    <div className="absolute inset-0 flex items-center justify-center bg-gold/20 rounded-[inherit]">
       <span className="font-display text-2xl font-medium text-gold">
         {initials}
       </span>
@@ -34,14 +34,14 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
   if (variant === "timeline") {
     return (
       <div className="flex gap-6 items-start">
-        <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden bg-surface-elevated">
+        <div className="relative w-20 h-20 flex-shrink-0 rounded-full overflow-hidden border-[5px] border-[#fafafa] shadow-sm bg-surface-elevated">
           {image ? (
             <Image
               src={image.jpg}
               alt={winner.name}
               fill
               className="object-cover"
-              sizes="100px"
+              sizes="80px"
             />
           ) : (
             <Initials name={winner.name} />
@@ -55,10 +55,15 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
             {winner.name}
           </h3>
           <p className="text-sm text-secondary mb-1">{winner.school}</p>
-          <p className="text-sm text-foreground">
-            <span className="font-medium">{winner.position}</span> &bull;{" "}
-            {winner.college}
-          </p>
+          {(winner.position || winner.college) && (
+            <p className="text-sm text-foreground">
+              {winner.position && (
+                <span className="font-medium">{winner.position}</span>
+              )}
+              {winner.position && winner.college && " \u2022 "}
+              {winner.college}
+            </p>
+          )}
         </div>
       </div>
     );
@@ -92,9 +97,13 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
           {winner.name}
         </h3>
         <p className="text-sm text-secondary mb-1">{winner.school}</p>
-        <p className="text-sm font-medium text-foreground">
-          {winner.position} &bull; {winner.college}
-        </p>
+        {(winner.position || winner.college) && (
+          <p className="text-sm font-medium text-foreground">
+            {winner.position}
+            {winner.position && winner.college && " \u2022 "}
+            {winner.college}
+          </p>
+        )}
       </div>
     </div>
   );
