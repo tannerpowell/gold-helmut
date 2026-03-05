@@ -20,6 +20,8 @@ export default function WinnersTimeline() {
   const [scrollDirection, setScrollDirection] = useState<"top" | "bottom">("bottom");
   const yearRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const isScrollingTo = useRef(false);
+  const scrollEndHandlerRef = useRef<(() => void) | null>(null);
+  const scrollEndTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Track whether we're near the top or bottom to toggle the FAB direction
   useEffect(() => {
@@ -63,6 +65,16 @@ export default function WinnersTimeline() {
     const el = yearRefs.current.get(year);
     if (!el) return;
 
+    // Clear any stale handlers from a previous click
+    if (scrollEndHandlerRef.current) {
+      window.removeEventListener("scrollend", scrollEndHandlerRef.current);
+      scrollEndHandlerRef.current = null;
+    }
+    if (scrollEndTimeoutRef.current !== null) {
+      clearTimeout(scrollEndTimeoutRef.current);
+      scrollEndTimeoutRef.current = null;
+    }
+
     isScrollingTo.current = true;
     setActiveYear(year);
 
@@ -73,12 +85,20 @@ export default function WinnersTimeline() {
     const onScrollEnd = () => {
       isScrollingTo.current = false;
       window.removeEventListener("scrollend", onScrollEnd);
+      scrollEndHandlerRef.current = null;
+      if (scrollEndTimeoutRef.current !== null) {
+        clearTimeout(scrollEndTimeoutRef.current);
+        scrollEndTimeoutRef.current = null;
+      }
     };
+    scrollEndHandlerRef.current = onScrollEnd;
     window.addEventListener("scrollend", onScrollEnd);
     // Fallback for browsers without scrollend support
-    setTimeout(() => {
+    scrollEndTimeoutRef.current = setTimeout(() => {
       isScrollingTo.current = false;
       window.removeEventListener("scrollend", onScrollEnd);
+      scrollEndHandlerRef.current = null;
+      scrollEndTimeoutRef.current = null;
     }, 2000);
   }, []);
 

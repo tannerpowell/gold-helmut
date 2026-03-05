@@ -27,6 +27,16 @@ const OLIVA_2025 = {
   careerStats: "250 career tackles (31.5 TFL), 16.5 career sacks",
   gpa: "5.02 weighted GPA (AP and IB courses)",
   trackAndField: "2nd place, Class 5A state meet, 300m hurdles",
+  academics: {
+    title: "Academics",
+    weightedGpa: "5.02",
+    label: "Weighted GPA (AP & IB)",
+  },
+  track: {
+    title: "Track & Field",
+    rank: "2nd",
+    description: "Class 5A State, 300m Hurdles",
+  },
   community: [
     "Co-founded Northfield\u2019s UNICEF chapter",
     "Math tutor for struggling peers",
@@ -121,8 +131,9 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
     >
       {/* Backdrop: clicking this closes the modal */}
-      <div
-        role="presentation"
+      <button
+        type="button"
+        aria-label="Close"
         className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_200ms_ease-out]"
         onClick={onClose}
       />
@@ -252,17 +263,17 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
-                    Academics
+                    {OLIVA_2025.academics.title}
                   </div>
-                  <div className="text-white text-4xl font-display font-bold leading-tight">5.02</div>
-                  <div className="text-[#a0a0a0] text-sm mt-0.5">Weighted GPA (AP & IB)</div>
+                  <div className="text-white text-4xl font-display font-bold leading-tight">{OLIVA_2025.academics.weightedGpa}</div>
+                  <div className="text-[#a0a0a0] text-sm mt-0.5">{OLIVA_2025.academics.label}</div>
                 </div>
                 <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
-                    Track & Field
+                    {OLIVA_2025.track.title}
                   </div>
-                  <div className="text-white text-4xl font-display font-bold leading-tight">2nd</div>
-                  <div className="text-[#a0a0a0] text-sm mt-0.5">Class 5A State, 300m Hurdles</div>
+                  <div className="text-white text-4xl font-display font-bold leading-tight">{OLIVA_2025.track.rank}</div>
+                  <div className="text-[#a0a0a0] text-sm mt-0.5">{OLIVA_2025.track.description}</div>
                 </div>
               </div>
 

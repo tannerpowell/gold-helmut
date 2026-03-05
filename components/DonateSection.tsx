@@ -144,7 +144,7 @@ export function DonateSection() {
           {isLoading
             ? "Redirecting..."
             : finalAmount > 0
-              ? `Donate $${finalAmount}`
+              ? `Donate $${finalAmount.toFixed(2)}`
               : "Enter an amount"}
         </button>
 

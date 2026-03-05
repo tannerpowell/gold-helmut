@@ -80,7 +80,7 @@ async function generatePlaceholder(winner) {
         ${escapeXml(winner.school)}
       </text>
       <text x="400" y="660" font-size="18" fill="${COLORS.light}" text-anchor="middle">
-        ${escapeXml(winner.position)} | ${escapeXml(winner.college)}
+        ${escapeXml([winner.position, winner.college].filter(Boolean).join(" | "))}
       </text>
     </svg>
   `;

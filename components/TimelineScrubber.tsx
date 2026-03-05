@@ -66,6 +66,7 @@ export function TimelineScrubber({
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!scrollRef.current) return;
+    e.preventDefault();
     const dx = e.touches[0].clientX - dragStartX.current;
     if (Math.abs(dx) > DRAG_THRESHOLD) draggedRef.current = true;
     scrollRef.current.scrollLeft = scrollStartLeft.current - dx;
@@ -75,11 +76,57 @@ export function TimelineScrubber({
     requestAnimationFrame(() => { draggedRef.current = false; });
   }, []);
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      const currentIndex = activeYear != null ? years.indexOf(activeYear) : 0;
+      let nextIndex = currentIndex;
+
+      switch (e.key) {
+        case "ArrowRight":
+        case "ArrowDown":
+          // Decrease year (older); years array is newest-first
+          nextIndex = Math.min(currentIndex + 1, years.length - 1);
+          break;
+        case "ArrowLeft":
+        case "ArrowUp":
+          // Increase year (newer)
+          nextIndex = Math.max(currentIndex - 1, 0);
+          break;
+        case "Home":
+          nextIndex = 0;
+          break;
+        case "End":
+          nextIndex = years.length - 1;
+          break;
+        case "PageDown":
+          nextIndex = Math.min(currentIndex + 10, years.length - 1);
+          break;
+        case "PageUp":
+          nextIndex = Math.max(currentIndex - 10, 0);
+          break;
+        default:
+          return;
+      }
+
+      e.preventDefault();
+      if (nextIndex !== currentIndex) {
+        onYearClick(years[nextIndex]);
+      }
+    },
+    [years, activeYear, onYearClick]
+  );
+
   return (
     <div className="sticky z-40 chrome-bar border-b border-white/10" style={{ top: "var(--header-h, 65px)" }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div
           ref={scrollRef}
+          role="slider"
+          tabIndex={0}
+          aria-label="Year selector"
+          aria-valuemin={years[years.length - 1]}
+          aria-valuemax={years[0]}
+          aria-valuenow={activeYear ?? years[0]}
           className="overflow-x-auto scrollbar-hide py-5 cursor-grab active:cursor-grabbing select-none"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -88,6 +135,7 @@ export function TimelineScrubber({
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          onKeyDown={handleKeyDown}
         >
           <div className="relative flex items-center min-w-max pb-7 pt-8">
             {/* The horizontal line - centered on notches */}

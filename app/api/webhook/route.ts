@@ -28,14 +28,22 @@ export async function POST(req: Request) {
     );
   }
 
+  let stripe: ReturnType<typeof getStripe>;
+  try {
+    stripe = getStripe();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Stripe initialization failed";
+    console.error("Stripe initialization error:", message);
+    return NextResponse.json(
+      { error: "Stripe initialization failed" },
+      { status: 500 }
+    );
+  }
+
   let event: Stripe.Event;
 
   try {
-    event = getStripe().webhooks.constructEvent(
-      body,
-      signature,
-      webhookSecret
-    );
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Signature verification failed";
