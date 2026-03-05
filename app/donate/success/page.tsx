@@ -14,10 +14,10 @@ export default async function DonateSuccessPage({
   const { session_id } = await searchParams;
   let amount: string | null = null;
 
-  if (session_id) {
+  if (session_id && /^cs_/.test(session_id)) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(session_id);
-      if (session.amount_total) {
+      if (session.amount_total != null) {
         amount = (session.amount_total / 100).toLocaleString("en-US", {
           style: "currency",
           currency: "USD",

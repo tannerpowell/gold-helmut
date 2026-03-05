@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
   const { amount } = body;
 
-  if (!amount || typeof amount !== "number" || !Number.isFinite(amount) || amount < 1 || amount > 10000) {
+  if (typeof amount !== "number" || !Number.isFinite(amount) || amount < 1 || amount > 10000) {
     return NextResponse.json(
       { error: "Invalid donation amount" },
       { status: 400 }
