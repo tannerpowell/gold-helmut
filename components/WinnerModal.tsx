@@ -87,10 +87,12 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
     document.addEventListener("keydown", handleKey);
     // Lock body scroll (position:fixed pattern works on iOS Safari)
     const scrollY = window.scrollY;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = "100%";
     document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
     closeRef.current?.focus();
     return () => {
       document.removeEventListener("keydown", handleKey);
@@ -98,6 +100,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
       document.body.style.top = "";
       document.body.style.width = "";
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
       window.scrollTo(0, scrollY);
       focusableRef.current = [];
       // Restore focus to the element that opened the modal

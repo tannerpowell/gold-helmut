@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Winner, WINNERS_BY_YEAR, DECADES } from "@/lib/constants";
 import { WinnerCard } from "@/components/WinnerCard";
 import { WinnerModal } from "@/components/WinnerModal";
@@ -9,6 +9,7 @@ export default function WinnersGrid() {
   const [selectedDecade, setSelectedDecade] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
+  const handleModalClose = useCallback(() => setSelectedWinner(null), []);
 
   const filteredWinners = useMemo(() => {
     const search = searchTerm.toLowerCase();
@@ -118,7 +119,7 @@ export default function WinnersGrid() {
         </div>
       </div>
 
-      <WinnerModal winner={selectedWinner} onClose={() => setSelectedWinner(null)} />
+      <WinnerModal winner={selectedWinner} onClose={handleModalClose} />
     </div>
   );
 }

@@ -58,6 +58,23 @@ export function TimelineScrubber({
     requestAnimationFrame(() => { draggedRef.current = false; });
   }, []);
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    dragStartX.current = e.touches[0].clientX;
+    scrollStartLeft.current = scrollRef.current.scrollLeft;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    const dx = e.touches[0].clientX - dragStartX.current;
+    if (Math.abs(dx) > DRAG_THRESHOLD) draggedRef.current = true;
+    scrollRef.current.scrollLeft = scrollStartLeft.current - dx;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    requestAnimationFrame(() => { draggedRef.current = false; });
+  }, []);
+
   return (
     <div className="sticky z-40 chrome-bar border-b border-white/10" style={{ top: "var(--header-h, 65px)" }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
@@ -68,6 +85,9 @@ export function TimelineScrubber({
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <div className="relative flex items-center min-w-max pb-7 pt-8">
             {/* The horizontal line - centered on notches */}

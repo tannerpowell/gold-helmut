@@ -16,6 +16,7 @@ const STICKY_OFFSET = 140; // 65px header + ~75px scrubber
 export default function WinnersTimeline() {
   const [activeYear, setActiveYear] = useState<number | null>(allYears[0]);
   const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
+  const handleModalClose = useCallback(() => setSelectedWinner(null), []);
   const [scrollDirection, setScrollDirection] = useState<"top" | "bottom">("bottom");
   const yearRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const isScrollingTo = useRef(false);
@@ -81,12 +82,15 @@ export default function WinnersTimeline() {
     }, 2000);
   }, []);
 
-  const setYearRef = useCallback(
-    (year: number) => (el: HTMLDivElement | null) => {
-      if (el) yearRefs.current.set(year, el);
-    },
-    []
-  );
+  const yearRefCallbacks = useRef<Map<number, (el: HTMLDivElement | null) => void>>(new Map());
+  const setYearRef = useCallback((year: number) => {
+    if (!yearRefCallbacks.current.has(year)) {
+      yearRefCallbacks.current.set(year, (el: HTMLDivElement | null) => {
+        if (el) yearRefs.current.set(year, el);
+      });
+    }
+    return yearRefCallbacks.current.get(year)!;
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -198,7 +202,7 @@ export default function WinnersTimeline() {
         </svg>
       </button>
 
-      <WinnerModal winner={selectedWinner} onClose={() => setSelectedWinner(null)} />
+      <WinnerModal winner={selectedWinner} onClose={handleModalClose} />
     </div>
   );
 }

@@ -43,7 +43,11 @@ const COLORS = {
 };
 
 async function generatePlaceholder(winner) {
-  const filename = `${winner.year}-${winner.name.toLowerCase().replace(/\s+/g, "-")}`;
+  const slug = winner.name
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+  const filename = `${winner.year}-${slug}`;
   const filePath = path.join(originalsDir, `${filename}.jpg`);
 
   // Skip if already exists

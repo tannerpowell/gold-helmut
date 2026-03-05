@@ -280,6 +280,24 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       webp: "/images/optimized/2011-sean-rubalcaba-modal.webp",
     },
   },
+  2010: {
+    portrait: {
+      jpg: "/images/optimized/2010-ian-imamura-portrait.jpg",
+      webp: "/images/optimized/2010-ian-imamura-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2010-ian-imamura-thumb.jpg",
+      webp: "/images/optimized/2010-ian-imamura-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2010-ian-imamura-web.jpg",
+      webp: "/images/optimized/2010-ian-imamura-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2010-ian-imamura-modal.jpg",
+      webp: "/images/optimized/2010-ian-imamura-modal.webp",
+    },
+  },
   2009: {
     portrait: {
       jpg: "/images/optimized/2009-matt-brown-portrait.jpg",
