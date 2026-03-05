@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-placeholders": "bun scripts/generate-placeholders.js"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -18,6 +19,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sharp": "^0.34.5",
+    "stripe": "^20.4.0",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
