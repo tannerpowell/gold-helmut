@@ -37,7 +37,7 @@ export default function Home() {
       </section>
 
       <ActionBreak
-        imageSrc="/images/optimized/elian-oliva-action.jpg"
+        imageSrc="/images/optimized/2025-elian-oliva-action1-web.jpg"
         alt="Elian Oliva shedding a block during Northfield vs Skyline"
         athleteName="Elian Oliva"
         year={2025}
