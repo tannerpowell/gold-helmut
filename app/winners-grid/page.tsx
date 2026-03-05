@@ -57,11 +57,12 @@ export default function WinnersGrid() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-3">
+            <p id="decade-filter-label" className="block text-sm font-medium text-foreground mb-3">
               Filter by decade
-            </label>
-            <div className="flex flex-wrap gap-2">
+            </p>
+            <div role="group" aria-labelledby="decade-filter-label" className="flex flex-wrap gap-2">
               <button
+                type="button"
                 onClick={() => setSelectedDecade(null)}
                 aria-pressed={selectedDecade === null}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
@@ -75,6 +76,7 @@ export default function WinnersGrid() {
               {DECADES.map((decade) => (
                 <button
                   key={decade.value}
+                  type="button"
                   onClick={() => setSelectedDecade(decade.value)}
                   aria-pressed={selectedDecade === decade.value}
                   className={`px-4 py-2 text-sm font-medium transition-colors ${

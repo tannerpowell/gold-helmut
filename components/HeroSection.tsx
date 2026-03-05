@@ -6,14 +6,14 @@ import { getWinnerImage } from "@/lib/image-manifest";
 import { AWARD_INFO, WINNERS } from "@/lib/constants";
 
 export function HeroSection() {
-  const spotlight = WINNERS[0];
-  const image = getWinnerImage(spotlight.year, "web");
+  const spotlight = WINNERS.length ? WINNERS[0] : null;
+  const image = spotlight ? getWinnerImage(spotlight.year, "web") : null;
 
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden">
       {/* Background Image (always visible) */}
       <div className="absolute inset-0 z-0">
-        {image && (
+        {image && spotlight && (
           <Image
             src={image.jpg}
             alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
@@ -59,23 +59,25 @@ export function HeroSection() {
             and leadership in Colorado high school football.
           </p>
 
-          {/* 2025 Winner Spotlight */}
-          <div className="mb-12 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
-            <div className="border-b border-gold/30 pb-4 mb-4">
-              <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
-                {spotlight.year} Winner
-              </p>
+          {/* Current Winner Spotlight */}
+          {spotlight && (
+            <div className="mb-12 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
+              <div className="border-b border-gold/30 pb-4 mb-4">
+                <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
+                  {spotlight.year} Winner
+                </p>
+              </div>
+              <h2 className="font-display italic text-3xl font-medium text-white mb-3">
+                {spotlight.name}
+              </h2>
+              <p className="text-white/80 mb-1">{spotlight.school}</p>
+              {(spotlight.position || spotlight.college) && (
+                <p className="text-gold font-medium">
+                  {[spotlight.position, spotlight.college].filter(Boolean).join(" \u2022 ")}
+                </p>
+              )}
             </div>
-            <h2 className="font-display italic text-3xl font-medium text-white mb-3">
-              {spotlight.name}
-            </h2>
-            <p className="text-white/80 mb-1">{spotlight.school}</p>
-            {(spotlight.position || spotlight.college) && (
-              <p className="text-gold font-medium">
-                {[spotlight.position, spotlight.college].filter(Boolean).join(" \u2022 ")}
-              </p>
-            )}
-          </div>
+          )}
 
           {/* Trust Indicators */}
           <div className="mb-12 flex flex-wrap gap-8 border-t border-white/20 pt-8">

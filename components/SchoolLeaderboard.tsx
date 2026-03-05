@@ -23,6 +23,13 @@ export function SchoolLeaderboard({ onYearClick }: SchoolLeaderboardProps) {
         Wins by School
       </h3>
       <table className="w-full">
+        <thead>
+          <tr>
+            <th scope="col" className="sr-only">School</th>
+            <th scope="col" className="sr-only">Wins</th>
+            <th scope="col" className="sr-only">Years</th>
+          </tr>
+        </thead>
         <tbody>
           {leaderboard.map(({ school, years }, i) => (
             <tr key={school} className="border-b border-border/50 last:border-0">

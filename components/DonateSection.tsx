@@ -15,13 +15,15 @@ export function DonateSection() {
   const [selectedAmount, setSelectedAmount] = useState(100);
   const [customAmount, setCustomAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const parsed = customAmount ? parseInt(customAmount) : selectedAmount;
-  const finalAmount = Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+  const parsed = customAmount ? parseFloat(customAmount) : selectedAmount;
+  const finalAmount = Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed * 100) / 100 : 0;
 
   const handleDonate = async () => {
     if (finalAmount < 1 || isLoading) return;
     setIsLoading(true);
+    setError(null);
 
     try {
       const res = await fetch("/api/checkout", {
@@ -40,7 +42,7 @@ export function DonateSection() {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Something went wrong";
-      alert(`Donation error: ${message}`);
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -80,6 +82,7 @@ export function DonateSection() {
               return (
                 <button
                   key={tier.amount}
+                  type="button"
                   onClick={() => {
                     setSelectedAmount(tier.amount);
                     setCustomAmount("");
@@ -99,7 +102,7 @@ export function DonateSection() {
 
           {/* Custom Amount */}
           <div>
-            <label className="block text-sm font-medium text-white mb-2">
+            <label htmlFor="custom-amount" className="block text-sm font-medium text-white mb-2">
               Or enter a custom amount:
             </label>
             <div className="relative">
@@ -107,6 +110,7 @@ export function DonateSection() {
                 $
               </span>
               <input
+                id="custom-amount"
                 type="number"
                 value={customAmount}
                 onChange={(e) => {
@@ -121,8 +125,18 @@ export function DonateSection() {
           </div>
         </div>
 
+        {/* Error message */}
+        <div aria-live="polite" className={error ? "mb-4" : ""}>
+          {error && (
+            <p className="p-3 bg-red-900/30 border border-red-500/50 text-red-200 text-sm">
+              {error}
+            </p>
+          )}
+        </div>
+
         {/* Donate Button */}
         <button
+          type="button"
           onClick={handleDonate}
           disabled={finalAmount < 1 || isLoading}
           className="w-full py-4 bg-gold text-[#1a1a1a] font-semibold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"

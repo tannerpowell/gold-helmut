@@ -27,6 +27,7 @@ const RECENT_WINNERS = [
   { year: 2016, name: "Dylan McCaffrey", school: "Valor Christian", position: "QB", college: "Michigan" },
   { year: 2015, name: "Carlo Kemp", school: "Fairview", position: "DL", college: "Michigan" },
   { year: 2014, name: "Mike Morean", school: "Cherry Creek", position: "", college: "" },
+  { year: 2013, name: "Christian McCaffrey", school: "Valor Christian", position: "RB/WR", college: "Stanford" },
 ];
 
 if (!fs.existsSync(originalsDir)) {

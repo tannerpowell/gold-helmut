@@ -2,15 +2,14 @@
 
 type ImageVariant = { jpg: string; webp: string };
 
-export const IMAGE_MANIFEST: Record<
-  number,
-  {
-    portrait: ImageVariant;
-    thumb: ImageVariant;
-    web: ImageVariant;
-    modal: ImageVariant;
-  }
-> = {
+type WinnerImageSet = {
+  portrait: ImageVariant;
+  thumb: ImageVariant;
+  web: ImageVariant;
+  modal: ImageVariant;
+};
+
+export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
   2025: {
     portrait: {
       jpg: "/images/optimized/2025-elian-oliva-portrait.jpg",

@@ -1,4 +1,4 @@
-export const AWARD_INFO = {
+export const AWARD_INFO = Object.freeze({
   name: "Gold Helmet Award",
   founded: 1951,
   yearsOfHistory: 75,
@@ -7,7 +7,7 @@ export const AWARD_INFO = {
   contactEmail: "goldhelmet2025@gmail.com",
   chair: "Kyle Newman",
   chairAffiliation: "Denver Post",
-};
+});
 
 export interface Winner {
   year: number;
@@ -97,6 +97,9 @@ export const WINNERS: readonly Winner[] = [
   { year: 1952, name: "Ray Carlsen", school: "Denver East", position: "", college: "" },
   { year: 1951, name: "Bill Faddis", school: "Regis", position: "", college: "" },
 ];
+
+WINNERS.forEach(Object.freeze);
+Object.freeze(WINNERS);
 
 // WINNERS is already ordered most recent first (2025 → 1951)
 export const WINNERS_BY_YEAR: readonly Winner[] = WINNERS;

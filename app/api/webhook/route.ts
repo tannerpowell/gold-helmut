@@ -2,6 +2,12 @@ import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import type Stripe from "stripe";
 
+function maskEmail(email: string): string {
+  const at = email.indexOf("@");
+  if (at < 1) return "***";
+  return `${email[0]}***${email.slice(at)}`;
+}
+
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = req.headers.get("stripe-signature");
@@ -13,13 +19,22 @@ export async function POST(req: Request) {
     );
   }
 
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error("STRIPE_WEBHOOK_SECRET is not configured");
+    return NextResponse.json(
+      { error: "Server configuration error" },
+      { status: 500 }
+    );
+  }
+
   let event: Stripe.Event;
 
   try {
     event = getStripe().webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      webhookSecret
     );
   } catch (err) {
     const message =
@@ -33,7 +48,8 @@ export async function POST(req: Request) {
     const amount = session.amount_total
       ? (session.amount_total / 100).toFixed(2)
       : "unknown";
-    const email = session.customer_details?.email ?? "no email";
+    const rawEmail = session.customer_details?.email;
+    const email = rawEmail ? maskEmail(rawEmail) : "no email";
 
     console.log(`Donation received: $${amount} from ${email}`);
     // TODO: send confirmation email, record in DB

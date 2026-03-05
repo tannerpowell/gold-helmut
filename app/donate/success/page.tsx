@@ -21,7 +21,8 @@ export default async function DonateSuccessPage({
         amount = (session.amount_total / 100).toLocaleString("en-US", {
           style: "currency",
           currency: "USD",
-          minimumFractionDigits: 0,
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
         });
       }
     } catch {

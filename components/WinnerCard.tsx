@@ -30,10 +30,10 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
   if (variant === "timeline") {
     return (
       <div
-        className="group flex gap-6 items-start cursor-pointer"
+        className={`group flex gap-6 items-start${onClick ? " cursor-pointer" : ""}`}
         onClick={onClick}
-        role="button"
-        tabIndex={0}
+        role={onClick ? "button" : undefined}
+        tabIndex={onClick ? 0 : undefined}
         onKeyDown={handleActivateKey(onClick)}
       >
         <div className="relative w-[8.5rem] h-[8.5rem] md:w-[10.75rem] md:h-[10.75rem] flex-shrink-0 rounded-full overflow-hidden border-[5px] border-background shadow-md bg-surface-elevated transition-transform duration-200 ease-in-out group-hover:scale-[1.04]">

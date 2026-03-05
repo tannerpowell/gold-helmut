@@ -80,8 +80,10 @@ export function TimelineScrubber({
               return (
                 <button
                   key={year}
+                  type="button"
                   data-year={year}
                   onClick={() => { if (!draggedRef.current) onYearClick(year); }}
+                  aria-label={`Year ${year}`}
                   className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] justify-center"
                   title={String(year)}
                 >

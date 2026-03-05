@@ -42,17 +42,18 @@ export default function WinnersTimeline() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (isScrollingTo.current) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const year = Number((entry.target as HTMLElement).dataset.year);
-            if (year) setActiveYear(year);
-          }
+        const best = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (best) {
+          const year = Number((best.target as HTMLElement).dataset.year);
+          if (year) setActiveYear(year);
         }
       },
       { rootMargin: "-30% 0px -60% 0px" }
     );
 
-    yearRefs.current.forEach((el) => observer.observe(el));
+    yearRefs.current.forEach((el) => { observer.observe(el); });
 
     return () => observer.disconnect();
   }, []);
@@ -188,6 +189,8 @@ export default function WinnersTimeline() {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          aria-hidden="true"
+          focusable="false"
           className={`transition-transform duration-300 ${scrollDirection === "top" ? "rotate-180" : ""}`}
         >
           <path d="M12 5v14" />

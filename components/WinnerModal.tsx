@@ -48,6 +48,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const focusableRef = useRef<HTMLElement[]>([]);
+  const prevFocusRef = useRef<Element | null>(null);
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -73,6 +74,8 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
 
   useEffect(() => {
     if (!winner) return;
+    // Capture previously focused element for restoration
+    prevFocusRef.current = document.activeElement;
     // Cache focusable elements once on open
     if (modalRef.current) {
       focusableRef.current = Array.from(
@@ -97,6 +100,11 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
       document.body.style.overflow = "";
       window.scrollTo(0, scrollY);
       focusableRef.current = [];
+      // Restore focus to the element that opened the modal
+      if (prevFocusRef.current instanceof HTMLElement) {
+        prevFocusRef.current.focus();
+      }
+      prevFocusRef.current = null;
     };
   }, [winner, handleKey]);
 
@@ -111,6 +119,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
     >
       {/* Backdrop: clicking this closes the modal */}
       <div
+        role="presentation"
         className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_200ms_ease-out]"
         onClick={onClose}
       />
@@ -133,6 +142,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
         {/* Close button */}
         <button
           ref={closeRef}
+          type="button"
           onClick={onClose}
           aria-label="Close"
           className="absolute top-4 right-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/60 hover:text-white hover:bg-black/70 transition-colors"

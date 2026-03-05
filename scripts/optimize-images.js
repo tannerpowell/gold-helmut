@@ -43,6 +43,11 @@ async function processAllImages() {
     }
   }
 
+  if (hadErrors) {
+    console.error("\n✗ Image optimization completed with errors.");
+    process.exit(1);
+  }
+
   console.log("\n✓ Image optimization complete!");
   console.log(`\nOptimized images saved to: ${optimizedDir}`);
   console.log("\nGenerated formats:");
@@ -50,8 +55,6 @@ async function processAllImages() {
   console.log("  - [name]-portrait.webp / [name]-portrait.jpg (portrait crop)");
   console.log("  - [name]-thumb.webp / [name]-thumb.jpg (square thumbnail)");
   console.log("  - [name]-modal.webp / [name]-modal.jpg (modal, natural aspect)");
-
-  if (hadErrors) process.exit(1);
 }
 
 processAllImages();

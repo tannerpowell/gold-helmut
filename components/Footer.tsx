@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { AWARD_INFO } from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -64,13 +65,13 @@ export function Footer() {
             </h4>
             <p className="text-sm chrome-bar-text mb-2">
               <a
-                href="mailto:goldhelmet2025@gmail.com"
+                href={`mailto:${AWARD_INFO.contactEmail}`}
                 className="hover:text-[hsl(var(--gold))] transition-colors"
               >
-                goldhelmet2025@gmail.com
+                {AWARD_INFO.contactEmail}
               </a>
             </p>
-            <p className="text-sm chrome-bar-text">Chair: Kyle Newman</p>
+            <p className="text-sm chrome-bar-text">Chair: {AWARD_INFO.chair}</p>
           </div>
         </div>
 

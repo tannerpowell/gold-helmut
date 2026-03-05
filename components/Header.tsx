@@ -43,6 +43,7 @@ export function Header() {
         <div className="flex md:hidden items-center gap-2">
           <ThemeToggle />
           <button
+            type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-2 chrome-bar-text"
             aria-label="Toggle menu"

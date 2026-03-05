@@ -105,6 +105,7 @@ export function ApplicationForm() {
                 id="name"
                 type="text"
                 name="name"
+                required
                 value={formData.name}
                 onChange={handleChange}
                 className={inputClasses}
@@ -120,6 +121,7 @@ export function ApplicationForm() {
                 id="school"
                 type="text"
                 name="school"
+                required
                 value={formData.school}
                 onChange={handleChange}
                 className={inputClasses}
@@ -136,6 +138,7 @@ export function ApplicationForm() {
                   id="position"
                   type="text"
                   name="position"
+                  required
                   value={formData.position}
                   onChange={handleChange}
                   className={inputClasses}
@@ -150,6 +153,7 @@ export function ApplicationForm() {
                   id="year"
                   type="number"
                   name="year"
+                  required
                   value={formData.year}
                   onChange={handleChange}
                   className={inputClasses}

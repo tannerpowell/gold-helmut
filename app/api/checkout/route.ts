@@ -3,18 +3,28 @@ import { getStripe } from "@/lib/stripe";
 import { AWARD_INFO } from "@/lib/constants";
 
 export async function POST(req: Request) {
+  let body: { amount?: unknown };
   try {
-    const { amount } = await req.json();
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Malformed JSON" }, { status: 400 });
+  }
 
-    if (!amount || typeof amount !== "number" || !Number.isFinite(amount) || amount < 1 || amount > 10000) {
-      return NextResponse.json(
-        { error: "Invalid donation amount" },
-        { status: 400 }
-      );
-    }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
 
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const { amount } = body;
+
+  if (!amount || typeof amount !== "number" || !Number.isFinite(amount) || amount < 1 || amount > 10000) {
+    return NextResponse.json(
+      { error: "Invalid donation amount" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
 
     const session = await getStripe().checkout.sessions.create({
       submit_type: "donate",
@@ -33,15 +43,13 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${siteUrl}/donate/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/donate/cancel`,
+      success_url: `${origin}/donate/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/donate/cancel`,
     });
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Unknown error";
-    console.error("Checkout error:", message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("Checkout error:", err instanceof Error ? err.message : err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
