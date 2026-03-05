@@ -6,10 +6,10 @@ const sharp = require("sharp");
 const path = require("path");
 
 const SIZES = {
-  web:      { width: 800, height: 1000, fit: "cover" },
-  portrait: { width: 400, height: 500,  fit: "cover" },
-  thumb:    { width: 300, height: 300,  fit: "cover" },
-  modal:    { width: 800, fit: "inside" },
+  web:      { width: 1600, height: 2000, fit: "cover" },
+  portrait: { width: 800, height: 1000,  fit: "cover" },
+  thumb:    { width: 500, height: 500,   fit: "cover" },
+  modal:    { width: 1536, fit: "inside" },
 };
 
 /**

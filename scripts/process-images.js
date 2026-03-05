@@ -66,11 +66,10 @@ const IMAGE_MAP = {
   "SP25GoldHelmetCM2_2837.webp": { year: 2011, slug: "2011-sean-rubalcaba", type: "hero" },
 
   // 2010 - Ian Imamura
-  "Ian-Immura-2010-winner.webp": { year: 2010, slug: "2010-ian-imamura", type: "hero" },
+  "9423985-Ian-Immura-2010.webp": { year: 2010, slug: "2010-ian-imamura", type: "hero" },
 
-  // 2009 - Matt Brown (two images, use portrait one as hero)
-  "9423985.webp": { year: 2009, slug: "2009-matt-brown", type: "hero" },
-  "7419675.webp": { year: 2009, slug: "2009-matt-brown-trophy", type: "extra" },
+  // 2009 - Matt Brown
+  "7419675-Matt-Brown-2009.webp": { year: 2009, slug: "2009-matt-brown", type: "hero" },
 
   // 2008 - Bryan Peters
   "5864173.webp": { year: 2008, slug: "2008-bryan-peters", type: "hero" },

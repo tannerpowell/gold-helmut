@@ -26,8 +26,8 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       webp: "/images/optimized/2025-elian-oliva-web.webp",
     },
     modal: {
-      jpg: "/images/optimized/2025-elian-oliva-modal.jpg",
-      webp: "/images/optimized/2025-elian-oliva-modal.webp",
+      jpg: "/images/optimized/2025-elian-oliva-modal-v2.jpg",
+      webp: "/images/optimized/2025-elian-oliva-modal-v2.webp",
     },
     focalPoint: "50% 25%",
   },

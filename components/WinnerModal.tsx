@@ -146,7 +146,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
         aria-label={winner.name}
         className={`
           relative animate-[modalIn_300ms_ease-out]
-          ${is2025 ? "max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide" : "max-w-lg w-full"}
+          ${is2025 ? "max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide" : "max-w-3xl w-full"}
           bg-[#1a1a1a] rounded-lg
           shadow-[0_25px_60px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)]
           border border-[#2e2e2e]
@@ -170,10 +170,11 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
             <Image
               src={image.jpg}
               alt={winner.name}
-              width={800}
-              height={1200}
+              width={1536}
+              height={1536}
               className="w-full h-auto max-h-[85vh] object-contain rounded-t-lg bg-[#111]"
-              sizes="(min-width: 768px) 512px, 100vw"
+              sizes="100vw"
+              unoptimized
               priority
             />
           ) : (

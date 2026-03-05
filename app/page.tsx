@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
+import { ActionBreak } from "@/components/ActionBreak";
 import { ApplicationForm } from "@/components/ApplicationForm";
 import { DonateSection } from "@/components/DonateSection";
 import { AWARD_INFO } from "@/lib/constants";
@@ -35,6 +36,7 @@ export default function Home() {
         </div>
       </section>
 
+      <ActionBreak />
       <ApplicationForm />
       <DonateSection />
     </main>

@@ -81,7 +81,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
       onKeyDown={handleActivateKey(onClick)}
     >
       {/* Image */}
-      <div className="relative w-full h-64 bg-surface-elevated">
+      <div className="relative w-full aspect-[3/4] bg-surface-elevated">
         {image ? (
           <Image
             src={image.jpg}
@@ -99,7 +99,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
       {/* Content */}
       <div className="p-6">
         <div className="border-b border-gold/20 pb-3 mb-4">
-          <p className="text-gold text-xs font-medium uppercase tracking-[0.15em]">
+          <p className="text-gold text-lg font-display font-semibold tracking-wide">
             {winner.year}
           </p>
         </div>
