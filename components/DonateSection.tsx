@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { AWARD_INFO } from "@/lib/constants";
 
+const MAX_DONATION = 10_000;
+
 const DONATION_TIERS = [
   { amount: 50, label: "Bronze" },
   { amount: 100, label: "Silver" },
@@ -18,20 +20,26 @@ export function DonateSection() {
   const [error, setError] = useState<string | null>(null);
 
   const parsed = customAmount ? parseFloat(customAmount) : selectedAmount;
-  const finalAmount = Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed * 100) / 100 : 0;
+  const clamped = Number.isFinite(parsed) && parsed > 0 ? Math.min(Math.round(parsed * 100) / 100, MAX_DONATION) : 0;
+  const finalAmount = clamped;
 
   const handleDonate = async () => {
-    if (finalAmount < 1 || isLoading) return;
+    if (finalAmount < 1 || finalAmount > MAX_DONATION || isLoading) return;
     setIsLoading(true);
     setError(null);
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10_000);
 
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: finalAmount }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeout);
       const data = await res.json();
 
       if (!res.ok || !data.url) {
@@ -40,10 +48,15 @@ export function DonateSection() {
 
       window.location.href = data.url;
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Something went wrong";
-      setError(message);
+      if (err instanceof DOMException && err.name === "AbortError") {
+        setError("Request timed out. Please try again.");
+      } else {
+        const message =
+          err instanceof Error ? err.message : "Something went wrong";
+        setError(message);
+      }
     } finally {
+      clearTimeout(timeout);
       setIsLoading(false);
     }
   };
@@ -120,6 +133,7 @@ export function DonateSection() {
                 className="w-full pl-8 pr-4 py-3 bg-white/5 border border-white/20 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
                 placeholder="Enter amount"
                 min="1"
+                max={MAX_DONATION}
               />
             </div>
           </div>

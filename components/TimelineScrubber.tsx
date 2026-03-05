@@ -121,12 +121,9 @@ export function TimelineScrubber({
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div
           ref={scrollRef}
-          role="slider"
+          role="group"
           tabIndex={0}
           aria-label="Year selector"
-          aria-valuemin={years[years.length - 1]}
-          aria-valuemax={years[0]}
-          aria-valuenow={activeYear ?? years[0]}
           className="overflow-x-auto scrollbar-hide py-5 cursor-grab active:cursor-grabbing select-none"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}

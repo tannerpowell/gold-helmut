@@ -13,22 +13,9 @@ function escapeXml(str) {
 
 const originalsDir = path.join(__dirname, "../public/images/originals");
 
-// Recent winners for placeholders — keep in sync with lib/constants.ts WINNERS
-const RECENT_WINNERS = [
-  { year: 2025, name: "Elian Oliva", school: "Northfield", position: "LB", college: "Air Force" },
-  { year: 2024, name: "Marcus Mozer", school: "Fossil Ridge", position: "", college: "" },
-  { year: 2023, name: "Josh Snyder", school: "Columbine", position: "", college: "" },
-  { year: 2022, name: "Brayden Dorman", school: "Vista Ridge", position: "QB", college: "" },
-  { year: 2021, name: "Gavin Sawchuk", school: "Valor Christian", position: "RB", college: "Oklahoma" },
-  { year: 2020, name: 'Alexisius "Q" Jones Jr.', school: "Fountain-Fort Carson", position: "", college: "" },
-  { year: 2019, name: "Andrew Gentry", school: "Columbine", position: "OL", college: "" },
-  { year: 2018, name: "Barrett Miller", school: "Eaglecrest", position: "", college: "" },
-  { year: 2017, name: "Max Borghi", school: "Pomona", position: "RB", college: "Washington State" },
-  { year: 2016, name: "Dylan McCaffrey", school: "Valor Christian", position: "QB", college: "Michigan" },
-  { year: 2015, name: "Carlo Kemp", school: "Fairview", position: "DL", college: "Michigan" },
-  { year: 2014, name: "Mike Morean", school: "Cherry Creek", position: "", college: "" },
-  { year: 2013, name: "Christian McCaffrey", school: "Valor Christian", position: "RB/WR", college: "Stanford" },
-];
+// Load winners from the single source of truth (requires bun for TS resolution)
+const { WINNERS } = require("../lib/constants");
+const RECENT_WINNERS = WINNERS.slice(0, 13);
 
 if (!fs.existsSync(originalsDir)) {
   fs.mkdirSync(originalsDir, { recursive: true });
@@ -80,7 +67,7 @@ async function generatePlaceholder(winner) {
         ${escapeXml(winner.school)}
       </text>
       <text x="400" y="660" font-size="18" fill="${COLORS.light}" text-anchor="middle">
-        ${escapeXml([winner.position, winner.college].filter(Boolean).join(" | "))}
+        ${escapeXml([winner.position, winner.college].map(v => String(v ?? "").trim()).filter(Boolean).join(" | "))}
       </text>
     </svg>
   `;
@@ -109,4 +96,7 @@ async function generateAllPlaceholders() {
   console.log("\n✓ Placeholder generation complete!");
 }
 
-generateAllPlaceholders();
+generateAllPlaceholders().catch((err) => {
+  console.error("Failed to generate placeholders:", err);
+  process.exit(1);
+});

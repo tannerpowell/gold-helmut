@@ -58,7 +58,18 @@ export default function WinnersTimeline() {
 
     yearRefs.current.forEach((el) => { observer.observe(el); });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      // Clean up any pending scrollend handler/timeout on unmount
+      if (scrollEndHandlerRef.current) {
+        window.removeEventListener("scrollend", scrollEndHandlerRef.current);
+        scrollEndHandlerRef.current = null;
+      }
+      if (scrollEndTimeoutRef.current !== null) {
+        clearTimeout(scrollEndTimeoutRef.current);
+        scrollEndTimeoutRef.current = null;
+      }
+    };
   }, []);
 
   const handleYearClick = useCallback((year: number) => {

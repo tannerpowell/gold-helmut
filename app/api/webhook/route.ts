@@ -9,7 +9,6 @@ function maskEmail(email: string): string {
 }
 
 export async function POST(req: Request) {
-  const body = await req.text();
   const signature = req.headers.get("stripe-signature");
 
   if (!signature) {
@@ -40,6 +39,8 @@ export async function POST(req: Request) {
     );
   }
 
+  const body = await req.text();
+
   let event: Stripe.Event;
 
   try {
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    const amount = session.amount_total
+    const amount = session.amount_total != null
       ? (session.amount_total / 100).toFixed(2)
       : "unknown";
     const rawEmail = session.customer_details?.email;
