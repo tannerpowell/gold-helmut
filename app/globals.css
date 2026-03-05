@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* ── Design System: Gold Helmet Award ── */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--text-primary));
+  --color-surface: hsl(var(--surface));
+  --color-surface-elevated: hsl(var(--surface-elevated));
+  --color-gold: hsl(var(--gold));
+  --color-gold-muted: var(--gold-muted);
+  --color-border: hsl(var(--border));
+  --color-border-accent: var(--border-accent);
+  --font-sans: var(--font-body);
+  --font-display: 'Playfair Display', Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --header-h: 65px;
+  --background: 38 29% 97%;        /* #f9f7f4 warm cream */
+  --surface: 0 0% 100%;            /* #ffffff */
+  --surface-elevated: 0 0% 100%;   /* #ffffff */
+  --text-primary: 0 0% 10%;        /* #1a1a1a */
+  --text-secondary: 0 0% 36%;      /* #5c5c5c */
+  --text-muted: 0 0% 55%;          /* #8b8b8b */
+  --gold: 40 50% 48%;              /* #b8953e */
+  --gold-muted: rgba(184, 149, 62, 0.15);
+  --border: 34 16% 87%;            /* #e5e0d8 */
+  --border-accent: rgba(184, 149, 62, 0.3);
+
+  --font-body: var(--font-dm-sans), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.dark {
+  --background: 0 0% 7%;           /* #121212 */
+  --surface: 0 0% 12%;             /* #1e1e1e */
+  --surface-elevated: 0 0% 16.5%;  /* #2a2a2a */
+  --text-primary: 34 16% 93%;      /* #f0ede8 */
+  --text-secondary: 0 0% 63%;      /* #a0a0a0 */
+  --text-muted: 0 0% 42%;          /* #6b6b6b */
+  --gold: 40 42% 55%;              /* #c9a85e */
+  --gold-muted: rgba(201, 168, 94, 0.15);
+  --border: 0 0% 18%;              /* #2e2e2e */
+  --border-accent: rgba(201, 168, 94, 0.3);
+}
+
+/* ── Base styles ── */
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  * {
+    @apply border-border;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Utility classes ── */
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+
+  .border-gold {
+    border-color: hsl(var(--gold));
+  }
+
+  .text-secondary {
+    color: hsl(var(--text-secondary));
+  }
+
+  .text-muted {
+    color: hsl(var(--text-muted));
+  }
+
+  /* Chrome bar: always dark charcoal */
+  .chrome-bar {
+    background-color: #1a1a1a;
+    color: #f0ede8;
+  }
+
+  .chrome-bar-text {
+    color: rgba(240, 237, 232, 0.7);
+  }
+
+  .chrome-bar-text-hover {
+    color: hsl(var(--gold));
+  }
+
+  /* Modal animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
