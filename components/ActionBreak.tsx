@@ -1,14 +1,30 @@
 import Image from "next/image";
 
-export function ActionBreak() {
+export interface ActionBreakProps {
+  imageSrc: string;
+  alt: string;
+  athleteName: string;
+  year: number;
+  matchup: string;
+  photoCredit: string;
+}
+
+export function ActionBreak({
+  imageSrc,
+  alt,
+  athleteName,
+  year,
+  matchup,
+  photoCredit,
+}: ActionBreakProps) {
   return (
     <section className="relative w-full overflow-hidden bg-black">
       {/* Cinematic aspect container */}
       <div className="relative w-full" style={{ aspectRatio: "2.35 / 1" }}>
         {/* The photo */}
         <Image
-          src="/images/optimized/elian-oliva-action.jpg"
-          alt="Elian Oliva shedding a block during Northfield vs Skyline"
+          src={imageSrc}
+          alt={alt}
           fill
           className="object-cover"
           style={{ objectPosition: "55% 30%" }}
@@ -35,17 +51,17 @@ export function ActionBreak() {
           <div className="max-w-6xl mx-auto flex items-end justify-between gap-4">
             <div>
               <p className="font-display italic text-white/90 text-lg md:text-xl leading-snug">
-                Elian Oliva
+                {athleteName}
                 <span className="text-gold ml-2 text-sm md:text-base not-italic font-medium tracking-wide">
-                  2025 Gold Helmet
+                  {year} Gold Helmet
                 </span>
               </p>
               <p className="text-white/40 text-xs md:text-sm mt-1 tracking-wide">
-                Northfield vs. Skyline
+                {matchup}
               </p>
             </div>
             <p className="text-white/20 text-[10px] md:text-xs tracking-wider uppercase hidden sm:block">
-              The Denver Post / Tanner Hogan
+              {photoCredit}
             </p>
           </div>
         </div>

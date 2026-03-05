@@ -5,6 +5,8 @@ import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { getInitials, handleActivateKey } from "@/lib/utils";
 
+const DEFAULT_FOCAL_POINT = "50% 20%";
+
 interface WinnerCardProps {
   winner: Winner;
   variant?: "grid" | "timeline";
@@ -43,7 +45,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
               alt={winner.name}
               fill
               className="object-cover"
-              style={{ objectPosition: image.focalPoint ?? "50% 20%" }}
+              style={{ objectPosition: image.focalPoint ?? DEFAULT_FOCAL_POINT }}
               sizes="(min-width: 768px) 144px, 112px"
             />
           ) : (
@@ -88,7 +90,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
             alt={winner.name}
             fill
             className="object-cover"
-            style={{ objectPosition: image.focalPoint ?? "50% 20%" }}
+            style={{ objectPosition: image.focalPoint ?? DEFAULT_FOCAL_POINT }}
             sizes="400px"
           />
         ) : (

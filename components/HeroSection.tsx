@@ -45,7 +45,7 @@ export function HeroSection() {
 
           {/* Eyebrow */}
           <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-            The Colorado
+            The Colorado High School Football Award
           </p>
 
           {/* Main Headline */}

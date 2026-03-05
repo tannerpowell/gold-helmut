@@ -111,7 +111,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
       document.body.style.width = "";
       document.body.style.overflow = "";
       document.body.style.paddingRight = "";
-      window.scrollTo(0, scrollY);
+      window.scrollTo({ top: scrollY, left: 0, behavior: "instant" });
       focusableRef.current = [];
       // Restore focus to the element that opened the modal
       if (prevFocusRef.current instanceof HTMLElement) {
@@ -173,8 +173,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               width={1536}
               height={1536}
               className="w-full h-auto max-h-[85vh] object-contain rounded-t-lg bg-[#111]"
-              sizes="100vw"
-              unoptimized
+              sizes="(min-width: 768px) 768px, 100vw"
               priority
             />
           ) : (

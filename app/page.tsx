@@ -36,7 +36,14 @@ export default function Home() {
         </div>
       </section>
 
-      <ActionBreak />
+      <ActionBreak
+        imageSrc="/images/optimized/elian-oliva-action.jpg"
+        alt="Elian Oliva shedding a block during Northfield vs Skyline"
+        athleteName="Elian Oliva"
+        year={2025}
+        matchup="Northfield vs. Skyline"
+        photoCredit="The Denver Post / Tanner Hogan"
+      />
       <ApplicationForm />
       <DonateSection />
     </main>
