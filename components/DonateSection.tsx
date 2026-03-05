@@ -62,7 +62,7 @@ export function DonateSection() {
   };
 
   return (
-    <section className="py-24 lg:py-32 px-6 chrome-bar">
+    <section id="donate" className="py-24 lg:py-32 px-6 chrome-bar">
       <div className="max-w-3xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">

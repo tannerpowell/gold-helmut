@@ -5,6 +5,8 @@ import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { getInitials, handleActivateKey } from "@/lib/utils";
 
+const DEFAULT_FOCAL_POINT = "50% 20%";
+
 interface WinnerCardProps {
   winner: Winner;
   variant?: "grid" | "timeline";
@@ -43,6 +45,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
               alt={winner.name}
               fill
               className="object-cover"
+              style={{ objectPosition: image.focalPoint ?? DEFAULT_FOCAL_POINT }}
               sizes="(min-width: 768px) 144px, 112px"
             />
           ) : (
@@ -80,13 +83,14 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
       onKeyDown={handleActivateKey(onClick)}
     >
       {/* Image */}
-      <div className="relative w-full h-64 bg-surface-elevated">
+      <div className="relative w-full aspect-[3/4] bg-surface-elevated">
         {image ? (
           <Image
             src={image.jpg}
             alt={winner.name}
             fill
             className="object-cover"
+            style={{ objectPosition: image.focalPoint ?? DEFAULT_FOCAL_POINT }}
             sizes="400px"
           />
         ) : (
@@ -97,7 +101,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
       {/* Content */}
       <div className="p-6">
         <div className="border-b border-gold/20 pb-3 mb-4">
-          <p className="text-gold text-xs font-medium uppercase tracking-[0.15em]">
+          <p className="text-gold text-lg font-display font-semibold tracking-wide">
             {winner.year}
           </p>
         </div>

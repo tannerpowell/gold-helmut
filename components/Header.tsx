@@ -13,7 +13,7 @@ export function Header() {
       <div className="max-w-6xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="font-display italic text-lg sm:text-xl font-medium text-white hover:text-gold transition-colors">
-          The Gold Helmet Award
+          Gold Helmet Award
         </Link>
 
         {/* Desktop Nav */}
@@ -32,8 +32,14 @@ export function Header() {
           </Link>
           <ThemeToggle />
           <Link
-            href="/#apply"
+            href="/#donate"
             className="px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium hover:brightness-110 transition-all"
+          >
+            Donate
+          </Link>
+          <Link
+            href="/#apply"
+            className="px-6 py-2 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors"
           >
             Apply
           </Link>
@@ -73,9 +79,16 @@ export function Header() {
             Winners
           </Link>
           <Link
-            href="/#apply"
+            href="/#donate"
             onClick={() => setMobileOpen(false)}
             className="block w-full text-center px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium"
+          >
+            Donate
+          </Link>
+          <Link
+            href="/#apply"
+            onClick={() => setMobileOpen(false)}
+            className="block w-full text-center px-6 py-2 border border-white/30 text-white text-sm font-medium"
           >
             Apply
           </Link>

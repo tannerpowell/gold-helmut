@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
+import { ActionBreak } from "@/components/ActionBreak";
 import { ApplicationForm } from "@/components/ApplicationForm";
 import { DonateSection } from "@/components/DonateSection";
 import { AWARD_INFO } from "@/lib/constants";
@@ -35,6 +36,14 @@ export default function Home() {
         </div>
       </section>
 
+      <ActionBreak
+        imageSrc="/images/optimized/2025-elian-oliva-action1-web.jpg"
+        alt="Elian Oliva shedding a block during Northfield vs Skyline"
+        athleteName="Elian Oliva"
+        year={2025}
+        matchup="Northfield vs. Skyline"
+        photoCredit="The Denver Post / Tanner Hogan"
+      />
       <ApplicationForm />
       <DonateSection />
     </main>

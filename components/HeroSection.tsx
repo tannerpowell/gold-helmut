@@ -45,12 +45,12 @@ export function HeroSection() {
 
           {/* Eyebrow */}
           <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-            The Denver Post Presents
+            The Colorado High School Football Award
           </p>
 
           {/* Main Headline */}
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium italic leading-tight text-white mb-6">
-            The Gold Helmet
+            Gold Helmet Award
           </h1>
 
           {/* Subheading */}
@@ -104,7 +104,7 @@ export function HeroSection() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="/winners-grid"
+              href="/winners-timeline"
               className="inline-flex items-center justify-center px-8 py-3 bg-gold text-[#1a1a1a] font-medium hover:brightness-110 transition-all"
             >
               View All Winners

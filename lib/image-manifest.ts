@@ -7,6 +7,8 @@ type WinnerImageSet = {
   thumb: ImageVariant;
   web: ImageVariant;
   modal: ImageVariant;
+  /** CSS object-position for cropping (face-priority), e.g. "50% 20%" */
+  focalPoint?: string;
 };
 
 export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
@@ -24,9 +26,10 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       webp: "/images/optimized/2025-elian-oliva-web.webp",
     },
     modal: {
-      jpg: "/images/optimized/2025-elian-oliva-modal.jpg",
-      webp: "/images/optimized/2025-elian-oliva-modal.webp",
+      jpg: "/images/optimized/2025-elian-oliva-modal-v2.jpg",
+      webp: "/images/optimized/2025-elian-oliva-modal-v2.webp",
     },
+    focalPoint: "50% 25%",
   },
   2024: {
     portrait: {
@@ -45,6 +48,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2024-marcus-mozer-modal.jpg",
       webp: "/images/optimized/2024-marcus-mozer-modal.webp",
     },
+    focalPoint: "50% 25%",
   },
   2023: {
     portrait: {
@@ -63,6 +67,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2023-josh-snyder-modal.jpg",
       webp: "/images/optimized/2023-josh-snyder-modal.webp",
     },
+    focalPoint: "50% 15%",
   },
   2022: {
     portrait: {
@@ -81,6 +86,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2022-brayden-dorman-modal.jpg",
       webp: "/images/optimized/2022-brayden-dorman-modal.webp",
     },
+    focalPoint: "50% 20%",
   },
   2021: {
     portrait: {
@@ -99,6 +105,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2021-gavin-sawchuk-modal.jpg",
       webp: "/images/optimized/2021-gavin-sawchuk-modal.webp",
     },
+    focalPoint: "70% 20%",
   },
   2020: {
     portrait: {
@@ -117,6 +124,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2020-q-jones-jr-modal.jpg",
       webp: "/images/optimized/2020-q-jones-jr-modal.webp",
     },
+    focalPoint: "50% 20%",
   },
   2019: {
     portrait: {
@@ -135,6 +143,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2019-andrew-gentry-modal.jpg",
       webp: "/images/optimized/2019-andrew-gentry-modal.webp",
     },
+    focalPoint: "55% 20%",
   },
   2018: {
     portrait: {
@@ -153,6 +162,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2018-barrett-miller-modal.jpg",
       webp: "/images/optimized/2018-barrett-miller-modal.webp",
     },
+    focalPoint: "50% 15%",
   },
   2017: {
     portrait: {
@@ -171,6 +181,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2017-max-borghi-modal.jpg",
       webp: "/images/optimized/2017-max-borghi-modal.webp",
     },
+    focalPoint: "55% 20%",
   },
   2016: {
     portrait: {
@@ -189,6 +200,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2016-dylan-mccaffrey-modal.jpg",
       webp: "/images/optimized/2016-dylan-mccaffrey-modal.webp",
     },
+    focalPoint: "55% 20%",
   },
   2015: {
     portrait: {
@@ -207,6 +219,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2015-carlo-kemp-modal.jpg",
       webp: "/images/optimized/2015-carlo-kemp-modal.webp",
     },
+    focalPoint: "50% 18%",
   },
   2014: {
     portrait: {
@@ -225,6 +238,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2014-mike-morean-modal.jpg",
       webp: "/images/optimized/2014-mike-morean-modal.webp",
     },
+    focalPoint: "50% 22%",
   },
   2013: {
     portrait: {
@@ -243,6 +257,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2013-christian-mccaffrey-modal.jpg",
       webp: "/images/optimized/2013-christian-mccaffrey-modal.webp",
     },
+    focalPoint: "50% 20%",
   },
   2012: {
     portrait: {
@@ -261,6 +276,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2012-xavier-lewis-modal.jpg",
       webp: "/images/optimized/2012-xavier-lewis-modal.webp",
     },
+    focalPoint: "45% 22%",
   },
   2011: {
     portrait: {
@@ -279,6 +295,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2011-sean-rubalcaba-modal.jpg",
       webp: "/images/optimized/2011-sean-rubalcaba-modal.webp",
     },
+    focalPoint: "50% 15%",
   },
   2010: {
     portrait: {
@@ -297,6 +314,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2010-ian-imamura-modal.jpg",
       webp: "/images/optimized/2010-ian-imamura-modal.webp",
     },
+    focalPoint: "50% 20%",
   },
   2009: {
     portrait: {
@@ -315,6 +333,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2009-matt-brown-modal.jpg",
       webp: "/images/optimized/2009-matt-brown-modal.webp",
     },
+    focalPoint: "50% 20%",
   },
   2008: {
     portrait: {
@@ -333,6 +352,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2008-bryan-peters-modal.jpg",
       webp: "/images/optimized/2008-bryan-peters-modal.webp",
     },
+    focalPoint: "50% 30%",
   },
   2007: {
     portrait: {
@@ -351,6 +371,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2007-tyler-jackson-modal.jpg",
       webp: "/images/optimized/2007-tyler-jackson-modal.webp",
     },
+    focalPoint: "45% 18%",
   },
   1999: {
     portrait: {
@@ -369,6 +390,7 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/1999-marcus-houston-modal.jpg",
       webp: "/images/optimized/1999-marcus-houston-modal.webp",
     },
+    focalPoint: "45% 20%",
   },
 };
 
@@ -376,5 +398,7 @@ export function getWinnerImage(
   year: number,
   type: "portrait" | "thumb" | "web" | "modal" = "portrait"
 ) {
-  return IMAGE_MANIFEST[year]?.[type];
+  const entry = IMAGE_MANIFEST[year];
+  if (!entry) return undefined;
+  return { ...entry[type], focalPoint: entry.focalPoint };
 }
