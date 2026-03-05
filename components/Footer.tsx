@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -9,9 +10,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <h3 className="font-display italic text-xl font-medium text-white mb-3">
-              Gold Helmet Award
-            </h3>
+            <Image
+              src="/images/denver-post-logo.svg"
+              alt="The Denver Post"
+              width={250}
+              height={30}
+              className="mb-4"
+            />
             <p className="chrome-bar-text text-sm leading-relaxed">
               Recognizing excellence in Colorado high school football since
               1951. Honoring character, leadership, and achievement on and off
@@ -43,7 +48,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#apply"
+                  href="/#apply"
                   className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
                 >
                   Apply

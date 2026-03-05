@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AWARD_INFO } from "@/lib/constants";
 
 export function ApplicationForm() {
   const [formData, setFormData] = useState({
@@ -11,8 +12,8 @@ export function ApplicationForm() {
     gpa: "",
     videoLink: "",
   });
-  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,18 +34,24 @@ export function ApplicationForm() {
       return;
     }
 
+    // Mailto fallback until a backend endpoint exists
+    const subject = encodeURIComponent(
+      `Gold Helmet Award Application – ${formData.name}`
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${formData.name}`,
+        `School: ${formData.school}`,
+        `Position: ${formData.position}`,
+        `Graduation Year: ${formData.year}`,
+        formData.gpa ? `GPA: ${formData.gpa}` : null,
+        formData.videoLink ? `Video: ${formData.videoLink}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
+    window.location.href = `mailto:${AWARD_INFO.contactEmail}?subject=${subject}&body=${body}`;
     setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: "",
-        school: "",
-        position: "",
-        year: "",
-        gpa: "",
-        videoLink: "",
-      });
-    }, 3000);
   };
 
   const inputClasses =
@@ -71,17 +78,19 @@ export function ApplicationForm() {
           </p>
         </div>
 
-        {submitted ? (
-          <div className="p-8 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 text-center">
-            <p className="font-display font-semibold text-emerald-900 dark:text-emerald-100 mb-2">
-              Application Submitted
-            </p>
-            <p className="text-emerald-800 dark:text-emerald-200">
-              Thank you. We&apos;ll review your submission and be in touch.
+        {submitted && (
+          <div className="p-6 bg-gold/10 border border-gold/30 mb-8">
+            <p className="text-foreground font-medium mb-1">Your email client should have opened.</p>
+            <p className="text-secondary text-sm">
+              If it didn&apos;t, send your application directly to{" "}
+              <a href={`mailto:${AWARD_INFO.contactEmail}`} className="text-gold underline">
+                {AWARD_INFO.contactEmail}
+              </a>.
             </p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/50">
                 <p className="text-red-800 dark:text-red-200">{error}</p>
@@ -89,10 +98,11 @@ export function ApplicationForm() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                 Full Name *
               </label>
               <input
+                id="name"
                 type="text"
                 name="name"
                 value={formData.name}
@@ -103,10 +113,11 @@ export function ApplicationForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="school" className="block text-sm font-medium text-foreground mb-2">
                 High School *
               </label>
               <input
+                id="school"
                 type="text"
                 name="school"
                 value={formData.school}
@@ -118,10 +129,11 @@ export function ApplicationForm() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
+                <label htmlFor="position" className="block text-sm font-medium text-foreground mb-2">
                   Position *
                 </label>
                 <input
+                  id="position"
                   type="text"
                   name="position"
                   value={formData.position}
@@ -131,10 +143,11 @@ export function ApplicationForm() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
+                <label htmlFor="year" className="block text-sm font-medium text-foreground mb-2">
                   Graduation Year *
                 </label>
                 <input
+                  id="year"
                   type="number"
                   name="year"
                   value={formData.year}
@@ -146,10 +159,11 @@ export function ApplicationForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                GPA (Optional)
+              <label htmlFor="gpa" className="block text-sm font-medium text-foreground mb-2">
+                GPA (Optional, 0–6.0 scale)
               </label>
               <input
+                id="gpa"
                 type="number"
                 name="gpa"
                 value={formData.gpa}
@@ -157,16 +171,17 @@ export function ApplicationForm() {
                 className={inputClasses}
                 placeholder="3.8"
                 min="0"
-                max="4"
+                max="6"
                 step="0.01"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="videoLink" className="block text-sm font-medium text-foreground mb-2">
                 Highlights Video Link (Optional)
               </label>
               <input
+                id="videoLink"
                 type="url"
                 name="videoLink"
                 value={formData.videoLink}
@@ -183,7 +198,6 @@ export function ApplicationForm() {
               Submit Application
             </button>
           </form>
-        )}
       </div>
     </section>
   );

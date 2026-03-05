@@ -2,22 +2,31 @@ const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
 
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 const originalsDir = path.join(__dirname, "../public/images/originals");
 
-// Recent winners for placeholders (2025 down to 2014)
+// Recent winners for placeholders — keep in sync with lib/constants.ts WINNERS
 const RECENT_WINNERS = [
-  { year: 2025, name: "Elian Oliva", school: "Northfield HS", position: "LB/S", college: "Air Force" },
-  { year: 2024, name: "Trey Woodhouse", school: "Chatfield HS", position: "WR", college: "Colorado" },
-  { year: 2023, name: "Baron Browning", school: "Cherry Creek HS", position: "OLB", college: "Ohio State" },
-  { year: 2022, name: "Braylen Russell", school: "Regis Jesuit HS", position: "CB", college: "Colorado" },
-  { year: 2021, name: "D'Shawn Jamison", school: "Denver South HS", position: "CB", college: "Colorado" },
-  { year: 2020, name: "Myles Steed", school: "Columbine HS", position: "S", college: "Colorado State" },
-  { year: 2019, name: "Derrick Gore", school: "Littleton HS", position: "RB", college: "Kansas State" },
-  { year: 2018, name: "Daylon Stoner", school: "Gateway HS", position: "OL", college: "Colorado" },
-  { year: 2017, name: "Jason Foster", school: "Rock Canyon HS", position: "DE", college: "Colorado" },
-  { year: 2016, name: "Alec Ingold", school: "Mullen HS", position: "RB", college: "Wisconsin" },
-  { year: 2015, name: "Lorenzo Soria", school: "Kennedy HS", position: "QB", college: "Colorado" },
-  { year: 2014, name: "Phillip Taylor", school: "Manual HS", position: "LB", college: "Colorado" },
+  { year: 2025, name: "Elian Oliva", school: "Northfield", position: "LB", college: "Air Force" },
+  { year: 2024, name: "Marcus Mozer", school: "Fossil Ridge", position: "", college: "" },
+  { year: 2023, name: "Josh Snyder", school: "Columbine", position: "", college: "" },
+  { year: 2022, name: "Brayden Dorman", school: "Vista Ridge", position: "QB", college: "" },
+  { year: 2021, name: "Gavin Sawchuk", school: "Valor Christian", position: "RB", college: "Oklahoma" },
+  { year: 2020, name: 'Alexisius "Q" Jones Jr.', school: "Fountain-Fort Carson", position: "", college: "" },
+  { year: 2019, name: "Andrew Gentry", school: "Columbine", position: "OL", college: "" },
+  { year: 2018, name: "Barrett Miller", school: "Eaglecrest", position: "", college: "" },
+  { year: 2017, name: "Max Borghi", school: "Pomona", position: "RB", college: "Washington State" },
+  { year: 2016, name: "Dylan McCaffrey", school: "Valor Christian", position: "QB", college: "Michigan" },
+  { year: 2015, name: "Carlo Kemp", school: "Fairview", position: "DL", college: "Michigan" },
+  { year: 2014, name: "Mike Morean", school: "Cherry Creek", position: "", college: "" },
 ];
 
 if (!fs.existsSync(originalsDir)) {
@@ -57,16 +66,16 @@ async function generatePlaceholder(winner) {
       <circle cx="700" cy="800" r="120" fill="${COLORS.accent}" opacity="0.08"/>
 
       <text x="400" y="500" font-size="48" fill="${COLORS.light}" text-anchor="middle" font-weight="bold">
-        ${winner.year}
+        ${escapeXml(winner.year)}
       </text>
       <text x="400" y="570" font-size="36" fill="${COLORS.accent}" text-anchor="middle" font-weight="bold">
-        ${winner.name}
+        ${escapeXml(winner.name)}
       </text>
       <text x="400" y="620" font-size="20" fill="${COLORS.light}" text-anchor="middle">
-        ${winner.school}
+        ${escapeXml(winner.school)}
       </text>
       <text x="400" y="660" font-size="18" fill="${COLORS.light}" text-anchor="middle">
-        ${winner.position} | ${winner.college}
+        ${escapeXml(winner.position)} | ${escapeXml(winner.college)}
       </text>
     </svg>
   `;

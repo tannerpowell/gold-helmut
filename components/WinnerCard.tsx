@@ -3,29 +3,25 @@
 import Image from "next/image";
 import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
+import { getInitials, handleActivateKey } from "@/lib/utils";
 
 interface WinnerCardProps {
   winner: Winner;
   variant?: "grid" | "timeline";
+  onClick?: () => void;
 }
 
 function Initials({ name }: { name: string }) {
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2);
-
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-gold/20 rounded-[inherit]">
       <span className="font-display text-2xl font-medium text-gold">
-        {initials}
+        {getInitials(name)}
       </span>
     </div>
   );
 }
 
-export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
+export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProps) {
   const image = getWinnerImage(
     winner.year,
     variant === "timeline" ? "thumb" : "portrait"
@@ -33,8 +29,14 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
 
   if (variant === "timeline") {
     return (
-      <div className="flex gap-6 items-start">
-        <div className="relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 rounded-full overflow-hidden border-[5px] border-[#fafafa] shadow-md bg-surface-elevated">
+      <div
+        className="group flex gap-6 items-start cursor-pointer"
+        onClick={onClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={handleActivateKey(onClick)}
+      >
+        <div className="relative w-[8.5rem] h-[8.5rem] md:w-[10.75rem] md:h-[10.75rem] flex-shrink-0 rounded-full overflow-hidden border-[5px] border-background shadow-md bg-surface-elevated transition-transform duration-200 ease-in-out group-hover:scale-[1.04]">
           {image ? (
             <Image
               src={image.jpg}
@@ -70,7 +72,13 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
   }
 
   return (
-    <div className="group bg-surface border border-border overflow-hidden hover:shadow-lg transition-all hover:border-b-gold hover:border-b-2">
+    <div
+      className={`group bg-surface border border-border overflow-hidden hover:shadow-lg transition-all hover:border-b-gold hover:border-b-2${onClick ? " cursor-pointer" : ""}`}
+      onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={handleActivateKey(onClick)}
+    >
       {/* Image */}
       <div className="relative w-full h-64 bg-surface-elevated">
         {image ? (
@@ -99,7 +107,7 @@ export function WinnerCard({ winner, variant = "grid" }: WinnerCardProps) {
         <p className="text-sm text-secondary mb-1">{winner.school}</p>
         {(winner.position || winner.college) && (
           <p className="text-sm font-medium text-foreground">
-            {winner.position}
+            {winner.position && <span>{winner.position}</span>}
             {winner.position && winner.college && " \u2022 "}
             {winner.college}
           </p>

@@ -1,22 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { WINNERS_BY_YEAR, DECADES } from "@/lib/constants";
+import { useMemo, useState } from "react";
+import { Winner, WINNERS_BY_YEAR, DECADES } from "@/lib/constants";
 import { WinnerCard } from "@/components/WinnerCard";
+import { WinnerModal } from "@/components/WinnerModal";
 
 export default function WinnersGrid() {
   const [selectedDecade, setSelectedDecade] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
 
-  const filteredWinners = WINNERS_BY_YEAR.filter((w) => {
-    const matchesDecade = selectedDecade
-      ? w.year >= selectedDecade && w.year < selectedDecade + 10
-      : true;
-    const matchesSearch = w.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchesDecade && matchesSearch;
-  });
+  const filteredWinners = useMemo(() => {
+    const search = searchTerm.toLowerCase();
+    return WINNERS_BY_YEAR.filter((w) => {
+      const matchesDecade = selectedDecade
+        ? w.year >= selectedDecade && w.year < selectedDecade + 10
+        : true;
+      return matchesDecade && w.name.toLowerCase().includes(search);
+    });
+  }, [selectedDecade, searchTerm]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,10 +43,11 @@ export default function WinnersGrid() {
       <div className="py-8 px-6 bg-surface border-b border-border">
         <div className="max-w-6xl mx-auto">
           <div className="mb-6">
-            <label className="block text-sm font-medium text-foreground mb-3">
+            <label htmlFor="search-input" className="block text-sm font-medium text-foreground mb-3">
               Search by name
             </label>
             <input
+              id="search-input"
               type="text"
               placeholder="Find a winner..."
               value={searchTerm}
@@ -60,6 +63,7 @@ export default function WinnersGrid() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedDecade(null)}
+                aria-pressed={selectedDecade === null}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   !selectedDecade
                     ? "bg-gold text-[#1a1a1a]"
@@ -72,6 +76,7 @@ export default function WinnersGrid() {
                 <button
                   key={decade.value}
                   onClick={() => setSelectedDecade(decade.value)}
+                  aria-pressed={selectedDecade === decade.value}
                   className={`px-4 py-2 text-sm font-medium transition-colors ${
                     selectedDecade === decade.value
                       ? "bg-gold text-[#1a1a1a]"
@@ -97,7 +102,7 @@ export default function WinnersGrid() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredWinners.map((winner) => (
-                  <WinnerCard key={winner.year} winner={winner} />
+                  <WinnerCard key={winner.year} winner={winner} onClick={() => setSelectedWinner(winner)} />
                 ))}
               </div>
             </>
@@ -110,6 +115,8 @@ export default function WinnersGrid() {
           )}
         </div>
       </div>
+
+      <WinnerModal winner={selectedWinner} onClose={() => setSelectedWinner(null)} />
     </div>
   );
 }

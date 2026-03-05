@@ -17,6 +17,8 @@ export function TimelineScrubber({
   const [isDragging, setIsDragging] = useState(false);
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
+  const draggedRef = useRef(false);
+  const DRAG_THRESHOLD = 5;
 
   // Scroll the active year notch into view
   useEffect(() => {
@@ -44,6 +46,7 @@ export function TimelineScrubber({
     (e: React.MouseEvent) => {
       if (!isDragging || !scrollRef.current) return;
       const dx = e.clientX - dragStartX.current;
+      if (Math.abs(dx) > DRAG_THRESHOLD) draggedRef.current = true;
       scrollRef.current.scrollLeft = scrollStartLeft.current - dx;
     },
     [isDragging]
@@ -51,10 +54,12 @@ export function TimelineScrubber({
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
+    // Reset after the click event fires (mouseup → click → rAF)
+    requestAnimationFrame(() => { draggedRef.current = false; });
   }, []);
 
   return (
-    <div className="sticky top-[65px] z-40 chrome-bar border-b border-white/10">
+    <div className="sticky z-40 chrome-bar border-b border-white/10" style={{ top: "var(--header-h, 65px)" }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div
           ref={scrollRef}
@@ -76,7 +81,7 @@ export function TimelineScrubber({
                 <button
                   key={year}
                   data-year={year}
-                  onClick={() => onYearClick(year)}
+                  onClick={() => { if (!draggedRef.current) onYearClick(year); }}
                   className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] justify-center"
                   title={String(year)}
                 >

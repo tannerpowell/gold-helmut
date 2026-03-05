@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
-const { exec } = require("child_process");
 
 const originalsDir = path.join(__dirname, "../public/images/originals");
 const optimizedDir = path.join(__dirname, "../public/images/optimized");
@@ -37,7 +36,9 @@ const imageUrls = [
   },
 ];
 
-function downloadImage(imageUrl, filename) {
+const MAX_REDIRECTS = 5;
+
+function downloadImage(imageUrl, filename, redirectCount = 0) {
   return new Promise((resolve, reject) => {
     const filePath = path.join(originalsDir, `${filename}.jpg`);
 
@@ -47,9 +48,43 @@ function downloadImage(imageUrl, filename) {
       return;
     }
 
+    const cleanup = () => fs.unlink(filePath, () => {});
+
     const file = fs.createWriteStream(filePath);
+    file.on("error", (err) => {
+      cleanup();
+      reject(new Error(`Write stream error for ${filename}: ${err.message}`));
+    });
 
     https.get(imageUrl, (response) => {
+      const { statusCode, headers } = response;
+
+      // Follow redirects (3xx)
+      if (statusCode >= 300 && statusCode < 400 && headers.location) {
+        file.close();
+        cleanup();
+        if (redirectCount >= MAX_REDIRECTS) {
+          reject(new Error(`Too many redirects for ${filename}`));
+          return;
+        }
+        resolve(downloadImage(headers.location, filename, redirectCount + 1));
+        return;
+      }
+
+      // Reject non-2xx responses
+      if (statusCode < 200 || statusCode >= 300) {
+        file.close();
+        cleanup();
+        reject(new Error(`HTTP ${statusCode} for ${imageUrl}`));
+        return;
+      }
+
+      response.on("error", (err) => {
+        file.close();
+        cleanup();
+        reject(new Error(`Response stream error for ${filename}: ${err.message}`));
+      });
+
       response.pipe(file);
       file.on("finish", () => {
         file.close();
@@ -57,7 +92,7 @@ function downloadImage(imageUrl, filename) {
         resolve(filePath);
       });
     }).on("error", (err) => {
-      fs.unlink(filePath, () => {}); // Delete the file
+      cleanup();
       console.error(`✗ Failed to download ${filename}: ${err.message}`);
       reject(err);
     });

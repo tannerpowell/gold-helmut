@@ -12,13 +12,8 @@ export function Header() {
     <header className="sticky top-0 z-50 chrome-bar border-b border-white/10">
       <div className="max-w-6xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 flex items-center justify-center bg-gold text-[#1a1a1a] font-display text-sm font-bold italic">
-            GH
-          </div>
-          <span className="hidden sm:inline font-display italic text-xl font-medium text-white">
-            Gold Helmet
-          </span>
+        <Link href="/" className="font-display italic text-lg sm:text-xl font-medium text-white hover:text-gold transition-colors">
+          The Gold Helmet Award
         </Link>
 
         {/* Desktop Nav */}
@@ -37,7 +32,7 @@ export function Header() {
           </Link>
           <ThemeToggle />
           <Link
-            href="#apply"
+            href="/#apply"
             className="px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium hover:brightness-110 transition-all"
           >
             Apply
@@ -51,6 +46,8 @@ export function Header() {
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-2 chrome-bar-text"
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -59,7 +56,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <nav className="md:hidden chrome-bar border-t border-white/10 px-6 py-4 space-y-3">
+        <nav id="mobile-navigation" className="md:hidden chrome-bar border-t border-white/10 px-6 py-4 space-y-3">
           <Link
             href="/winners-timeline"
             onClick={() => setMobileOpen(false)}
@@ -75,7 +72,7 @@ export function Header() {
             Winners
           </Link>
           <Link
-            href="#apply"
+            href="/#apply"
             onClick={() => setMobileOpen(false)}
             className="block w-full text-center px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium"
           >

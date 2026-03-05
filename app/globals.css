@@ -14,10 +14,11 @@
   --color-border: hsl(var(--border));
   --color-border-accent: var(--border-accent);
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-display: 'Playfair Display', Georgia, serif;
 }
 
 :root {
+  --header-h: 65px;
   --background: 38 29% 97%;        /* #f9f7f4 warm cream */
   --surface: 0 0% 100%;            /* #ffffff */
   --surface-elevated: 0 0% 100%;   /* #ffffff */
@@ -29,8 +30,7 @@
   --border: 34 16% 87%;            /* #e5e0d8 */
   --border-accent: rgba(184, 149, 62, 0.3);
 
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), var(--font-geist-sans), system-ui, sans-serif;
 }
 
 .dark {
@@ -97,6 +97,22 @@
 
   .chrome-bar-text-hover {
     color: hsl(var(--gold));
+  }
+
+  /* Modal animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes modalIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
   }
 
   /* Hide scrollbar but keep functionality */

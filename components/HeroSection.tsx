@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getWinnerImage } from "@/lib/image-manifest";
-import { AWARD_INFO } from "@/lib/constants";
+import { AWARD_INFO, WINNERS } from "@/lib/constants";
 
 export function HeroSection() {
-  const image = getWinnerImage(2025, "web");
+  const spotlight = WINNERS[0];
+  const image = getWinnerImage(spotlight.year, "web");
 
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden">
@@ -15,7 +16,7 @@ export function HeroSection() {
         {image && (
           <Image
             src={image.jpg}
-            alt="Elian Oliva - 2025 Gold Helmet Award Winner"
+            alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
             fill
             className="object-cover object-center"
             priority
@@ -29,12 +30,22 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 w-full mx-auto max-w-6xl px-6 lg:px-8 py-20">
         <div className="max-w-2xl">
+          {/* Logo */}
+          <Image
+            src="/images/logo-256.png"
+            alt="Gold Helmet Award trophy"
+            width={256}
+            height={256}
+            className="w-40 md:w-56 h-auto mb-8 drop-shadow-[0_4px_16px_rgba(184,149,62,0.3)]"
+            priority
+          />
+
           {/* Gold accent line */}
           <div className="mb-8 h-px w-16 bg-gold" />
 
           {/* Eyebrow */}
           <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-            Colorado&apos;s Premier Award
+            The Denver Post Presents
           </p>
 
           {/* Main Headline */}
@@ -52,16 +63,18 @@ export function HeroSection() {
           <div className="mb-12 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
             <div className="border-b border-gold/30 pb-4 mb-4">
               <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
-                2025 Winner
+                {spotlight.year} Winner
               </p>
             </div>
             <h2 className="font-display italic text-3xl font-medium text-white mb-3">
-              Elian Oliva
+              {spotlight.name}
             </h2>
-            <p className="text-white/80 mb-1">Northfield High School</p>
-            <p className="text-gold font-medium">
-              Linebacker/Safety &bull; Air Force Academy
-            </p>
+            <p className="text-white/80 mb-1">{spotlight.school}</p>
+            {(spotlight.position || spotlight.college) && (
+              <p className="text-gold font-medium">
+                {[spotlight.position, spotlight.college].filter(Boolean).join(" \u2022 ")}
+              </p>
+            )}
           </div>
 
           {/* Trust Indicators */}
@@ -95,7 +108,7 @@ export function HeroSection() {
               View All Winners
             </Link>
             <Link
-              href="#apply"
+              href="/#apply"
               className="inline-flex items-center justify-center px-8 py-3 border border-white/30 text-white font-medium hover:bg-white/10 transition-colors"
             >
               Apply

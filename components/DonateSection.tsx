@@ -14,12 +14,36 @@ const DONATION_TIERS = [
 export function DonateSection() {
   const [selectedAmount, setSelectedAmount] = useState(100);
   const [customAmount, setCustomAmount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const finalAmount = customAmount ? parseInt(customAmount) : selectedAmount;
+  const parsed = customAmount ? parseInt(customAmount) : selectedAmount;
+  const finalAmount = Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
 
-  const handleDonate = () => {
-    // TODO: Integrate with Stripe when backend is built
-    alert(`Donation of $${finalAmount} — Stripe integration coming soon`);
+  const handleDonate = async () => {
+    if (finalAmount < 1 || isLoading) return;
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: finalAmount }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || "Failed to create checkout session");
+      }
+
+      window.location.href = data.url;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
+      alert(`Donation error: ${message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -100,9 +124,14 @@ export function DonateSection() {
         {/* Donate Button */}
         <button
           onClick={handleDonate}
-          className="w-full py-4 bg-gold text-[#1a1a1a] font-semibold text-lg hover:brightness-110 transition-all"
+          disabled={finalAmount < 1 || isLoading}
+          className="w-full py-4 bg-gold text-[#1a1a1a] font-semibold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Donate ${finalAmount || 0}
+          {isLoading
+            ? "Redirecting..."
+            : finalAmount > 0
+              ? `Donate $${finalAmount}`
+              : "Enter an amount"}
         </button>
 
         <p className="text-center text-sm text-white/40 mt-6">

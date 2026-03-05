@@ -20,7 +20,7 @@ export interface Winner {
 
 // Complete list of 75 winners (1951-2025)
 // Source: https://www.denverpost.com/2013/12/09/list-of-gold-helmet-award-winners-for-colorado-prep-football-from-the-denver-post/
-export const WINNERS: Winner[] = [
+export const WINNERS: readonly Winner[] = [
   { year: 2025, name: "Elian Oliva", school: "Northfield", position: "LB", college: "Air Force" },
   { year: 2024, name: "Marcus Mozer", school: "Fossil Ridge", position: "", college: "" },
   { year: 2023, name: "Josh Snyder", school: "Columbine", position: "", college: "" },
@@ -99,7 +99,7 @@ export const WINNERS: Winner[] = [
 ];
 
 // WINNERS is already ordered most recent first (2025 → 1951)
-export const WINNERS_BY_YEAR = WINNERS;
+export const WINNERS_BY_YEAR: readonly Winner[] = WINNERS;
 
 // Get winners by decade for filtering
 export const getWinnersByDecade = (decade: number) => {
@@ -110,7 +110,8 @@ export const getWinnersByDecade = (decade: number) => {
 
 // Get recent winners for display (e.g., last 12 years)
 export const getRecentWinners = (count: number = 12) => {
-  return WINNERS_BY_YEAR.slice(0, count);
+  const n = Math.max(0, Math.min(Math.floor(Number.isFinite(count) ? count : 12), WINNERS_BY_YEAR.length));
+  return WINNERS_BY_YEAR.slice(0, n);
 };
 
 // Award decades for filter

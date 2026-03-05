@@ -7,9 +7,9 @@
  * Usage: node scripts/process-images.js
  */
 
-const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+const { optimizeImage } = require("./image-utils");
 
 const ORIGINALS_DIR = path.join(__dirname, "../public/images/originals");
 const OUTPUT_DIR = path.join(__dirname, "../public/images/optimized");
@@ -79,37 +79,17 @@ const IMAGE_MAP = {
   "MARCUS-HOUSTON.webp": { year: 1999, slug: "1999-marcus-houston", type: "hero" },
 };
 
-const SIZES = {
-  web:      { width: 800, height: 1000, fit: "cover" },
-  portrait: { width: 400, height: 500,  fit: "cover" },
-  thumb:    { width: 300, height: 300,  fit: "cover" },
-};
-
 async function processImage(filename, info) {
   const inputPath = path.join(ORIGINALS_DIR, filename);
 
   if (!fs.existsSync(inputPath)) {
     console.warn(`  SKIP: ${filename} not found`);
-    return;
+    return null; // skipped, not an error
   }
 
-  for (const [sizeName, dims] of Object.entries(SIZES)) {
-    const baseName = `${info.slug}-${sizeName}`;
-
-    // JPG
-    await sharp(inputPath)
-      .resize(dims.width, dims.height, { fit: dims.fit, position: "attention" })
-      .jpeg({ quality: sizeName === "thumb" ? 80 : 85, progressive: true })
-      .toFile(path.join(OUTPUT_DIR, `${baseName}.jpg`));
-
-    // WebP
-    await sharp(inputPath)
-      .resize(dims.width, dims.height, { fit: dims.fit, position: "attention" })
-      .webp({ quality: sizeName === "thumb" ? 80 : 85 })
-      .toFile(path.join(OUTPUT_DIR, `${baseName}.webp`));
-  }
-
-  console.log(`  OK: ${info.slug} (${filename})`);
+  const ok = await optimizeImage(inputPath, info.slug, OUTPUT_DIR);
+  if (ok) console.log(`  OK: ${info.slug} (${filename})`);
+  return ok;
 }
 
 async function main() {
@@ -118,13 +98,17 @@ async function main() {
 
   console.log(`Processing ${Object.keys(IMAGE_MAP).length} images...\n`);
 
+  let hadErrors = false;
   for (const [filename, info] of Object.entries(IMAGE_MAP)) {
-    await processImage(filename, info);
+    const ok = await processImage(filename, info);
+    if (ok === false) hadErrors = true; // null = skipped, false = transform error
   }
 
   // Count output files
   const outputFiles = fs.readdirSync(OUTPUT_DIR).filter(f => !f.startsWith("."));
   console.log(`\nDone! ${outputFiles.length} files in ${OUTPUT_DIR}`);
+
+  if (hadErrors) process.exit(1);
 }
 
-main().catch(console.error);
+main().catch((err) => { console.error(err); process.exit(1); });
