@@ -43,6 +43,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
               alt={winner.name}
               fill
               className="object-cover"
+              style={{ objectPosition: image.focalPoint ?? "50% 20%" }}
               sizes="(min-width: 768px) 144px, 112px"
             />
           ) : (
@@ -87,6 +88,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
             alt={winner.name}
             fill
             className="object-cover"
+            style={{ objectPosition: image.focalPoint ?? "50% 20%" }}
             sizes="400px"
           />
         ) : (
