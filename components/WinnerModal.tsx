@@ -146,7 +146,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
         aria-label={winner.name}
         className={`
           relative animate-[modalIn_300ms_ease-out]
-          ${is2025 ? "max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide" : "max-w-3xl w-full"}
+          ${is2025 ? "max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide" : "max-w-lg w-full"}
           bg-[#1a1a1a] rounded-lg
           shadow-[0_25px_60px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)]
           border border-[#2e2e2e]
