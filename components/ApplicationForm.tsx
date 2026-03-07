@@ -125,17 +125,10 @@ export function ApplicationForm() {
         {submitted && (
           <div className="p-6 bg-gold/10 border border-gold/30 mb-8">
             <p className="text-foreground font-medium mb-1">
-              Your email client should have opened.
+              Your email client should have opened with the nomination.
             </p>
             <p className="text-secondary text-sm">
-              If it didn&apos;t, send the nomination directly to{" "}
-              <a
-                href={`mailto:${AWARD_INFO.contactEmail}`}
-                className="text-gold underline"
-              >
-                {AWARD_INFO.contactEmail}
-              </a>
-              .
+              If it didn&apos;t, please use the contact form in the footer to reach us.
             </p>
           </div>
         )}

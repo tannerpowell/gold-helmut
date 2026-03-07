@@ -52,11 +52,8 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
             <Initials name={winner.name} />
           )}
         </div>
-        <div className="flex-1">
-          <p className="text-gold text-xs font-medium uppercase tracking-[0.15em] mb-2">
-            {winner.year}
-          </p>
-          <h3 className="font-display font-semibold text-lg text-foreground mb-1">
+        <div className="flex-1 pt-8 md:pt-10">
+          <h3 className="font-display font-semibold text-foreground mb-1" style={{ fontSize: "1.725rem", lineHeight: 1.2 }}>
             {winner.name}
           </h3>
           <p className="text-sm text-secondary mb-1">{winner.school}</p>

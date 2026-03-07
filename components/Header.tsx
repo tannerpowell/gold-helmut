@@ -2,52 +2,54 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
+function navLinkClass(active: boolean) {
+  return `text-xs font-semibold uppercase tracking-[0.2em] pb-0.5 transition-all duration-300 ease-in-out ${
+    active
+      ? "text-white border-b border-gold"
+      : "text-white/70 hover:text-white border-b border-transparent hover:border-gold"
+  }`;
+}
+
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 chrome-bar border-b border-white/10">
+      {/* Theme toggle: far top-right corner */}
+      <div className="absolute top-3 right-5 z-10">
+        <ThemeToggle />
+      </div>
+
       <div className="max-w-6xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="font-display italic text-lg sm:text-xl font-medium text-white hover:text-gold transition-colors">
+        <Link href="/" className="font-display italic text-lg sm:text-xl font-medium text-white hover:text-gold transition-colors duration-300">
           Gold Helmet Award
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Link
-            href="/winners-timeline"
-            className="text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
-          >
-            Timeline
+        <nav className="hidden md:flex items-center gap-8 pr-10">
+          <Link href="/winners-timeline" className={navLinkClass(pathname === "/winners-timeline")}>
+            Hall of Champions
           </Link>
-          <Link
-            href="/winners-grid"
-            className="text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
-          >
-            Winners
+          <Link href="/#board" className={navLinkClass(false)}>
+            Leadership
           </Link>
-          <ThemeToggle />
-          <Link
-            href="/#donate"
-            className="px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium hover:brightness-110 transition-all"
-          >
-            Donate
-          </Link>
-          <Link
-            href="/#nominate"
-            className="px-6 py-2 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors"
-          >
+          <Link href="/#nominate" className={navLinkClass(false)}>
             Nominate
+          </Link>
+          <div className="h-4 w-px bg-white/20" />
+          <Link href="/#donate" className={navLinkClass(false)}>
+            Donate
           </Link>
         </nav>
 
-        {/* Mobile: toggle + hamburger */}
-        <div className="flex md:hidden items-center gap-2">
-          <ThemeToggle />
+        {/* Mobile: hamburger */}
+        <div className="flex md:hidden items-center gap-2 pr-10">
           <button
             type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -67,30 +69,31 @@ export function Header() {
           <Link
             href="/winners-timeline"
             onClick={() => setMobileOpen(false)}
-            className="block text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
+            className="block text-xs font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
           >
-            Timeline
+            Hall of Champions
           </Link>
           <Link
-            href="/winners-grid"
+            href="/#board"
             onClick={() => setMobileOpen(false)}
-            className="block text-sm chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
+            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
           >
-            Winners
-          </Link>
-          <Link
-            href="/#donate"
-            onClick={() => setMobileOpen(false)}
-            className="block w-full text-center px-6 py-2 bg-gold text-[#1a1a1a] text-sm font-medium"
-          >
-            Donate
+            Leadership
           </Link>
           <Link
             href="/#nominate"
             onClick={() => setMobileOpen(false)}
-            className="block w-full text-center px-6 py-2 border border-white/30 text-white text-sm font-medium"
+            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
           >
             Nominate
+          </Link>
+          <div className="h-px w-8 bg-white/10" />
+          <Link
+            href="/#donate"
+            onClick={() => setMobileOpen(false)}
+            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
+          >
+            Donate
           </Link>
         </nav>
       )}

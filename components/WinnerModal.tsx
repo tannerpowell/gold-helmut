@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
 import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { getInitials } from "@/lib/utils";
+import { WINNER_PROFILES } from "@/lib/winner-profiles";
 
 interface WinnerModalProps {
   winner: Winner | null;
@@ -59,6 +60,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const focusableRef = useRef<HTMLElement[]>([]);
   const prevFocusRef = useRef<Element | null>(null);
+  const [showScrollHint, setShowScrollHint] = useState(false);
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -121,10 +123,25 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
     };
   }, [winner, handleKey]);
 
+  useEffect(() => {
+    if (!winner) { setShowScrollHint(false); return; }
+    const el = modalRef.current;
+    if (!el) return;
+    const check = () => {
+      const scrollable = el.scrollHeight > el.clientHeight + 10;
+      const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
+      setShowScrollHint(scrollable && !nearBottom);
+    };
+    requestAnimationFrame(check);
+    el.addEventListener("scroll", check, { passive: true });
+    return () => el.removeEventListener("scroll", check);
+  }, [winner]);
+
   if (!winner) return null;
 
   const image = getWinnerImage(winner.year, "modal") || getWinnerImage(winner.year, "portrait");
   const is2025 = winner.year === 2025;
+  const profile = !is2025 ? WINNER_PROFILES[winner.year] : undefined;
 
   return (
     <div
@@ -146,7 +163,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
         aria-label={winner.name}
         className={`
           relative animate-[modalIn_300ms_ease-out]
-          ${is2025 ? "max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide" : "max-w-lg w-full"}
+          ${is2025 || profile ? "max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide" : "max-w-lg w-full"}
           bg-[#1a1a1a] rounded-lg
           shadow-[0_25px_60px_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.3)]
           border border-[#2e2e2e]
@@ -335,6 +352,143 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 </div>
                 <div className="text-[#a0a0a0] text-sm mt-1">United States Air Force</div>
               </div>
+          </div>
+        )}
+
+        {/* Extended profile content (non-2025 winners) */}
+        {profile && (
+          <div className="px-8 pb-8 space-y-7">
+            <div className="h-px bg-gradient-to-r from-gold/40 via-gold/20 to-transparent" />
+
+            <p className="text-gold text-sm uppercase tracking-[0.2em] font-semibold">
+              {profile.headline}
+            </p>
+
+            <p className="text-[#d0d0d0] text-[17px] leading-[1.65]">
+              {profile.bio}
+            </p>
+
+            {profile.actionImage && (
+              <div className="rounded-md overflow-hidden">
+                <Image
+                  src={profile.actionImage}
+                  alt={`${winner.name} in action`}
+                  width={800}
+                  height={500}
+                  className="w-full h-auto object-cover"
+                  sizes="(min-width: 768px) 768px, 100vw"
+                />
+              </div>
+            )}
+
+            {profile.stats && profile.stats.length > 0 && (
+              <div className="grid grid-cols-3 gap-3">
+                {profile.stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="bg-white/[0.06] border border-white/[0.12] rounded-md px-3 py-4 text-center"
+                  >
+                    <div className="text-white font-display font-bold text-4xl leading-none tracking-tight">
+                      {stat.value}
+                    </div>
+                    <div className="text-gold text-[11px] uppercase tracking-[0.12em] font-semibold mt-2">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {profile.careerHighlight && (
+              <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
+                <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
+                  Career Totals
+                </div>
+                <div className="text-white text-lg font-medium">
+                  {profile.careerHighlight}
+                </div>
+              </div>
+            )}
+
+            {profile.highlights && profile.highlights.length > 0 && (
+              <div className={`grid gap-3 ${profile.highlights.length > 1 ? "grid-cols-2" : ""}`}>
+                {profile.highlights.map((h) => (
+                  <div
+                    key={h.title}
+                    className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4"
+                  >
+                    <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
+                      {h.title}
+                    </div>
+                    <div className="text-white text-4xl font-display font-bold leading-tight">
+                      {h.value}
+                    </div>
+                    <div className="text-[#a0a0a0] text-sm mt-0.5">{h.description}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {profile.quote && (
+              <blockquote className="border-l-[3px] border-gold/50 pl-5 py-2">
+                <p className="text-white/90 text-lg italic leading-relaxed font-display text-balance">
+                  &ldquo;{profile.quote.text}&rdquo;
+                </p>
+                <cite className="text-gold/60 text-sm not-italic mt-2 block font-medium">
+                  {profile.quote.attribution}
+                </cite>
+              </blockquote>
+            )}
+
+            {profile.community && profile.community.length > 0 && (
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-3 font-semibold">
+                  Community & Leadership
+                </div>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {profile.community.map((item) => (
+                    <div
+                      key={item}
+                      className="bg-white/[0.03] border border-white/[0.06] rounded-md px-4 py-3 text-[#c8c8c8] text-[15px]"
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {profile.coachQuote && (
+              <blockquote className="border-l-[3px] border-gold/50 pl-5 py-2">
+                <p className="text-white/90 text-lg italic leading-relaxed font-display text-balance">
+                  &ldquo;{profile.coachQuote.text}&rdquo;
+                </p>
+                <cite className="text-gold/60 text-sm not-italic mt-2 block font-medium">
+                  {profile.coachQuote.attribution}
+                </cite>
+              </blockquote>
+            )}
+
+            {profile.future && (
+              <div className="bg-gradient-to-r from-gold/[0.08] to-transparent border border-gold/15 rounded-md px-5 py-5">
+                <div className="text-[11px] uppercase tracking-[0.12em] text-gold/60 mb-1.5 font-semibold">
+                  Next Chapter
+                </div>
+                <div className="text-white text-xl font-semibold">
+                  {profile.future.title}
+                </div>
+                {profile.future.subtitle && (
+                  <div className="text-[#a0a0a0] text-sm mt-1">{profile.future.subtitle}</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Scroll hint */}
+        {showScrollHint && (
+          <div className="sticky bottom-0 inset-x-0 h-16 -mt-16 bg-gradient-to-t from-[#1a1a1a] to-transparent pointer-events-none flex items-end justify-center pb-2 z-10">
+            <ChevronDown size={20} className="text-gold/50 animate-bounce" />
           </div>
         )}
       </div>

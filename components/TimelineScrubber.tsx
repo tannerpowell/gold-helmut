@@ -136,10 +136,11 @@ export function TimelineScrubber({
         >
           <div className="relative flex items-center min-w-max pb-7 pt-8">
             {/* The horizontal line - centered on notches */}
-            <div className="absolute top-[calc(50%+2px)] left-0 right-0 h-[2px] bg-white/15" />
+            <div className="absolute top-[calc(50%+2px)] left-0 right-0 h-[2px] bg-white/30" />
 
             {years.map((year) => {
               const isDecadeStart = year % 10 === 0 || year === years[0];
+              const isFiveYear = year % 5 === 0;
               const isActive = activeYear === year;
 
               return (
@@ -152,14 +153,14 @@ export function TimelineScrubber({
                   className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] justify-center"
                   title={String(year)}
                 >
-                  {/* Decade label above */}
-                  {isDecadeStart && (
+                  {/* Year label above */}
+                  {(isDecadeStart || isFiveYear) && (
                     <span
                       className={`absolute -top-6 text-xs font-medium transition-colors whitespace-nowrap ${
-                        isActive ? "text-gold" : "text-white/50 group-hover:text-white/70"
+                        isActive ? "text-gold" : isDecadeStart ? "text-white/70 group-hover:text-white/90" : "text-white/50 group-hover:text-white/70"
                       }`}
                     >
-                      {year === years[0] ? year : `${year}s`}
+                      {year === years[0] ? year : isDecadeStart ? `${year}s` : year}
                     </span>
                   )}
 
@@ -167,9 +168,9 @@ export function TimelineScrubber({
                   {isActive ? (
                     <div className="w-5 h-5 rounded-full bg-gold shadow-[0_0_12px_rgba(184,149,62,0.6)] z-10" />
                   ) : isDecadeStart ? (
-                    <div className="w-4 h-4 rounded-full bg-white/35 group-hover:bg-gold/50 group-hover:scale-110 transition-all" />
+                    <div className="w-4 h-4 rounded-full bg-[#888] group-hover:bg-gold/80 group-hover:scale-110 transition-all z-10" />
                   ) : (
-                    <div className="w-[2px] h-4 rounded-full bg-white/25 group-hover:w-[3px] group-hover:h-6 group-hover:bg-white/40 transition-all" />
+                    <div className="w-[2px] h-4 rounded-full bg-white/40 group-hover:w-[3px] group-hover:h-6 group-hover:bg-white/60 transition-all" />
                   )}
 
                   {/* Year label below active */}

@@ -44,8 +44,8 @@ export function HeroSection() {
           <div className="mb-8 h-px w-16 bg-gold" />
 
           {/* Eyebrow */}
-          <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-            The Colorado High School Football Award
+          <p className="text-gold text-base md:text-xl font-medium uppercase tracking-[0.2em] mb-4">
+            The Colorado
           </p>
 
           {/* Main Headline */}
@@ -61,15 +61,15 @@ export function HeroSection() {
 
           {/* Current Winner Spotlight */}
           {spotlight && (
-            <div className="mb-12 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
-              <div className="border-b border-gold/30 pb-4 mb-4">
+            <div className="mb-10 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
+              <div className="flex items-center gap-4 border-b border-gold/30 pb-4 mb-4">
+                <h2 className="font-display italic text-3xl font-medium text-white">
+                  {spotlight.name}
+                </h2>
                 <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
                   {spotlight.year} Winner
                 </p>
               </div>
-              <h2 className="font-display italic text-3xl font-medium text-white mb-3">
-                {spotlight.name}
-              </h2>
               <p className="text-white/80 mb-1">{spotlight.school}</p>
               {(spotlight.position || spotlight.college) && (
                 <p className="text-gold font-medium">
@@ -80,21 +80,21 @@ export function HeroSection() {
           )}
 
           {/* Trust Indicators */}
-          <div className="mb-12 flex flex-wrap gap-8 border-t border-white/20 pt-8">
+          <div className="mb-10 flex flex-wrap gap-10">
             <div>
-              <div className="font-display text-3xl font-medium text-gold">
+              <div className="font-display text-4xl font-medium text-gold">
                 {AWARD_INFO.yearsOfHistory}
               </div>
               <div className="mt-1 text-sm text-white/60">Years of History</div>
             </div>
             <div>
-              <div className="font-display text-3xl font-medium text-gold">
+              <div className="font-display text-4xl font-medium text-gold">
                 ${AWARD_INFO.scholarshipAmount.toLocaleString()}
               </div>
               <div className="mt-1 text-sm text-white/60">Scholarships</div>
             </div>
             <div>
-              <div className="font-display text-3xl font-medium text-gold">
+              <div className="font-display text-4xl font-medium text-gold">
                 501(c)(3)
               </div>
               <div className="mt-1 text-sm text-white/60">Non-Profit</div>
@@ -107,7 +107,7 @@ export function HeroSection() {
               href="/winners-timeline"
               className="inline-flex items-center justify-center px-8 py-3 bg-gold text-[#1a1a1a] font-medium hover:brightness-110 transition-all"
             >
-              View All Winners
+              Hall of Champions
             </Link>
             <Link
               href="/#nominate"

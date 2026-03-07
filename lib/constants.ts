@@ -49,7 +49,7 @@ export const WINNERS: readonly Winner[] = [
   { year: 2000, name: "Nick Brown", school: "Woodland Park", position: "WR/DB", college: "Princeton", storyUrl: "https://www.denverpost.com/preps/ci_28373991/nick-brown-named-2000-gold-helmet-award-winner" },
   { year: 1999, name: "Marcus Houston", school: "Thomas Jefferson", position: "RB", college: "Colorado", storyUrl: "https://www.denverpost.com/preps/ci_28374083/marcus-houston-named-1999-gold-helmet-award-winner" },
   { year: 1998, name: "Ryan Haywood", school: "Thomas Jefferson", position: "OL/DL", college: "Northern Colorado", storyUrl: "https://www.denverpost.com/preps/ci_28374743/ryan-haywood-named-1998-gold-helmet-award-winner" },
-  { year: 1997, name: "Jason Lucas", school: "Arvada West", position: "SS", college: "Brown", storyUrl: "https://www.denverpost.com/preps/ci_28407090/jason-lucas-named-1997-gold-helmet-award-winner" },
+  { year: 1997, name: "Jason \"The Tank\" Lucas", school: "Arvada West", position: "SS", college: "Brown", storyUrl: "https://www.denverpost.com/preps/ci_28407090/jason-lucas-named-1997-gold-helmet-award-winner" },
   { year: 1996, name: "Wayne Southam", school: "Overland", position: "OL/DL", college: "Air Force", storyUrl: "https://www.denverpost.com/ci_28375237/wayne-southam-named-1996-gold-helmet-award-winner" },
   { year: 1995, name: "Matt Rillos", school: "Golden", position: "WR", college: "Air Force", storyUrl: "https://www.denverpost.com/ci_28375505/matt-rillos-named-1995-gold-helmet-award-winner" },
   { year: 1994, name: "Shane Cook", school: "Bear Creek", position: "OL", college: "Colorado", storyUrl: "https://www.denverpost.com/ci_28375604/shane-cook-named-1994-gold-helmet-award-winner" },
@@ -108,9 +108,9 @@ export interface GivingLevel {
 }
 
 export const GIVING_LEVELS: readonly GivingLevel[] = [
-  { name: "Gold Helmet Legends", range: "$5,000\u2013$9,999", perks: "Website recognition + banquet recognition" },
-  { name: "Captain\u2019s Club", range: "$2,500\u2013$4,999", perks: "Website recognition" },
-  { name: "Gold Helmet Brotherhood", range: "$1,000\u2013$2,499", perks: "Website recognition (winner participation level)" },
+  { name: "Gold Helmet Legends", range: "$5,000\u2013$9,999", perks: "" },
+  { name: "Captain\u2019s Club", range: "$2,500\u2013$4,999", perks: "" },
+  { name: "Gold Helmet Brotherhood", range: "$1,000\u2013$2,499", perks: "" },
   { name: "Teammate Level", range: "Up to $999", perks: "" },
 ];
 
