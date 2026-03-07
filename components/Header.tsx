@@ -38,10 +38,10 @@ export function Header() {
             Donate
           </Link>
           <Link
-            href="/#apply"
+            href="/#nominate"
             className="px-6 py-2 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors"
           >
-            Apply
+            Nominate
           </Link>
         </nav>
 
@@ -86,11 +86,11 @@ export function Header() {
             Donate
           </Link>
           <Link
-            href="/#apply"
+            href="/#nominate"
             onClick={() => setMobileOpen(false)}
             className="block w-full text-center px-6 py-2 border border-white/30 text-white text-sm font-medium"
           >
-            Apply
+            Nominate
           </Link>
         </nav>
       )}

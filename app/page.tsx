@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/HeroSection";
 import { ActionBreak } from "@/components/ActionBreak";
+import { BoardSection } from "@/components/BoardSection";
 import { ApplicationForm } from "@/components/ApplicationForm";
 import { DonateSection } from "@/components/DonateSection";
 import { AWARD_INFO } from "@/lib/constants";
@@ -44,6 +45,7 @@ export default function Home() {
         matchup="Northfield vs. Skyline"
         photoCredit="The Denver Post / Tanner Hogan"
       />
+      <BoardSection />
       <ApplicationForm />
       <DonateSection />
     </main>
