@@ -110,10 +110,10 @@ export function HeroSection() {
               View All Winners
             </Link>
             <Link
-              href="/#apply"
+              href="/#nominate"
               className="inline-flex items-center justify-center px-8 py-3 border border-white/30 text-white font-medium hover:bg-white/10 transition-colors"
             >
-              Apply
+              Nominate
             </Link>
           </div>
         </div>

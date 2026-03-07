@@ -6,15 +6,14 @@ import { AWARD_INFO } from "@/lib/constants";
 const MAX_DONATION = 10_000;
 
 const DONATION_TIERS = [
-  { amount: 50, label: "Bronze" },
-  { amount: 100, label: "Silver" },
-  { amount: 250, label: "Gold" },
-  { amount: 500, label: "Platinum" },
-  { amount: 1000, label: "Title Sponsor" },
+  { amount: 500, label: "Teammate" },
+  { amount: 1000, label: "Brotherhood" },
+  { amount: 2500, label: "Captain's Club" },
+  { amount: 5000, label: "Legends" },
 ];
 
 export function DonateSection() {
-  const [selectedAmount, setSelectedAmount] = useState(100);
+  const [selectedAmount, setSelectedAmount] = useState(1000);
   const [customAmount, setCustomAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +87,7 @@ export function DonateSection() {
           <p className="text-sm font-medium text-white mb-4">
             Select a donation amount:
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {DONATION_TIERS.map((tier) => {
               const isActive =
                 selectedAmount === tier.amount && !customAmount;

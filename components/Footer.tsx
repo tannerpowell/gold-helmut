@@ -49,10 +49,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#apply"
+                  href="/#nominate"
                   className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
                 >
-                  Apply
+                  Nominate
                 </Link>
               </li>
             </ul>
@@ -71,7 +71,7 @@ export function Footer() {
                 {AWARD_INFO.contactEmail}
               </a>
             </p>
-            <p className="text-sm chrome-bar-text">Chair: {AWARD_INFO.chair}</p>
+            <p className="text-sm chrome-bar-text">Chairman: {AWARD_INFO.chairman}</p>
           </div>
         </div>
 
