@@ -5,13 +5,17 @@ import Image from "next/image";
 import { Winner, WINNERS_BY_YEAR } from "@/lib/constants";
 import { WinnerCard } from "@/components/WinnerCard";
 import { WinnerModal } from "@/components/WinnerModal";
-import { TimelineScrubber } from "@/components/TimelineScrubber";
+import { TimelineScrubber, scrubberRef } from "@/components/TimelineScrubber";
 import { SchoolLeaderboard } from "@/components/SchoolLeaderboard";
 
 const allYears = WINNERS_BY_YEAR.map((w) => w.year);
 
-// Header height + scrubber height = total sticky offset
-const STICKY_OFFSET = 140; // 65px header + ~75px scrubber
+// Measure actual sticky offset (header + scrubber) at scroll time
+function getStickyOffset() {
+  const header = document.querySelector("header");
+  const scrubberHeight = scrubberRef.current?.getBoundingClientRect().height ?? 75;
+  return (header?.offsetHeight ?? 65) + scrubberHeight + 16;
+}
 
 export default function WinnersTimeline() {
   const [activeYear, setActiveYear] = useState<number | null>(allYears[0]);
@@ -22,6 +26,11 @@ export default function WinnersTimeline() {
   const isScrollingTo = useRef(false);
   const scrollEndHandlerRef = useRef<(() => void) | null>(null);
   const scrollEndTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Scroll to top on mount so the page header/helmet is fully visible
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   // Track whether we're near the top or bottom to toggle the FAB direction
   useEffect(() => {
@@ -89,7 +98,7 @@ export default function WinnersTimeline() {
     isScrollingTo.current = true;
     setActiveYear(year);
 
-    const top = el.getBoundingClientRect().top + window.scrollY - STICKY_OFFSET;
+    const top = el.getBoundingClientRect().top + window.scrollY - getStickyOffset();
     window.scrollTo({ top, behavior: "smooth" });
 
     // Release scroll lock when smooth scroll finishes
@@ -126,7 +135,7 @@ export default function WinnersTimeline() {
   return (
     <div className="min-h-screen bg-background">
       {/* Page Header */}
-      <div className="py-6 md:py-8 px-6 chrome-bar">
+      <div className="pt-6 pb-3 md:pt-8 md:pb-4 px-6 chrome-bar">
         <div className="max-w-6xl mx-auto flex items-center gap-8">
           <Image
             src="/images/logo-256.png"
@@ -142,7 +151,7 @@ export default function WinnersTimeline() {
               Year by Year
             </p>
             <h1 className="font-display italic text-4xl md:text-5xl font-medium text-white mb-2">
-              Winners Timeline
+              Hall of Champions
             </h1>
             <p className="text-base chrome-bar-text max-w-2xl">
               Seventy-five years of award recipients, from 2025 back to 1951.
@@ -164,30 +173,19 @@ export default function WinnersTimeline() {
           {/* Timeline */}
           <div className="flex-1 max-w-4xl relative">
             {/* Gold vertical line */}
-            <div className="absolute left-5 md:left-[4.5rem] top-0 bottom-0 w-px bg-gold/20" />
+            <div className="absolute left-5 md:left-[8.5rem] top-0 bottom-0 w-px bg-gold/20" />
 
-            <div className="space-y-8 pl-12 md:pl-28">
-              {WINNERS_BY_YEAR.map((winner, i) => {
-                const isNewDecade =
-                  i === 0 ||
-                  Math.floor(winner.year / 10) !==
-                    Math.floor(WINNERS_BY_YEAR[i - 1].year / 10);
-
+            <div className="space-y-8 pl-12 md:pl-44">
+              {WINNERS_BY_YEAR.map((winner) => {
                 return (
                   <div key={winner.year} ref={setYearRef(winner.year)} data-year={winner.year} className="relative">
-                    {/* Timeline dot */}
-                    <div className="absolute -left-12 md:-left-28 top-4 md:top-6 w-3 h-3 rounded-full bg-gold border-2 border-background" />
-
-                    {/* Decade marker */}
-                    {isNewDecade && (
-                      <div className="mb-6">
-                        <span className="font-display text-2xl font-medium text-gold">
-                          {Math.floor(winner.year / 10) * 10}<span className="text-lg">s</span>
-                        </span>
-                      </div>
-                    )}
-
-                    <WinnerCard winner={winner} variant="timeline" onClick={() => setSelectedWinner(winner)} />
+                    {/* Card with year centered in left gutter */}
+                    <div className="relative">
+                      <span className="absolute top-1/2 -translate-y-1/2 font-sans font-semibold text-sm md:text-xl text-gold tracking-wide text-center w-12 md:w-32 -left-12 md:-left-44">
+                        {winner.year}
+                      </span>
+                      <WinnerCard winner={winner} variant="timeline" onClick={() => setSelectedWinner(winner)} />
+                    </div>
                   </div>
                 );
               })}

@@ -5,15 +5,10 @@ import { AWARD_INFO } from "@/lib/constants";
 
 const MAX_DONATION = 10_000;
 
-const DONATION_TIERS = [
-  { amount: 500, label: "Teammate" },
-  { amount: 1000, label: "Brotherhood" },
-  { amount: 2500, label: "Captain's Club" },
-  { amount: 5000, label: "Legends" },
-];
+const DONATION_TIERS = [50, 100, 250, 500, 1000];
 
 export function DonateSection() {
-  const [selectedAmount, setSelectedAmount] = useState(1000);
+  const [selectedAmount, setSelectedAmount] = useState(100);
   const [customAmount, setCustomAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,16 +82,16 @@ export function DonateSection() {
           <p className="text-sm font-medium text-white mb-4">
             Select a donation amount:
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            {DONATION_TIERS.map((tier) => {
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-6">
+            {DONATION_TIERS.map((amount) => {
               const isActive =
-                selectedAmount === tier.amount && !customAmount;
+                selectedAmount === amount && !customAmount;
               return (
                 <button
-                  key={tier.amount}
+                  key={amount}
                   type="button"
                   onClick={() => {
-                    setSelectedAmount(tier.amount);
+                    setSelectedAmount(amount);
                     setCustomAmount("");
                   }}
                   className={`p-4 border font-medium transition-all ${
@@ -105,8 +100,7 @@ export function DonateSection() {
                       : "bg-transparent text-white border-white/20 hover:border-gold/50"
                   }`}
                 >
-                  <div className="text-lg">${tier.amount}</div>
-                  <div className="text-xs opacity-70">{tier.label}</div>
+                  <div className="text-lg">${amount}</div>
                 </button>
               );
             })}
