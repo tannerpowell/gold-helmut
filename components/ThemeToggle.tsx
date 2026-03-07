@@ -21,7 +21,7 @@ export function ThemeToggle() {
       className="p-2 chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
       aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+      {resolvedTheme === "dark" ? <Moon size={18} /> : <Sun size={18} />}
     </button>
   );
 }
