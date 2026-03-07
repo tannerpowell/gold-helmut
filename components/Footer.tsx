@@ -57,15 +57,6 @@ function FooterContactForm() {
           >
             Send
           </button>
-          <p className="text-[11px] text-white/40 pt-1">
-            Or email directly:{" "}
-            <a
-              href={`mailto:${AWARD_INFO.contactEmail}`}
-              className="text-white/60 hover:text-gold transition-colors"
-            >
-              {AWARD_INFO.contactEmail}
-            </a>
-          </p>
         </form>
       )}
     </div>
