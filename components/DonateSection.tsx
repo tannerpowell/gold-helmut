@@ -94,10 +94,10 @@ export function DonateSection() {
                     setSelectedAmount(amount);
                     setCustomAmount("");
                   }}
-                  className={`p-4 border font-medium transition-all ${
+                  className={`p-4 border rounded font-medium transition-all ${
                     isActive
-                      ? "bg-gold text-[#1a1a1a] border-gold"
-                      : "bg-transparent text-white border-white/20 hover:border-gold/50"
+                      ? "bg-gold/20 text-white border-gold/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_2px_8px_rgba(184,134,11,0.2)]"
+                      : "bg-white/[0.03] text-white/80 border-white/10 hover:bg-white/[0.06] hover:border-white/20 hover:text-white"
                   }`}
                 >
                   <div className="text-lg">${amount}</div>
@@ -146,7 +146,7 @@ export function DonateSection() {
           type="button"
           onClick={handleDonate}
           disabled={finalAmount < 1 || isLoading}
-          className="w-full py-4 bg-gold text-[#1a1a1a] font-semibold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-4 rounded-lg bg-gradient-to-b from-[#cfb67a] via-[#b8a06a] to-[#8e7a4a] text-[#1a1a1a] font-semibold text-lg shadow-[inset_0_2px_0_rgba(255,255,255,0.35),inset_0_-2px_0_rgba(0,0,0,0.15),0_4px_0_#7a6a3e,0_6px_16px_rgba(160,130,70,0.35)] hover:shadow-[inset_0_2px_0_rgba(255,255,255,0.35),inset_0_-2px_0_rgba(0,0,0,0.15),0_2px_0_#7a6a3e,0_3px_8px_rgba(160,130,70,0.3)] hover:translate-y-[2px] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),0_0px_0_#7a6a3e] active:translate-y-[4px] transition-all duration-100 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading
             ? "Redirecting..."

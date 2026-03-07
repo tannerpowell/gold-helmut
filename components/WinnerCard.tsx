@@ -5,7 +5,7 @@ import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { getInitials, handleActivateKey } from "@/lib/utils";
 
-const DEFAULT_FOCAL_POINT = "50% 20%";
+const DEFAULT_FOCAL_POINT = "50% 10%";
 
 interface WinnerCardProps {
   winner: Winner;
@@ -38,7 +38,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
         tabIndex={onClick ? 0 : undefined}
         onKeyDown={handleActivateKey(onClick)}
       >
-        <div className="relative w-[8.5rem] h-[8.5rem] md:w-[10.75rem] md:h-[10.75rem] flex-shrink-0 rounded-full overflow-hidden border-[5px] border-[#fafafa] dark:border-[#fafafa] shadow-md bg-surface-elevated transition-transform duration-200 ease-in-out group-hover:scale-[1.04]">
+        <div className="relative w-[8.5rem] h-[8.5rem] md:w-[10.75rem] md:h-[10.75rem] flex-shrink-0 rounded-full overflow-hidden shadow-[0_0_0_5px_#fafafa,0_2px_8px_rgba(0,0,0,0.12)] bg-surface-elevated transition-transform duration-200 ease-in-out group-hover:scale-[1.04]">
           {image ? (
             <Image
               src={image.jpg}

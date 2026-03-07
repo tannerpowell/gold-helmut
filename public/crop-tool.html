@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circle Crop Tool</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; color: #1a1a1a; padding: 2rem 2rem 6rem; }
+
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .subtitle { color: #666; margin-bottom: 2rem; font-size: 0.875rem; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem; max-width: 860px;
+  }
+  @media (min-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); max-width: 1200px; } }
+
+  .card {
+    background: #fff; border-radius: 12px; padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s;
+    display: flex; gap: 1rem; align-items: center;
+  }
+  .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+  .card.saved { border-left: 3px solid #b8860b; }
+
+  .card-circle {
+    width: 96px; height: 96px; flex-shrink: 0;
+    border-radius: 50%; overflow: hidden; border: 3px solid #fafafa;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1); background: #e5e5e5;
+    position: relative;
+  }
+  .card-circle img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .card-info h3 { font-size: 0.9rem; margin-bottom: 0.15rem; }
+  .card-info .year { color: #b8860b; font-weight: 600; font-size: 0.8rem; }
+  .card-info .status { font-size: 0.7rem; color: #999; margin-top: 0.3rem; }
+  .card-info .status.done { color: #b8860b; font-weight: 500; }
+
+  /* Modal overlay */
+  .overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    z-index: 100; justify-content: center; align-items: center;
+  }
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: #fff; border-radius: 16px; padding: 1.75rem; width: 520px;
+    max-width: 95vw; max-height: 95vh; overflow-y: auto;
+  }
+  .modal-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+  .modal-top h2 { font-size: 1.15rem; }
+  .modal-top .year { color: #b8860b; font-weight: 600; }
+
+  .croppie-box { display: flex; justify-content: center; margin-bottom: 1rem; }
+  #croppie-el { width: 440px; height: 440px; }
+
+  .modal-btns { display: flex; justify-content: space-between; }
+  .modal-btns .group { display: flex; gap: 0.5rem; }
+
+  button {
+    padding: 0.5rem 0.9rem; border: 1px solid #ddd; border-radius: 8px;
+    background: #fff; cursor: pointer; font-size: 0.8rem; transition: all 0.12s;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+  }
+  button:hover { background: #f0f0f0; }
+  button.gold { background: #b8860b; color: #fff; border-color: #b8860b; }
+  button.gold:hover { background: #a0750a; }
+  button.dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  button.dark:hover { background: #333; }
+  button:disabled { opacity: 0.35; pointer-events: none; }
+  .kbd { font-size: 0.65rem; opacity: 0.6; }
+
+  .saving { pointer-events: none; opacity: 0.6; }
+
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    background: #1a1a1a; color: #fff; padding: 0.65rem 1.25rem; border-radius: 8px;
+    font-size: 0.825rem; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 200;
+  }
+  .toast.show { opacity: 1; }
+  .toast.error { background: #c0392b; }
+
+  .cr-slider-wrap { margin-bottom: 0 !important; }
+</style>
+</head>
+<body>
+
+<h1>Circle Crop Tool</h1>
+<p class="subtitle">Click a card, pan/zoom to frame the face, press S to save. Images regenerate instantly.</p>
+
+<div class="grid" id="grid"></div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-top">
+      <h2 id="m-name"></h2>
+      <span class="year" id="m-year"></span>
+    </div>
+    <div class="croppie-box"><div id="croppie-el"></div></div>
+    <div class="modal-btns">
+      <div class="group">
+        <button onclick="nav(-1)" id="btn-prev">&larr; <span class="kbd">A</span></button>
+        <button onclick="nav(1)" id="btn-next">&rarr; <span class="kbd">D</span></button>
+      </div>
+      <div class="group">
+        <button onclick="resetCrop()">Reset</button>
+        <button class="gold" onclick="saveCrop()" id="btn-save">Save <span class="kbd">S</span></button>
+        <button onclick="closeModal()">Close <span class="kbd">Esc</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+<script>
+const W = [
+  { year: 2025, name: "Elian Oliva", slug: "2025-elian-oliva", orig: "Elian-Oliva-thumb-original.jpeg" },
+  { year: 2024, name: "Marcus Mozer", slug: "2024-marcus-mozer", orig: "TDP-L-ALL-COLORADOA03_2732xxx_9fb4ca.webp" },
+  { year: 2023, name: "Josh Snyder", slug: "2023-josh-snyder", orig: "TDP-L-ALL-COLORADO6231.webp" },
+  { year: 2022, name: "Brayden Dorman", slug: "2022-brayden-dorman", orig: "TDP-L-ALL-COLORADO_AAO9042xx.webp" },
+  { year: 2021, name: "Gavin Sawchuk", slug: "2021-gavin-sawchuk", orig: "TDP-L-GOLD-HELMET-SAWCHUK_JAC1663x.webp" },
+  { year: 2020, name: "Q Jones Jr.", slug: "2020-q-jones-jr", orig: "TDP-L-GOLD_HELMET_EL039x.webp" },
+  { year: 2019, name: "Andrew Gentry", slug: "2019-andrew-gentry", orig: "TDP-L-GOLD-HELMET-AAO-_7AO9734xxx.webp" },
+  { year: 2018, name: "Barrett Miller", slug: "2018-barrett-miller", orig: "gold-helmet-award-db-122018-0046_A.webp" },
+  { year: 2017, name: "Max Borghi", slug: "2017-max-borghi", orig: "Borghi_Gold_Helmet_rj_101-0687.webp" },
+  { year: 2016, name: "Dylan McCaffrey", slug: "2016-dylan-mccaffrey", orig: "ALL_COLORADO_FOOTBALL_GOLD_HELMET_12152016_AC_AC39035x.webp" },
+  { year: 2015, name: "Carlo Kemp", slug: "2015-carlo-kemp", orig: "SPXXGOLDHELMET____CHM6685.webp" },
+  { year: 2014, name: "Mike Morean", slug: "2014-mike-morean", orig: "SP21PRPGOLDHELMET783.webp" },
+  { year: 2013, name: "Christian McCaffrey", slug: "2013-christian-mccaffrey", orig: "SP13PRPGOLDLUNCH_CM29858.webp" },
+  { year: 2012, name: "Xavier Lewis", slug: "2012-xavier-lewis", orig: "SP23PRPGOLD___CM24246.webp" },
+  { year: 2011, name: "Sean Rubalcaba", slug: "2011-sean-rubalcaba", orig: "SP25GoldHelmetCM2_2837.webp" },
+  { year: 2010, name: "Ian Imamura", slug: "2010-ian-imamura", orig: "9423985-Ian-Imamura-2010.webp" },
+  { year: 2009, name: "Matt Brown", slug: "2009-matt-brown", orig: "7419675-Matt-Brown-2009.webp" },
+  { year: 2008, name: "Bryan Peters", slug: "2008-bryan-peters", orig: "5864173.webp" },
+  { year: 2007, name: "Tyler Jackson", slug: "2007-tyler-jackson", orig: "4321516.webp" },
+  { year: 1999, name: "Marcus Houston", slug: "1999-marcus-houston", orig: "MARCUS-HOUSTON.webp" },
+];
+
+// Saved Croppie points per year (persisted in localStorage for re-opening)
+const STORE = "goldhelmut-crops";
+let saved = JSON.parse(localStorage.getItem(STORE) || "{}");
+
+let croppie = null;
+let idx = -1;
+
+// ── Grid ──
+
+function renderGrid() {
+  const g = document.getElementById("grid");
+  g.innerHTML = "";
+  W.forEach((w, i) => {
+    const s = saved[w.year];
+    const card = document.createElement("div");
+    card.className = "card" + (s ? " saved" : "");
+    card.id = "c-" + w.year;
+    card.onclick = () => open(i);
+    // Use portrait for preview; add cache-bust if we've saved a crop
+    const bust = s ? `?v=${Date.now()}` : "";
+    card.innerHTML = `
+      <div class="card-circle">
+        <img src="/images/optimized/${w.slug}-portrait.jpg${bust}" style="object-position:50% 15%">
+      </div>
+      <div class="card-info">
+        <h3>${w.name}</h3>
+        <span class="year">${w.year}</span>
+        <div class="status ${s ? 'done' : ''}">${s ? 'Cropped' : 'Default'}</div>
+      </div>`;
+    g.appendChild(card);
+  });
+}
+
+function refreshCard(year) {
+  const w = W.find(x => x.year === year);
+  const card = document.getElementById("c-" + year);
+  if (!card || !w) return;
+  const s = saved[year];
+  card.className = "card" + (s ? " saved" : "");
+  card.querySelector(".status").className = "status " + (s ? "done" : "");
+  card.querySelector(".status").textContent = s ? "Cropped" : "Default";
+  const img = card.querySelector("img");
+  img.src = `/images/optimized/${w.slug}-portrait.jpg?v=${Date.now()}`;
+}
+
+// ── Modal ──
+
+function open(i) {
+  idx = i;
+  const w = W[i];
+  document.getElementById("m-name").textContent = w.name;
+  document.getElementById("m-year").textContent = w.year;
+  document.getElementById("overlay").classList.add("open");
+  document.getElementById("btn-prev").disabled = i === 0;
+  document.getElementById("btn-next").disabled = i === W.length - 1;
+
+  if (croppie) { croppie.destroy(); croppie = null; }
+
+  croppie = new Croppie(document.getElementById("croppie-el"), {
+    viewport: { width: 270, height: 270, type: "circle" },
+    boundary: { width: 440, height: 440 },
+    showZoomer: true, enableResize: false, mouseWheelZoom: true,
+  });
+
+  const opts = { url: `/images/originals/${w.orig}` };
+  const s = saved[w.year];
+  if (s) { opts.points = s.points; opts.zoom = s.zoom; }
+  croppie.bind(opts);
+}
+
+function closeModal() {
+  document.getElementById("overlay").classList.remove("open");
+  if (croppie) { croppie.destroy(); croppie = null; }
+  idx = -1;
+}
+
+function nav(dir) {
+  const next = idx + dir;
+  if (next < 0 || next >= W.length) return;
+  open(next);
+}
+
+function resetCrop() {
+  if (!croppie || idx < 0) return;
+  const w = W[idx];
+  delete saved[w.year];
+  localStorage.setItem(STORE, JSON.stringify(saved));
+  croppie.bind({ url: `/images/originals/${w.orig}` });
+  refreshCard(w.year);
+  toast("Reset " + w.name);
+}
+
+async function saveCrop() {
+  if (!croppie || idx < 0) return;
+  const w = W[idx];
+  const data = croppie.get();
+  const btn = document.getElementById("btn-save");
+
+  btn.textContent = "Saving...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch("/api/crop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        year: w.year,
+        slug: w.slug,
+        orig: w.orig,
+        points: data.points.map(Number),
+      }),
+    });
+
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || "Server error");
+
+    // Persist Croppie state so reopening restores the same view
+    saved[w.year] = { points: data.points, zoom: data.zoom };
+    localStorage.setItem(STORE, JSON.stringify(saved));
+
+    refreshCard(w.year);
+    toast("Saved " + w.name);
+  } catch (err) {
+    toast("Error: " + err.message, true);
+  } finally {
+    btn.innerHTML = 'Save <span class="kbd">S</span>';
+    btn.disabled = false;
+  }
+}
+
+// ── Keys ──
+
+document.addEventListener("keydown", e => {
+  if (idx < 0) return;
+  if (e.key === "Escape") closeModal();
+  else if (e.key === "s" || e.key === "S") { e.preventDefault(); saveCrop(); }
+  else if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft") nav(-1);
+  else if (e.key === "d" || e.key === "D" || e.key === "ArrowRight") nav(1);
+});
+
+// Click outside modal to close
+document.getElementById("overlay").addEventListener("click", e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// ── Toast ──
+
+function toast(msg, err) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast show" + (err ? " error" : "");
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.className = "toast", 1800);
+}
+
+// ── Init ──
+renderGrid();
+</script>
+</body>
+</html>
