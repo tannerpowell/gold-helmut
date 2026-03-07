@@ -134,7 +134,18 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
     };
     requestAnimationFrame(check);
     el.addEventListener("scroll", check, { passive: true });
-    return () => el.removeEventListener("scroll", check);
+
+    const resizeObserver = new ResizeObserver(check);
+    resizeObserver.observe(el);
+
+    const images = Array.from(el.querySelectorAll("img"));
+    images.forEach((img) => img.addEventListener("load", check));
+
+    return () => {
+      el.removeEventListener("scroll", check);
+      resizeObserver.disconnect();
+      images.forEach((img) => img.removeEventListener("load", check));
+    };
   }, [winner]);
 
   if (!winner) return null;

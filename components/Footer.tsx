@@ -15,11 +15,11 @@ function FooterContactForm() {
     if (!email.trim() || !message.trim()) return;
     const subject = encodeURIComponent("Gold Helmet Award Inquiry");
     const body = encodeURIComponent(`From: ${email}\n\n${message}`);
-    window.open(
+    const result = window.open(
       `mailto:${AWARD_INFO.contactEmail}?subject=${subject}&body=${body}`,
       "_self"
     );
-    setSent(true);
+    if (result) setSent(true);
   };
 
   return (
@@ -33,7 +33,9 @@ function FooterContactForm() {
         <p className="text-sm text-gold">Your email client should have opened with the message.</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-2">
+          <label htmlFor="contact-email" className="sr-only">Your email address</label>
           <input
+            id="contact-email"
             type="email"
             required
             placeholder="Your email"
@@ -41,7 +43,9 @@ function FooterContactForm() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-3 py-2 bg-white/5 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-gold/50 transition-colors"
           />
+          <label htmlFor="contact-message" className="sr-only">Message</label>
           <textarea
+            id="contact-message"
             required
             placeholder="Message"
             value={message}
@@ -55,6 +59,15 @@ function FooterContactForm() {
           >
             Send
           </button>
+          <p className="text-[11px] text-white/40 pt-1">
+            Or email directly:{" "}
+            <a
+              href={`mailto:${AWARD_INFO.contactEmail}`}
+              className="text-white/60 hover:text-gold transition-colors"
+            >
+              {AWARD_INFO.contactEmail}
+            </a>
+          </p>
         </form>
       )}
     </div>

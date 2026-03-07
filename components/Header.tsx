@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -17,6 +17,14 @@ function navLinkClass(active: boolean) {
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    setHash(window.location.hash);
+    const onHashChange = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 chrome-bar border-b border-white/10">
@@ -36,14 +44,14 @@ export function Header() {
           <Link href="/winners-timeline" className={navLinkClass(pathname === "/winners-timeline")}>
             Hall of Champions
           </Link>
-          <Link href="/#board" className={navLinkClass(false)}>
+          <Link href="/#board" className={navLinkClass(pathname === "/" && hash === "#board")}>
             Leadership
           </Link>
-          <Link href="/#nominate" className={navLinkClass(false)}>
+          <Link href="/#nominate" className={navLinkClass(pathname === "/" && hash === "#nominate")}>
             Nominate
           </Link>
           <div className="h-4 w-px bg-white/20" />
-          <Link href="/#donate" className={navLinkClass(false)}>
+          <Link href="/#donate" className={navLinkClass(pathname === "/" && hash === "#donate")}>
             Donate
           </Link>
         </nav>

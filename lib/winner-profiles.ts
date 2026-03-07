@@ -122,10 +122,6 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
     highlights: [
       { title: "Academics", value: "3.89", description: "GPA, full-ride academic scholarship" },
     ],
-    quote: {
-      text: "I\u2019ve been in Colorado for 13 years, and that\u2019s the best back I\u2019ve coached against.",
-      attribution: "Ponderosa Coach Jaron Cohen",
-    },
     coachQuote: {
       text: "This is a kid for whom football was taken away for a year and a half, and in some sense, it was almost taken away from him forever.",
       attribution: "Coach Jake Novotny",

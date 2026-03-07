@@ -8,6 +8,8 @@ interface TimelineScrubberProps {
   onYearClick: (year: number) => void;
 }
 
+export const scrubberRef = { current: null as HTMLDivElement | null };
+
 export function TimelineScrubber({
   years,
   activeYear,
@@ -15,10 +17,32 @@ export function TimelineScrubber({
 }: TimelineScrubberProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
   const draggedRef = useRef(false);
   const DRAG_THRESHOLD = 5;
+
+  // Track scroll edges
+  const updateScrollEdges = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 2);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 2);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollEdges();
+    el.addEventListener("scroll", updateScrollEdges, { passive: true });
+    window.addEventListener("resize", updateScrollEdges);
+    return () => {
+      el.removeEventListener("scroll", updateScrollEdges);
+      window.removeEventListener("resize", updateScrollEdges);
+    };
+  }, [updateScrollEdges]);
 
   // Scroll the active year notch into view
   useEffect(() => {
@@ -117,8 +141,20 @@ export function TimelineScrubber({
   );
 
   return (
-    <div className="sticky z-40 chrome-bar border-b border-white/10" style={{ top: "var(--header-h, 65px)" }}>
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <div ref={(el) => { scrubberRef.current = el; }} className="sticky z-40 chrome-bar border-b border-white/10" style={{ top: "var(--header-h, 65px)" }}>
+      <div className="relative max-w-6xl mx-auto px-6 lg:px-8">
+        {/* Edge fade: left */}
+        <div
+          className={`absolute left-0 top-0 bottom-0 z-10 pointer-events-none transition-opacity duration-300 ${canScrollLeft ? "opacity-100" : "opacity-0"}`}
+        >
+          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#1a1a1a] to-transparent" />
+        </div>
+
+        {/* Edge fade: right (always visible for depth) */}
+        <div className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none">
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#1a1a1a] via-[#1a1a1a]/70 to-transparent" />
+        </div>
+
         <div
           ref={scrollRef}
           role="group"

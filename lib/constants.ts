@@ -104,14 +104,14 @@ Object.freeze(WINNERS);
 export interface GivingLevel {
   name: string;
   range: string;
-  perks: string;
+  perks?: string | null;
 }
 
 export const GIVING_LEVELS: readonly GivingLevel[] = [
-  { name: "Gold Helmet Legends", range: "$5,000\u2013$9,999", perks: "" },
-  { name: "Captain\u2019s Club", range: "$2,500\u2013$4,999", perks: "" },
-  { name: "Gold Helmet Brotherhood", range: "$1,000\u2013$2,499", perks: "" },
-  { name: "Teammate Level", range: "Up to $999", perks: "" },
+  { name: "Gold Helmet Legends", range: "$5,000\u2013$9,999" },
+  { name: "Captain\u2019s Club", range: "$2,500\u2013$4,999" },
+  { name: "Gold Helmet Brotherhood", range: "$1,000\u2013$2,499" },
+  { name: "Teammate Level", range: "Up to $999" },
 ];
 
 // WINNERS is already ordered most recent first (2025 → 1951)

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Winner, WINNERS_BY_YEAR } from "@/lib/constants";
 import { WinnerCard } from "@/components/WinnerCard";
 import { WinnerModal } from "@/components/WinnerModal";
-import { TimelineScrubber } from "@/components/TimelineScrubber";
+import { TimelineScrubber, scrubberRef } from "@/components/TimelineScrubber";
 import { SchoolLeaderboard } from "@/components/SchoolLeaderboard";
 
 const allYears = WINNERS_BY_YEAR.map((w) => w.year);
@@ -13,10 +13,8 @@ const allYears = WINNERS_BY_YEAR.map((w) => w.year);
 // Measure actual sticky offset (header + scrubber) at scroll time
 function getStickyOffset() {
   const header = document.querySelector("header");
-  const scrubber = header?.nextElementSibling?.classList.contains("sticky")
-    ? header.nextElementSibling
-    : document.querySelector(".sticky.z-40");
-  return (header?.offsetHeight ?? 65) + (scrubber?.getBoundingClientRect().height ?? 75) + 16;
+  const scrubberHeight = scrubberRef.current?.getBoundingClientRect().height ?? 75;
+  return (header?.offsetHeight ?? 65) + scrubberHeight + 16;
 }
 
 export default function WinnersTimeline() {
@@ -28,6 +26,11 @@ export default function WinnersTimeline() {
   const isScrollingTo = useRef(false);
   const scrollEndHandlerRef = useRef<(() => void) | null>(null);
   const scrollEndTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Scroll to top on mount so the page header/helmet is fully visible
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   // Track whether we're near the top or bottom to toggle the FAB direction
   useEffect(() => {
