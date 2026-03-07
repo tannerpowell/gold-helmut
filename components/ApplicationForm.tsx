@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { AWARD_INFO } from "@/lib/constants";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[+]?[\d\s()-]{7,20}$/;
+const CURRENT_YEAR = new Date().getFullYear();
+const MIN_GRAD_YEAR = CURRENT_YEAR;
+const MAX_GRAD_YEAR = CURRENT_YEAR + 6;
+
 export function ApplicationForm() {
   const [formData, setFormData] = useState({
     athleteName: "",
@@ -17,6 +23,7 @@ export function ApplicationForm() {
     nominatorContact: "",
   });
   const [error, setError] = useState("");
+  const [contactError, setContactError] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
@@ -24,11 +31,13 @@ export function ApplicationForm() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "nominatorContact") setContactError("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setContactError("");
 
     const required = [
       "athleteName",
@@ -42,6 +51,24 @@ export function ApplicationForm() {
     ] as const;
     if (required.some((k) => !formData[k].trim())) {
       setError("Please fill in all required fields.");
+      return;
+    }
+
+    const contact = formData.nominatorContact.trim();
+    if (!EMAIL_RE.test(contact) && !PHONE_RE.test(contact)) {
+      setContactError("Please enter a valid email address or phone number.");
+      return;
+    }
+
+    const yearNum = parseInt(formData.year, 10);
+    if (isNaN(yearNum) || yearNum < MIN_GRAD_YEAR || yearNum > MAX_GRAD_YEAR) {
+      setError(`Graduation year must be between ${MIN_GRAD_YEAR} and ${MAX_GRAD_YEAR}.`);
+      return;
+    }
+
+    const gpaNum = parseFloat(formData.gpa);
+    if (isNaN(gpaNum) || gpaNum < 0 || gpaNum > 6) {
+      setError("GPA must be between 0 and 6.0.");
       return;
     }
 
@@ -73,6 +100,8 @@ export function ApplicationForm() {
 
   const inputClasses =
     "w-full px-4 py-3 bg-surface border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors";
+  const inputErrorClasses =
+    "w-full px-4 py-3 bg-surface border border-red-400 dark:border-red-600 text-foreground focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400 transition-colors";
 
   return (
     <section id="nominate" className="py-24 lg:py-32 px-6 bg-background">
@@ -156,9 +185,14 @@ export function ApplicationForm() {
                   required
                   value={formData.nominatorContact}
                   onChange={handleChange}
-                  className={inputClasses}
+                  className={contactError ? inputErrorClasses : inputClasses}
                   placeholder="coach@school.edu"
                 />
+                {contactError && (
+                  <p className="text-red-600 dark:text-red-400 text-sm mt-1">
+                    {contactError}
+                  </p>
+                )}
               </div>
             </div>
           </fieldset>
@@ -238,10 +272,12 @@ export function ApplicationForm() {
                   type="number"
                   name="year"
                   required
+                  min={MIN_GRAD_YEAR}
+                  max={MAX_GRAD_YEAR}
                   value={formData.year}
                   onChange={handleChange}
                   className={inputClasses}
-                  placeholder="2026"
+                  placeholder={String(CURRENT_YEAR + 1)}
                 />
               </div>
               <div>
@@ -253,9 +289,12 @@ export function ApplicationForm() {
                 </label>
                 <input
                   id="gpa"
-                  type="text"
+                  type="number"
                   name="gpa"
                   required
+                  min="0"
+                  max="6"
+                  step="0.01"
                   value={formData.gpa}
                   onChange={handleChange}
                   className={inputClasses}

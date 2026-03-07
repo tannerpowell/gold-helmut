@@ -1,25 +1,4 @@
-const GIVING_LEVELS = [
-  {
-    name: "Gold Helmet Legends",
-    range: "$5,000\u2013$9,999",
-    perks: "Website recognition + banquet recognition",
-  },
-  {
-    name: "Captain\u2019s Club",
-    range: "$2,500\u2013$4,999",
-    perks: "Website recognition",
-  },
-  {
-    name: "Gold Helmet Brotherhood",
-    range: "$1,000\u2013$2,499",
-    perks: "Website recognition (winner participation level)",
-  },
-  {
-    name: "Teammate Level",
-    range: "Up to $999",
-    perks: "",
-  },
-];
+import { GIVING_LEVELS } from "@/lib/constants";
 
 export function BoardSection() {
   return (
