@@ -1,5 +1,5 @@
 export async function GET() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://goldhelmutaward.com";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://goldhelmetaward.com";
   const formUrl = `${siteUrl}/profile-submission`;
 
   const html = `<!DOCTYPE html>
