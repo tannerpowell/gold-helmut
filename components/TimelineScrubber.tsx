@@ -8,6 +8,10 @@ interface TimelineScrubberProps {
   onYearClick: (year: number) => void;
 }
 
+// Singleton ref to the TimelineScrubber root element.
+// Read imperatively by getStickyOffset() in app/winners-timeline/page.tsx.
+// Only one TimelineScrubber instance may be mounted at a time — a second
+// instance would overwrite this ref and break the offset calculation.
 export const scrubberRef = { current: null as HTMLDivElement | null };
 
 export function TimelineScrubber({

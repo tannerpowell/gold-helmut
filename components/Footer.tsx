@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AWARD_INFO } from "@/lib/constants";
+import { AWARD_INFO, ATTRIBUTION_EMAIL } from "@/lib/constants";
 
 function FooterContactForm() {
   const [email, setEmail] = useState("");
@@ -15,11 +15,9 @@ function FooterContactForm() {
     if (!email.trim() || !message.trim()) return;
     const subject = encodeURIComponent("Gold Helmet Award Inquiry");
     const body = encodeURIComponent(`From: ${email}\n\n${message}`);
-    const result = window.open(
-      `mailto:${AWARD_INFO.contactEmail}?subject=${subject}&body=${body}`,
-      "_self"
-    );
-    if (result) setSent(true);
+    const mailtoUrl = `mailto:${AWARD_INFO.contactEmail}?subject=${subject}&body=${body}`;
+    window.location.href = mailtoUrl;
+    setSent(true);
   };
 
   return (
@@ -143,7 +141,7 @@ export function Footer() {
         <p className="text-center text-xs text-white/30 mt-2">
           Website by{" "}
           <a
-            href="mailto:thetannerpowell@gmail.com?subject=Website%20inquiry%20%E2%80%93%20Gold%20Helmet%20Award%20reference"
+            href={`mailto:${ATTRIBUTION_EMAIL}?subject=Website%20inquiry%20%E2%80%93%20Gold%20Helmet%20Award%20reference`}
             className="hover:text-[hsl(var(--gold))] transition-colors"
           >
             Tanner Powell

@@ -8,6 +8,8 @@ export const AWARD_INFO = Object.freeze({
   chairman: "Matt Schubert",
 });
 
+export const ATTRIBUTION_EMAIL = "thetannerpowell@gmail.com";
+
 export interface Winner {
   year: number;
   name: string;

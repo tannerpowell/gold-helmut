@@ -20,10 +20,15 @@ export function Header() {
   const [hash, setHash] = useState("");
 
   useEffect(() => {
-    setHash(window.location.hash);
-    const onHashChange = () => setHash(window.location.hash);
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    const updateHash = () => setHash(window.location.hash);
+    updateHash();
+    // hashchange covers anchor clicks; popstate covers browser back/forward
+    window.addEventListener("hashchange", updateHash);
+    window.addEventListener("popstate", updateHash);
+    return () => {
+      window.removeEventListener("hashchange", updateHash);
+      window.removeEventListener("popstate", updateHash);
+    };
   }, []);
 
   return (
@@ -44,14 +49,14 @@ export function Header() {
           <Link href="/winners-timeline" className={navLinkClass(pathname === "/winners-timeline")}>
             Hall of Champions
           </Link>
-          <Link href="/#board" className={navLinkClass(pathname === "/" && hash === "#board")}>
+          <Link href="/#board" className={navLinkClass(pathname === "/" && hash === "#board")} onClick={() => setHash("#board")}>
             Leadership
           </Link>
-          <Link href="/#nominate" className={navLinkClass(pathname === "/" && hash === "#nominate")}>
+          <Link href="/#nominate" className={navLinkClass(pathname === "/" && hash === "#nominate")} onClick={() => setHash("#nominate")}>
             Nominate
           </Link>
           <div className="h-4 w-px bg-white/20" />
-          <Link href="/#donate" className={navLinkClass(pathname === "/" && hash === "#donate")}>
+          <Link href="/#donate" className={navLinkClass(pathname === "/" && hash === "#donate")} onClick={() => setHash("#donate")}>
             Donate
           </Link>
         </nav>
@@ -77,29 +82,29 @@ export function Header() {
           <Link
             href="/winners-timeline"
             onClick={() => setMobileOpen(false)}
-            className="block text-xs font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
+            className={`block ${navLinkClass(pathname === "/winners-timeline")}`}
           >
             Hall of Champions
           </Link>
           <Link
             href="/#board"
-            onClick={() => setMobileOpen(false)}
-            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
+            onClick={() => { setHash("#board"); setMobileOpen(false); }}
+            className={`block ${navLinkClass(pathname === "/" && hash === "#board")}`}
           >
             Leadership
           </Link>
           <Link
             href="/#nominate"
-            onClick={() => setMobileOpen(false)}
-            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
+            onClick={() => { setHash("#nominate"); setMobileOpen(false); }}
+            className={`block ${navLinkClass(pathname === "/" && hash === "#nominate")}`}
           >
             Nominate
           </Link>
           <div className="h-px w-8 bg-white/10" />
           <Link
             href="/#donate"
-            onClick={() => setMobileOpen(false)}
-            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300"
+            onClick={() => { setHash("#donate"); setMobileOpen(false); }}
+            className={`block ${navLinkClass(pathname === "/" && hash === "#donate")}`}
           >
             Donate
           </Link>
