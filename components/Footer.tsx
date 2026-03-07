@@ -123,6 +123,14 @@ export function Footer() {
                   Nominate
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/profile-submission"
+                  className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
+                >
+                  Winner Profiles
+                </Link>
+              </li>
             </ul>
           </div>
 
