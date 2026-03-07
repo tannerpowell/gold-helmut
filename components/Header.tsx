@@ -46,7 +46,7 @@ export function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 pr-10">
-          <Link href="/winners-timeline" className={navLinkClass(pathname === "/winners-timeline")}>
+          <Link href="/hall-of-champions" className={navLinkClass(pathname === "/hall-of-champions")}>
             Hall of Champions
           </Link>
           <Link href="/#board" className={navLinkClass(pathname === "/" && hash === "#board")} onClick={() => setHash("#board")}>
@@ -80,9 +80,9 @@ export function Header() {
       {mobileOpen && (
         <nav id="mobile-navigation" className="md:hidden chrome-bar border-t border-white/10 px-6 py-4 space-y-3">
           <Link
-            href="/winners-timeline"
+            href="/hall-of-champions"
             onClick={() => setMobileOpen(false)}
-            className={`block ${navLinkClass(pathname === "/winners-timeline")}`}
+            className={`block ${navLinkClass(pathname === "/hall-of-champions")}`}
           >
             Hall of Champions
           </Link>

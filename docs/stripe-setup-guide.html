@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Setup Guide — Gold Helmet Award</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --background: #09090b;
+      --foreground: #fafafa;
+      --card: #0a0a0c;
+      --card-foreground: #fafafa;
+      --muted: #27272a;
+      --muted-foreground: #a1a1aa;
+      --border: #27272a;
+      --ring: #d4af37;
+      --gold: #d4af37;
+      --gold-muted: rgba(212, 175, 55, 0.15);
+      --destructive: #ef4444;
+      --success: #22c55e;
+      --radius: 8px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ─────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      position: sticky;
+      top: 0;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 50;
+    }
+    header .inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header .brand {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    header .badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--gold-muted);
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Main ───────────────────────────────── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    /* ── Hero ───────────────────────────────── */
+    .hero { margin-bottom: 56px; }
+    .hero .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .hero .subtitle {
+      font-size: 16px;
+      color: var(--muted-foreground);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    /* ── Progress / TOC ────────────────────── */
+    .toc {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+    .toc a {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      color: var(--muted-foreground);
+      text-decoration: none;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .toc a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-muted);
+    }
+    .toc a .num {
+      color: var(--gold);
+      margin-right: 4px;
+      font-weight: 600;
+    }
+
+    /* ── Step sections ─────────────────────── */
+    .step {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gold-muted);
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .step p, .step li {
+      font-size: 15px;
+      color: var(--muted-foreground);
+      line-height: 1.75;
+    }
+    .step p { margin-bottom: 12px; }
+    .step a {
+      color: var(--gold);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: opacity 0.15s;
+    }
+    .step a:hover { opacity: 0.8; }
+
+    /* ── Card ───────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    .card.gold-border { border-color: rgba(212, 175, 55, 0.3); }
+    .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    /* ── Code blocks ───────────────────────── */
+    pre {
+      background: #0c0c0e;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 12px 0;
+      position: relative;
+    }
+    code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: #e4e4e7;
+    }
+    .code-filename {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      padding: 6px 12px;
+      background: var(--muted);
+      border-radius: 0 var(--radius) 0 var(--radius);
+    }
+    .code-comment { color: #6b7280; }
+    .code-key { color: #a78bfa; }
+    .code-value { color: #86efac; }
+    .code-placeholder { color: var(--gold); font-weight: 600; }
+
+    /* inline code */
+    p code, li code {
+      font-size: 13px;
+      background: var(--muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── Ordered list (instructions) ───────── */
+    ol {
+      list-style: none;
+      counter-reset: steps;
+      padding: 0;
+    }
+    ol > li {
+      counter-increment: steps;
+      padding: 8px 0 8px 36px;
+      position: relative;
+    }
+    ol > li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--muted);
+      color: var(--foreground);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Key-value table ────────────────────── */
+    .kv-table { width: 100%; margin: 12px 0; }
+    .kv-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      vertical-align: top;
+    }
+    .kv-table tr:last-child td { border-bottom: none; }
+    .kv-table .kv-key {
+      color: var(--muted-foreground);
+      font-weight: 500;
+      width: 200px;
+      padding-right: 16px;
+    }
+    .kv-table .kv-val {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      word-break: break-all;
+    }
+
+    /* ── Alert / callout ───────────────────── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin: 16px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .callout p { margin-bottom: 0; }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout.info {
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+    .callout.warning {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+    }
+    .callout.success {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: #86efac;
+    }
+    .callout.danger {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+    .callout strong { color: inherit; }
+
+    /* ── Separator ──────────────────────────── */
+    .sep {
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0;
+    }
+
+    /* ── Checklist ──────────────────────────── */
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      padding: 10px 0 10px 32px;
+      position: relative;
+      font-size: 14px;
+      color: var(--muted-foreground);
+      border-bottom: 1px solid var(--border);
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+    }
+
+    /* ── Screenshot hint ───────────────────── */
+    .screenshot-hint {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--muted-foreground);
+      font-size: 13px;
+      margin: 16px 0;
+    }
+    .screenshot-hint .icon { font-size: 24px; margin-bottom: 8px; }
+
+    /* ── Footer ─────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <span class="brand">Gold Helmet Award</span>
+    <span class="badge">Stripe Setup Guide</span>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="divider"></div>
+    <h1>Setting Up Stripe for Donations</h1>
+    <p class="subtitle">
+      This guide walks you through creating a Stripe account, grabbing your API keys,
+      and testing a donation. Takes about 15 minutes. No coding required.
+    </p>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <a href="#step-1"><span class="num">1</span> Create Account</a>
+    <a href="#step-2"><span class="num">2</span> Get Test Keys</a>
+    <a href="#step-3"><span class="num">3</span> Share Keys</a>
+    <a href="#step-4"><span class="num">4</span> Test a Donation</a>
+    <a href="#step-5"><span class="num">5</span> Webhook (optional)</a>
+    <a href="#step-6"><span class="num">6</span> Go Live</a>
+  </nav>
+
+  <!-- ── STEP 1 ──────────────────────────── -->
+  <section class="step" id="step-1">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <h2>Create a Stripe Account</h2>
+    </div>
+
+    <ol>
+      <li>
+        Go to <a href="https://dashboard.stripe.com/register" target="_blank">dashboard.stripe.com/register</a>
+      </li>
+      <li>
+        Enter your email, full name, and a password. Click <strong>Create account</strong>.
+      </li>
+      <li>
+        Stripe will send a verification email. Click the link to confirm.
+      </li>
+      <li>
+        You'll land on the Stripe Dashboard. You're in <strong>test mode</strong> by default (an orange "Test mode" banner at the top). That's exactly what we want for now.
+      </li>
+    </ol>
+
+    <div class="callout info">
+      <span class="callout-icon">&#x1f6c8;</span>
+      <p>You don't need to complete business verification to test donations. Stripe lets you use test mode immediately.</p>
+    </div>
+  </section>
+
+  <!-- ── STEP 2 ──────────────────────────── -->
+  <section class="step" id="step-2">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <h2>Get Your Test API Keys</h2>
+    </div>
+
+    <ol>
+      <li>
+        In the Stripe Dashboard, click <strong>Developers</strong> in the top nav bar.
+      </li>
+      <li>
+        Click <strong>API keys</strong> in the left sidebar.
+      </li>
+      <li>
+        Make sure the toggle at the top says <strong>"Test mode"</strong> (it should be orange).
+      </li>
+      <li>
+        You'll see two keys:
+      </li>
+    </ol>
+
+    <div class="card gold-border">
+      <div class="card-label">Your two keys</div>
+      <table class="kv-table">
+        <tr>
+          <td class="kv-key">Publishable key</td>
+          <td class="kv-val">pk_test_51ABC...</td>
+        </tr>
+        <tr>
+          <td class="kv-key">Secret key</td>
+          <td class="kv-val">sk_test_51ABC...</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The <strong>publishable key</strong> is visible on-screen. For the <strong>secret key</strong>,
+      click <strong>"Reveal test key"</strong> to see it. Copy both.
+    </p>
+
+    <div class="callout warning">
+      <span class="callout-icon">&#x26a0;</span>
+      <p><strong>Never share your secret key publicly.</strong> It grants full access to your Stripe account. Send it only through secure channels (password manager share, encrypted message, etc).</p>
+    </div>
+  </section>
+
+  <!-- ── STEP 3 ──────────────────────────── -->
+  <section class="step" id="step-3">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <h2>Share Your Keys With the Developer</h2>
+    </div>
+
+    <p>
+      Send the following 3 values to your developer. They'll drop them into the site's
+      configuration file. Use a secure method (1Password share link, Signal message, etc).
+    </p>
+
+    <div class="card gold-border">
+      <div class="card-label">Values to send</div>
+      <table class="kv-table">
+        <tr>
+          <td class="kv-key">Publishable key</td>
+          <td class="kv-val">pk_test_51ABC...your full key</td>
+        </tr>
+        <tr>
+          <td class="kv-key">Secret key</td>
+          <td class="kv-val">sk_test_51ABC...your full key</td>
+        </tr>
+        <tr>
+          <td class="kv-key">Site URL</td>
+          <td class="kv-val">https://yourdomain.com</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Your developer will place these into a file called <code>.env.local</code>, which looks like this:
+    </p>
+
+    <pre><code><span class="code-comment"># .env.local</span>
+<span class="code-key">NEXT_PUBLIC_STRIPE_PUBLIC_KEY</span>=<span class="code-placeholder">pk_test_51ABC...</span>
+<span class="code-key">STRIPE_SECRET_KEY</span>=<span class="code-placeholder">sk_test_51ABC...</span>
+<span class="code-key">NEXT_PUBLIC_SITE_URL</span>=<span class="code-placeholder">https://yourdomain.com</span></code></pre>
+
+    <div class="callout info">
+      <span class="callout-icon">&#x1f6c8;</span>
+      <p>For testing, the site URL stays <code>http://localhost:3000</code>. Your developer only needs the two Stripe keys to test locally.</p>
+    </div>
+  </section>
+
+  <!-- ── STEP 4 ──────────────────────────── -->
+  <section class="step" id="step-4">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <h2>Test a Donation</h2>
+    </div>
+
+    <p>
+      Once your developer has the keys installed, they'll send you a link to the test site. Here's how to run through a test donation:
+    </p>
+
+    <ol>
+      <li>Open the site and scroll to the <strong>Fund a Scholarship</strong> section.</li>
+      <li>Pick a donation amount (or type a custom one) and click the <strong>Donate</strong> button.</li>
+      <li>You'll be redirected to Stripe's checkout page. Use this test credit card:</li>
+    </ol>
+
+    <div class="card gold-border">
+      <div class="card-label">Test card details</div>
+      <table class="kv-table">
+        <tr>
+          <td class="kv-key">Card number</td>
+          <td class="kv-val">4242 4242 4242 4242</td>
+        </tr>
+        <tr>
+          <td class="kv-key">Expiry</td>
+          <td class="kv-val">Any future date (e.g. 12/30)</td>
+        </tr>
+        <tr>
+          <td class="kv-key">CVC</td>
+          <td class="kv-val">Any 3 digits (e.g. 123)</td>
+        </tr>
+        <tr>
+          <td class="kv-key">ZIP</td>
+          <td class="kv-val">Any 5 digits (e.g. 80202)</td>
+        </tr>
+      </table>
+    </div>
+
+    <ol start="4">
+      <li>Click <strong>"Donate"</strong> on the Stripe page. You'll be redirected back to a <strong>Thank You</strong> page showing the amount.</li>
+      <li>Go to your <a href="https://dashboard.stripe.com/test/payments" target="_blank">Stripe Dashboard → Payments</a> and you should see the test payment listed.</li>
+    </ol>
+
+    <div class="callout success">
+      <span class="callout-icon">&#x2714;</span>
+      <p><strong>No real money is charged in test mode.</strong> The <code>4242</code> card is Stripe's magic test number. You can run as many test donations as you want.</p>
+    </div>
+
+    <p>Want to test a declined card? Use <code>4000 0000 0000 0002</code> instead. It will show a decline error.</p>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── STEP 5 ──────────────────────────── -->
+  <section class="step" id="step-5">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <h2>Set Up the Webhook (optional)</h2>
+    </div>
+
+    <p>
+      Webhooks let the site get notified when a donation completes, even if the donor closes their browser before the "Thank You" page loads. This is optional for launch but recommended.
+    </p>
+
+    <ol>
+      <li>
+        In the Stripe Dashboard, go to <strong>Developers → Webhooks</strong>.
+      </li>
+      <li>
+        Click <strong>"Add endpoint"</strong>.
+      </li>
+      <li>
+        Enter your endpoint URL:
+      </li>
+    </ol>
+
+    <pre><code><span class="code-value">https://yourdomain.com/api/webhook</span></code></pre>
+
+    <ol start="4">
+      <li>
+        Under <strong>"Select events to listen to"</strong>, search for and select:<br>
+        <code>checkout.session.completed</code>
+      </li>
+      <li>
+        Click <strong>"Add endpoint"</strong> to save.
+      </li>
+      <li>
+        On the endpoint detail page, click <strong>"Reveal"</strong> under <strong>Signing secret</strong>. Copy the value (starts with <code>whsec_</code>).
+      </li>
+      <li>
+        Send this signing secret to your developer. They'll add it as:
+      </li>
+    </ol>
+
+    <pre><code><span class="code-key">STRIPE_WEBHOOK_SECRET</span>=<span class="code-placeholder">whsec_abc123...</span></code></pre>
+
+    <div class="callout info">
+      <span class="callout-icon">&#x1f6c8;</span>
+      <p>For local testing, your developer will use the Stripe CLI (<code>stripe listen</code>) which generates its own webhook secret. You only need to set this up for the live/staging site.</p>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── STEP 6 ──────────────────────────── -->
+  <section class="step" id="step-6">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <h2>Go Live</h2>
+    </div>
+
+    <p>
+      When you're ready to accept real donations, you need to do two things: activate your Stripe account and swap in live keys.
+    </p>
+
+    <h3 style="font-size:16px; font-weight:600; margin: 20px 0 12px;">A. Activate your account</h3>
+
+    <ol>
+      <li>In the Stripe Dashboard, click <strong>"Activate your account"</strong> (or the banner at the top).</li>
+      <li>Fill in your business details:
+        <ul style="list-style: disc; padding-left: 20px; margin-top: 8px;">
+          <li style="padding: 4px 0;"><strong>Business type:</strong> Non-profit / 501(c)(3)</li>
+          <li style="padding: 4px 0;"><strong>Business name:</strong> Gold Helmet Award Corp</li>
+          <li style="padding: 4px 0;"><strong>EIN:</strong> Your organization's EIN</li>
+        </ul>
+      </li>
+      <li>Add a bank account for payouts (where donations get deposited).</li>
+      <li>Complete identity verification for the account representative.</li>
+    </ol>
+
+    <div class="callout warning">
+      <span class="callout-icon">&#x26a0;</span>
+      <p>Stripe typically reviews non-profit applications within 1 to 2 business days. You can continue testing while waiting.</p>
+    </div>
+
+    <h3 style="font-size:16px; font-weight:600; margin: 20px 0 12px;">B. Get live keys</h3>
+
+    <ol>
+      <li>Go to <strong>Developers → API keys</strong>.</li>
+      <li>Toggle <strong>off</strong> "Test mode" (the switch at the top). You should see a green "Live" indicator.</li>
+      <li>Copy your <strong>live publishable key</strong> (<code>pk_live_...</code>) and <strong>live secret key</strong> (<code>sk_live_...</code>).</li>
+      <li>Send both to your developer, the same way you sent the test keys. They'll update the production environment.</li>
+    </ol>
+
+    <div class="callout danger">
+      <span class="callout-icon">&#x1f6d1;</span>
+      <p><strong>Live keys charge real money.</strong> Double-check the amounts on your site before sharing live keys. The test card (<code>4242...</code>) won't work with live keys.</p>
+    </div>
+
+    <p>If you set up a webhook in Step 5 with a test endpoint, you'll need to <strong>create a new live webhook endpoint</strong> the same way (Developers → Webhooks, but with test mode off).</p>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── CHECKLIST ─────────────────────────── -->
+  <section class="step" id="checklist">
+    <div class="step-header">
+      <div class="step-number" style="background: rgba(34,197,94,0.15); color: var(--success);">&#x2713;</div>
+      <h2>Launch Checklist</h2>
+    </div>
+
+    <p>Confirm each item before going live with real donations.</p>
+
+    <ul class="checklist">
+      <li>Stripe account created and verified</li>
+      <li>Bank account connected for payouts</li>
+      <li>Test donation completed successfully with <code>4242</code> card</li>
+      <li>Test donation appears in Stripe Dashboard</li>
+      <li>Live keys generated and sent to developer</li>
+      <li>Production site updated with live keys</li>
+      <li>One real donation tested with a small amount ($1), then refunded</li>
+      <li>Webhook endpoint created for production URL (optional)</li>
+      <li>Webhook signing secret sent to developer (optional)</li>
+    </ul>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ── FAQ ───────────────────────────────── -->
+  <section class="step" id="faq">
+    <div class="step-header">
+      <div class="step-number" style="background: var(--muted); color: var(--foreground);">?</div>
+      <h2>Common Questions</h2>
+    </div>
+
+    <div class="card" style="margin-bottom: 12px;">
+      <p style="color: var(--foreground); font-weight: 600; margin-bottom: 4px;">What does Stripe charge per donation?</p>
+      <p style="margin-bottom: 0;">2.9% + $0.30 per transaction. On a $100 donation, you receive $96.80. Non-profits can <a href="https://support.stripe.com/questions/fee-discount-for-nonprofit-organizations" target="_blank">apply for discounted rates</a>.</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 12px;">
+      <p style="color: var(--foreground); font-weight: 600; margin-bottom: 4px;">When do donations reach my bank account?</p>
+      <p style="margin-bottom: 0;">Stripe pays out on a rolling 2-business-day schedule by default. You can change this in Dashboard → Settings → Payouts.</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 12px;">
+      <p style="color: var(--foreground); font-weight: 600; margin-bottom: 4px;">Can I issue refunds?</p>
+      <p style="margin-bottom: 0;">Yes. Go to Dashboard → Payments, click on the payment, and click <strong>"Refund"</strong>. You can refund partially or in full.</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 12px;">
+      <p style="color: var(--foreground); font-weight: 600; margin-bottom: 4px;">Do donors get a receipt?</p>
+      <p style="margin-bottom: 0;">Stripe sends an email receipt automatically. You can customize the receipt in Dashboard → Settings → Emails.</p>
+    </div>
+
+    <div class="card">
+      <p style="color: var(--foreground); font-weight: 600; margin-bottom: 4px;">I need help with something not covered here.</p>
+      <p style="margin-bottom: 0;">Stripe's support is excellent: <a href="https://support.stripe.com" target="_blank">support.stripe.com</a>. For site-specific questions, contact your developer.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Gold Helmet Award Corp &middot; Stripe Setup Guide &middot; Updated March 2026
+</footer>
+
+</body>
+</html>

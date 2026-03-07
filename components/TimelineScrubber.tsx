@@ -9,7 +9,7 @@ interface TimelineScrubberProps {
 }
 
 // Singleton ref to the TimelineScrubber root element.
-// Read imperatively by getStickyOffset() in app/winners-timeline/page.tsx.
+// Read imperatively by getStickyOffset() in app/hall-of-champions/page.tsx.
 // Only one TimelineScrubber instance may be mounted at a time — a second
 // instance would overwrite this ref and break the offset calculation.
 export const scrubberRef = { current: null as HTMLDivElement | null };
