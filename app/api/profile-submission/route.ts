@@ -8,13 +8,34 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
   }
 
-  const body = await req.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Malformed JSON" }, { status: 400 });
+  }
+
+  if (!body.name || typeof body.name !== "string" || !body.name.trim()) {
+    return NextResponse.json({ error: "Name is required" }, { status: 400 });
+  }
+  const yearNum = Number(body.yearWon);
+  if (!Number.isFinite(yearNum) || yearNum < 1951 || yearNum > 2025) {
+    return NextResponse.json({ error: "Valid year is required" }, { status: 400 });
+  }
+
+  if (body.actionPhotoUrl && typeof body.actionPhotoUrl === "string" && body.actionPhotoUrl.trim()) {
+    try {
+      new URL(body.actionPhotoUrl as string);
+    } catch {
+      return NextResponse.json({ error: "Action photo must be a valid URL" }, { status: 400 });
+    }
+  }
 
   const fields: Record<string, unknown> = {
-    Name: body.name,
-    "Year Won": Number(body.yearWon),
-    Headline: body.headline,
-    Bio: body.bio,
+    Name: (body.name as string).trim(),
+    "Year Won": yearNum,
+    Headline: body.headline || undefined,
+    Bio: body.bio || undefined,
     "Stat 1 Label": body.stat1Label || undefined,
     "Stat 1 Value": body.stat1Value || undefined,
     "Stat 2 Label": body.stat2Label || undefined,
@@ -42,26 +63,39 @@ export async function POST(req: NextRequest) {
     "Submitted At": new Date().toISOString().split("T")[0],
   };
 
-  if (body.actionPhotoUrl) {
-    fields["Action Photo"] = [{ url: body.actionPhotoUrl }];
+  if (body.actionPhotoUrl && typeof body.actionPhotoUrl === "string" && body.actionPhotoUrl.trim()) {
+    fields["Action Photo"] = [{ url: (body.actionPhotoUrl as string).trim() }];
   }
 
   // Strip undefined values
   Object.keys(fields).forEach((k) => fields[k] === undefined && delete fields[k]);
 
-  const res = await fetch(`https://api.airtable.com/v0/${baseId}/Winner%20Profiles`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ fields }),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
 
-  if (!res.ok) {
-    const error = await res.json();
-    console.error("Airtable error:", error);
-    return NextResponse.json({ error: "Submission failed" }, { status: 500 });
+  try {
+    const res = await fetch(`https://api.airtable.com/v0/${baseId}/Winner%20Profiles`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fields }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) {
+      const error = await res.json();
+      console.error("Airtable error:", error);
+      return NextResponse.json({ error: "Submission failed" }, { status: 500 });
+    }
+  } catch (err) {
+    clearTimeout(timeout);
+    if (err instanceof DOMException && err.name === "AbortError") {
+      return NextResponse.json({ error: "Request timed out" }, { status: 504 });
+    }
+    throw err;
   }
 
   return NextResponse.json({ success: true });

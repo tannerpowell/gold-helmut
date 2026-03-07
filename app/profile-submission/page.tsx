@@ -120,6 +120,8 @@ export default function ProfileSubmission() {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="text-gold"
+              aria-hidden="true"
+              focusable="false"
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
@@ -181,10 +183,11 @@ export default function ProfileSubmission() {
           <Section title="About You">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={labelClass}>
+                <label htmlFor="ps-name" className={labelClass}>
                   Full Name <span className="text-gold">*</span>
                 </label>
                 <input
+                  id="ps-name"
                   required
                   value={form.name}
                   onChange={set("name")}
@@ -193,10 +196,11 @@ export default function ProfileSubmission() {
                 />
               </div>
               <div>
-                <label className={labelClass}>
+                <label htmlFor="ps-year" className={labelClass}>
                   Year You Won <span className="text-gold">*</span>
                 </label>
                 <input
+                  id="ps-year"
                   required
                   type="number"
                   min={1951}
@@ -216,8 +220,9 @@ export default function ProfileSubmission() {
             hint="One punchy headline, then a short bio. What defined your season or your story?"
           >
             <div>
-              <label className={labelClass}>Headline</label>
+              <label htmlFor="ps-headline" className={labelClass}>Headline</label>
               <input
+                id="ps-headline"
                 value={form.headline}
                 onChange={set("headline")}
                 placeholder="Your defining achievement in one line"
@@ -225,8 +230,9 @@ export default function ProfileSubmission() {
               />
             </div>
             <div>
-              <label className={labelClass}>Bio</label>
+              <label htmlFor="ps-bio" className={labelClass}>Bio</label>
               <textarea
+                id="ps-bio"
                 value={form.bio}
                 onChange={set("bio")}
                 rows={5}
@@ -264,8 +270,9 @@ export default function ProfileSubmission() {
           {/* Highlights */}
           <Section title="Highlights">
             <div>
-              <label className={labelClass}>Career Highlight</label>
+              <label htmlFor="ps-career" className={labelClass}>Career Highlight</label>
               <input
+                id="ps-career"
                 value={form.careerHighlight}
                 onChange={set("careerHighlight")}
                 placeholder="Career totals in one sentence"
@@ -276,8 +283,9 @@ export default function ProfileSubmission() {
               </p>
             </div>
             <div>
-              <label className={labelClass}>Academics</label>
+              <label htmlFor="ps-academics" className={labelClass}>Academics</label>
               <input
+                id="ps-academics"
                 value={form.academics}
                 onChange={set("academics")}
                 placeholder="GPA, honors, AP/IB context"
@@ -285,8 +293,9 @@ export default function ProfileSubmission() {
               />
             </div>
             <div>
-              <label className={labelClass}>Other Sport or Achievement</label>
+              <label htmlFor="ps-other" className={labelClass}>Other Sport or Achievement</label>
               <input
+                id="ps-other"
                 value={form.otherAchievement}
                 onChange={set("otherAchievement")}
                 placeholder="Other sport or notable achievement"
@@ -341,8 +350,9 @@ export default function ProfileSubmission() {
             hint="Something your coach said about you, from an article, a speech, or your own memory."
           >
             <div>
-              <label className={labelClass}>Coach&apos;s Name</label>
+              <label htmlFor="ps-coach-name" className={labelClass}>Coach&apos;s Name</label>
               <input
+                id="ps-coach-name"
                 value={form.coachName}
                 onChange={set("coachName")}
                 placeholder="Name"
@@ -350,8 +360,9 @@ export default function ProfileSubmission() {
               />
             </div>
             <div>
-              <label className={labelClass}>Coach Quote</label>
+              <label htmlFor="ps-coach-quote" className={labelClass}>Coach Quote</label>
               <textarea
+                id="ps-coach-quote"
                 value={form.coachQuote}
                 onChange={set("coachQuote")}
                 rows={3}
@@ -367,8 +378,9 @@ export default function ProfileSubmission() {
             hint="Where you went after winning the award."
           >
             <div>
-              <label className={labelClass}>College & Major</label>
+              <label htmlFor="ps-college" className={labelClass}>College & Major</label>
               <input
+                id="ps-college"
                 value={form.nextChapterTitle}
                 onChange={set("nextChapterTitle")}
                 placeholder="College and major"
@@ -376,8 +388,9 @@ export default function ProfileSubmission() {
               />
             </div>
             <div>
-              <label className={labelClass}>Any extra context</label>
+              <label htmlFor="ps-context" className={labelClass}>Any extra context</label>
               <input
+                id="ps-context"
                 value={form.nextChapterSubtitle}
                 onChange={set("nextChapterSubtitle")}
                 placeholder="Optional"

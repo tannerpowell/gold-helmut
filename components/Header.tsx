@@ -29,7 +29,7 @@ export function Header() {
       window.removeEventListener("hashchange", updateHash);
       window.removeEventListener("popstate", updateHash);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 chrome-bar border-b border-white/10">
