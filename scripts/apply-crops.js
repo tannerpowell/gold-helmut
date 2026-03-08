@@ -46,7 +46,17 @@ async function applyCrop(year, crop) {
 
   // Croppie points can extend beyond image bounds when zoomed out.
   // Pad the image with black so the extract matches what Croppie shows.
-  const meta = await sharp(inputPath).metadata();
+  let meta;
+  try {
+    meta = await sharp(inputPath).metadata();
+  } catch (err) {
+    console.warn(`  SKIP ${year}: unreadable image (${err.message})`);
+    return;
+  }
+  if (!meta.width || !meta.height) {
+    console.warn(`  SKIP ${year}: missing image dimensions`);
+    return;
+  }
   const imgW = meta.width;
   const imgH = meta.height;
 

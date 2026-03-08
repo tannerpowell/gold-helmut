@@ -146,7 +146,7 @@ const W = [
 
 // Saved Croppie points per year (persisted in localStorage for re-opening)
 const STORE = "goldhelmut-crops";
-let saved = JSON.parse(localStorage.getItem(STORE) || "{}");
+let saved = (() => { try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { return {}; } })();
 
 let croppie = null;
 let idx = -1;

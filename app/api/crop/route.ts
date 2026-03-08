@@ -19,13 +19,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Not available in production" }, { status: 403 });
   }
 
+  let body: Record<string, unknown>;
   try {
-    const { year, slug, orig, points } = await req.json();
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-    if (!year || !slug || !orig || !points || points.length !== 4) {
-      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-    }
+  const { year, slug, orig, points } = body as {
+    year: unknown; slug: unknown; orig: unknown; points: unknown;
+  };
 
+  if (!year || typeof slug !== "string" || typeof orig !== "string"
+      || !Array.isArray(points) || points.length !== 4
+      || !points.every((p) => typeof p === "number" && Number.isFinite(p))) {
+    return NextResponse.json({ error: "Missing or invalid fields" }, { status: 400 });
+  }
+
+  try {
     if (!SAFE_FILENAME.test(orig) || !SAFE_FILENAME.test(slug)) {
       return NextResponse.json({ error: "Invalid filename" }, { status: 400 });
     }
@@ -45,9 +56,17 @@ export async function POST(req: NextRequest) {
 
     // Croppie points can extend beyond image bounds when zoomed out.
     // Pad the image with black so the extract matches what Croppie shows.
-    const meta = await sharp(inputPath).metadata();
-    const imgW = meta.width!;
-    const imgH = meta.height!;
+    let meta;
+    try {
+      meta = await sharp(inputPath).metadata();
+    } catch {
+      return NextResponse.json({ error: "Original not found or unreadable" }, { status: 400 });
+    }
+    if (!meta.width || !meta.height) {
+      return NextResponse.json({ error: "Cannot read image dimensions" }, { status: 400 });
+    }
+    const imgW = meta.width;
+    const imgH = meta.height;
 
     const padLeft = Math.max(0, -x1);
     const padTop = Math.max(0, -y1);

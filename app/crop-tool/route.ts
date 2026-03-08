@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import path from "path";
 
 export async function GET() {
@@ -7,7 +7,7 @@ export async function GET() {
     return new NextResponse("Not found", { status: 404 });
   }
 
-  const html = readFileSync(
+  const html = await readFile(
     path.join(process.cwd(), "tools/crop-tool.html"),
     "utf-8"
   );
