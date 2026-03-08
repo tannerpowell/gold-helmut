@@ -79,6 +79,30 @@ const IMAGE_MAP = {
 
   // 1999 - Marcus Houston
   "MARCUS-HOUSTON.webp": { year: 1999, slug: "1999-marcus-houston", type: "hero" },
+
+  // 1997 - Jason Lucas
+  "jason-lucas-1997-2X.jpeg": { year: 1997, slug: "1997-jason-lucas", type: "hero" },
+
+  // 1998 - Ryan Haywood (upscaled)
+  "1998-ryan-haywood-01-2X.jpeg": { year: 1998, slug: "1998-ryan-haywood", type: "hero" },
+
+  // 2001 - Jake Stone (upscaled)
+  "2001-jake-stone-01-2X.jpeg": { year: 2001, slug: "2001-jake-stone", type: "hero" },
+
+  // 2002 - Jonathan Lucas (upscaled)
+  "2002-jonathan-lucas-01-2X.jpeg": { year: 2002, slug: "2002-jonathan-lucas", type: "hero" },
+
+  // 2003 - Jeff Byers (upscaled)
+  "2003-jeff-byers-01-2X.jpeg": { year: 2003, slug: "2003-jeff-byers", type: "hero" },
+
+  // 2004 - Tyler Sale (upscaled)
+  "2004-tyler-sale-01-2X.jpeg": { year: 2004, slug: "2004-tyler-sale", type: "hero" },
+
+  // 2005 - Tim McGraw (upscaled)
+  "2005-tim-mcgraw-01-2X.jpeg": { year: 2005, slug: "2005-tim-mcgraw", type: "hero" },
+
+  // 2006 - Clay Garcia (upscaled)
+  "2006-clay-garcia-01-2X.jpeg": { year: 2006, slug: "2006-clay-garcia", type: "hero" },
 };
 
 async function processImage(filename, info) {

@@ -553,4 +553,297 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
     ],
     future: { title: "Colorado", subtitle: "International Business" },
   },
+
+  2006: {
+    headline: "52 touchdown passes and a 4.3261 GPA",
+    bio: `Clay Garcia, a quarterback from Alamosa, rewrote the Colorado record book with 52 touchdown passes in a single season and 4,164 passing yards. He was also valedictorian with a 4.3261 GPA, scored 28 on the ACT, served as student body president, and won the school\u2019s Outstanding Male Student award. He wanted to study engineering and had interest from Ivy League schools.`,
+    stats: [
+      { label: "Pass TDs", value: "52" },
+      { label: "Pass Yards", value: "4,164" },
+      { label: "GPA", value: "4.3261" },
+      { label: "ACT", value: "28" },
+    ],
+    careerHighlight: "State-record 52 TD passes in a single season",
+    highlights: [
+      { title: "Academics", value: "Valedictorian", description: "4.3261 GPA, ACT 28, student body president" },
+    ],
+    future: { title: "Engineering", subtitle: "Ivy League interest" },
+  },
+
+  2005: {
+    headline: "4.6 GPA, state champion, Science Bowl captain",
+    bio: `Tim McGraw, an offensive lineman from Highlands Ranch, anchored a state championship team while carrying a 4.6 GPA and scoring 32 on the ACT. He was enrolled in the International Baccalaureate program, captained the Science Bowl team, and volunteered with Horsepower Inc., a therapeutic horseback riding program for disabled individuals.`,
+    stats: [
+      { label: "GPA", value: "4.6" },
+      { label: "ACT", value: "32" },
+    ],
+    highlights: [
+      { title: "Academics", value: "4.6", description: "GPA, IB program, ACT 32" },
+    ],
+    community: [
+      "Science Bowl captain",
+      "Horsepower Inc. therapeutic riding volunteer",
+    ],
+  },
+
+  2004: {
+    headline: "370-pound bench press and a 3.8 GPA",
+    bio: `Tyler Sale, a defensive tackle, combined raw power with academic ambition. He benched over 370 pounds, carried a 3.8 GPA with a 30 ACT, and loaded up on AP courses. He won the Hugh O\u2019Brien Youth Leadership Award and drew interest from Ivy League programs.`,
+    stats: [
+      { label: "GPA", value: "3.8" },
+      { label: "ACT", value: "30" },
+      { label: "Bench", value: "370+" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.8", description: "GPA, ACT 30, AP courses" },
+    ],
+    community: [
+      "Hugh O\u2019Brien Youth Leadership Award",
+    ],
+    future: { title: "Ivy League interest" },
+  },
+
+  2003: {
+    headline: "First Colorado player to win Gatorade National Player of the Year",
+    bio: `Jeff Byers, a lineman from Loveland, became the first Colorado player ever named Gatorade National Player of the Year. He racked up 203 tackles with a 3.92 GPA. Coaches and teammates called him a "gentle giant" off the field. He committed to USC.`,
+    stats: [
+      { label: "Tackles", value: "203" },
+      { label: "GPA", value: "3.92" },
+    ],
+    careerHighlight: "First Colorado player to win Gatorade National Player of the Year",
+    highlights: [
+      { title: "Academics", value: "3.92", description: "GPA" },
+    ],
+    future: { title: "USC" },
+  },
+
+  2002: {
+    headline: "Jason\u2019s brother: NHS president, 200+ Race for Cure signups",
+    bio: `Jonathan Lucas, a linebacker from Arvada West, followed his brother Jason (1997 winner) as a Gold Helmet honoree. He carried a 3.913 GPA with a 1270 SAT, served as National Honor Society president, and personally recruited over 200 people to sign up for the Race for the Cure.`,
+    stats: [
+      { label: "GPA", value: "3.913" },
+      { label: "SAT", value: "1270" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.913", description: "GPA, SAT 1270" },
+    ],
+    community: [
+      "National Honor Society president",
+      "Recruited 200+ Race for the Cure participants",
+    ],
+  },
+
+  2001: {
+    headline: "6\u20196\u201D valedictorian, 99 catches, headed to Harvard",
+    bio: `Jake Stone, a 6\u20196\u201D, 230-pound receiver, was valedictorian with a 33 ACT and 1410 SAT. He hauled in 99 catches for 32 touchdowns. A voracious reader, he chose Harvard.`,
+    stats: [
+      { label: "Catches", value: "99" },
+      { label: "Rec TDs", value: "32" },
+      { label: "ACT", value: "33" },
+      { label: "SAT", value: "1410" },
+    ],
+    highlights: [
+      { title: "Academics", value: "Valedictorian", description: "ACT 33, SAT 1410" },
+    ],
+    future: { title: "Harvard" },
+  },
+
+  2000: {
+    headline: "Played every position, broke his arm, came back",
+    bio: `Nick Brown carried a 4.025 GPA while scoring 19 touchdowns and playing virtually every position: wide receiver, running back, kicker, punter, and safety. He broke his arm mid-season and came back to finish the year.`,
+    stats: [
+      { label: "TDs", value: "19" },
+      { label: "GPA", value: "4.025" },
+    ],
+    careerHighlight: "Played WR, RB, K, P, and S; returned from broken arm mid-season",
+    highlights: [
+      { title: "Academics", value: "4.025", description: "GPA" },
+    ],
+  },
+
+  1998: {
+    headline: "25 sacks, choir soloist, migrant worker tutor",
+    bio: `Ryan Haywood, a 6\u20195\u201D, 265-pound defensive end, recorded 25 sacks while maintaining a 3.7 GPA. He was a choir soloist, tutored migrant workers\u2019 children, and was recruited by Nebraska and Texas.`,
+    stats: [
+      { label: "Sacks", value: "25" },
+      { label: "GPA", value: "3.7" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.7", description: "GPA" },
+    ],
+    community: [
+      "Choir soloist",
+      "Tutored migrant workers\u2019 children",
+    ],
+  },
+
+  1997: {
+    headline: "Class rank #1 of 560, 14 career interceptions",
+    bio: `Jason Lucas, a 6\u20194\u201D, 195-pound strong safety from Arvada West, ranked first in a class of 560 with a 1310 SAT. He picked off 14 passes over his career while playing for coach Dave Logan (1971 Gold Helmet winner). He committed to Brown.`,
+    stats: [
+      { label: "INTs", value: "14" },
+      { label: "Class Rank", value: "#1/560" },
+      { label: "SAT", value: "1310" },
+    ],
+    highlights: [
+      { title: "Academics", value: "#1/560", description: "Class rank, SAT 1310" },
+    ],
+    future: { title: "Brown" },
+  },
+
+  1996: {
+    headline: "Eagle Scout, Bronze Congressional Award, Air Force nominee",
+    bio: `Wayne Southam earned Eagle Scout, carried a 3.85 GPA with a 31 ACT, and received the Bronze Congressional Award. He was nominated to the Air Force Academy.`,
+    stats: [
+      { label: "GPA", value: "3.85" },
+      { label: "ACT", value: "31" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.85", description: "GPA, ACT 31" },
+    ],
+    community: [
+      "Eagle Scout",
+      "Bronze Congressional Award",
+    ],
+    future: { title: "Air Force Academy", subtitle: "Nominee" },
+  },
+
+  1995: {
+    headline: "Class rank #1, 10 varsity letters, all A\u2019s since 7th grade",
+    bio: `Matt Rillos ranked first in a class of 267 and earned 10 varsity letters. He caught 62 passes for 1,043 yards and hadn\u2019t received anything below an A since 7th grade.`,
+    stats: [
+      { label: "Catches", value: "62" },
+      { label: "Rec Yards", value: "1,043" },
+      { label: "Varsity Letters", value: "10" },
+      { label: "Class Rank", value: "#1/267" },
+    ],
+    highlights: [
+      { title: "Academics", value: "#1/267", description: "Class rank, all A\u2019s since 7th grade" },
+    ],
+  },
+
+  1994: {
+    headline: "Grew from 160 to 270 pounds, zero sacks allowed in 2 years",
+    bio: `Shane Cook, a 6\u20197\u201D, 270-pound offensive tackle, didn\u2019t allow a single sack in two years of varsity play. He\u2019d grown from 160 pounds as a freshman to 270 by senior year. He carried a 3.93 GPA.`,
+    stats: [
+      { label: "Sacks Allowed", value: "0" },
+      { label: "GPA", value: "3.93" },
+    ],
+    careerHighlight: "Zero sacks allowed over two full varsity seasons",
+    highlights: [
+      { title: "Academics", value: "3.93", description: "GPA" },
+    ],
+  },
+
+  1993: {
+    headline: "9,273 career passing yards, a Colorado record",
+    bio: `Ryan Clement threw for 9,273 career yards (a Colorado record at the time) and 78 touchdowns as a four-year starter. He carried a 3.719 GPA and planned to study pre-med at the University of Miami.`,
+    stats: [
+      { label: "Career Pass Yards", value: "9,273" },
+      { label: "Career Pass TDs", value: "78" },
+      { label: "GPA", value: "3.719" },
+    ],
+    careerHighlight: "Colorado record 9,273 career passing yards, 4-year starter",
+    highlights: [
+      { title: "Academics", value: "3.719", description: "GPA, pre-med" },
+    ],
+    future: { title: "Miami", subtitle: "Pre-med" },
+  },
+
+  1992: {
+    headline: "SAT 1400, Calc III at CU, trombone and bass guitar",
+    bio: `Jeff Singleton carried a 3.94 GPA, scored 1400 on the SAT, and squatted 500 pounds. He took Calculus III at CU while still in high school, played trombone and bass guitar, and planned to study nuclear engineering.`,
+    stats: [
+      { label: "GPA", value: "3.94" },
+      { label: "SAT", value: "1400" },
+      { label: "Squat", value: "500" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.94", description: "GPA, SAT 1400, Calc III at CU" },
+    ],
+    future: { title: "Nuclear Engineering" },
+  },
+
+  1991: {
+    headline: "24 sacks, 8 All-America teams, 42-inch vertical",
+    bio: `Greg Jones recorded 24 sacks, was named to 8 All-America teams, and measured a 42-inch vertical leap. He carried a 3.8 GPA, committed to CU, and was a DARE speaker in local schools.`,
+    stats: [
+      { label: "Sacks", value: "24" },
+      { label: "All-America", value: "8 teams" },
+      { label: "Vertical", value: "42\u2033" },
+      { label: "GPA", value: "3.8" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.8", description: "GPA" },
+    ],
+    community: [
+      "DARE speaker",
+    ],
+    future: { title: "Colorado" },
+  },
+
+  1990: {
+    headline: "Valedictorian, 8,119 career yards, 124 TDs, 13-0 state champ",
+    bio: `Justin Armour was valedictorian with a 4.0 GPA while amassing 8,119 career yards and 124 touchdowns. He led his team to a 13-0 record and a state championship. He committed to Stanford.`,
+    stats: [
+      { label: "Career Yards", value: "8,119" },
+      { label: "Career TDs", value: "124" },
+      { label: "Record", value: "13-0" },
+      { label: "GPA", value: "4.0" },
+    ],
+    careerHighlight: "8,119 career yards, 124 touchdowns, undefeated state champion",
+    highlights: [
+      { title: "Academics", value: "Valedictorian", description: "4.0 GPA" },
+    ],
+    future: { title: "Stanford" },
+  },
+
+  1989: {
+    headline: "Led 3A in rushing, state long jump record",
+    bio: `Kent Kahl rushed for 1,741 yards to lead all of 3A and set the state long jump record at 24\u20193\u201D. He was the first winner from Fort Morgan.`,
+    stats: [
+      { label: "Rush Yards", value: "1,741" },
+      { label: "Long Jump", value: "24\u20193\u201D" },
+    ],
+    careerHighlight: "State long jump record (24\u20193\u201D), first Fort Morgan winner",
+  },
+
+  1966: {
+    headline: "12-0 state champion from Wheat Ridge",
+    bio: `Fred Steinmark, a 5\u20199\u201D, 160-pound safety from Wheat Ridge, led his team to a 12-0 record and a state championship. He carried a 3.75 GPA and ranked 15th in a class of 569. He went on to play at Texas, where his story became one of college football\u2019s most enduring.`,
+    stats: [
+      { label: "Record", value: "12-0" },
+      { label: "GPA", value: "3.75" },
+      { label: "Class Rank", value: "15/569" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.75", description: "GPA, class rank 15/569" },
+    ],
+    future: { title: "Texas" },
+  },
+
+  1964: {
+    headline: "First winner from Aurora Central",
+    bio: `Craig Bozich, a fullback and linebacker, carried a 3.25 GPA and led Aurora Central to a 10-0 season. He was a National Honor Society member and the first Gold Helmet winner from his school.`,
+    stats: [
+      { label: "Record", value: "10-0" },
+      { label: "GPA", value: "3.25" },
+    ],
+    careerHighlight: "Undefeated 10-0 season, first Aurora Central winner",
+    highlights: [
+      { title: "Academics", value: "3.25", description: "GPA, National Honor Society" },
+    ],
+  },
+
+  1963: {
+    headline: "All-State tackle, shot put 57\u201911\u201D",
+    bio: `Steve Elliott was an All-State tackle who also threw the shot put 57\u201911\u201D. He carried a 3.22 GPA. His brother Tom had won the Gold Helmet in 1961, making them the first sibling winners.`,
+    stats: [
+      { label: "GPA", value: "3.22" },
+      { label: "Shot Put", value: "57\u201911\u201D" },
+    ],
+    highlights: [
+      { title: "Academics", value: "3.22", description: "GPA" },
+    ],
+  },
 };

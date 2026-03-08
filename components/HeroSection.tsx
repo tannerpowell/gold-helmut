@@ -24,7 +24,7 @@ export function HeroSection() {
             sizes="100vw"
           />
         )}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Content */}
@@ -82,22 +82,22 @@ export function HeroSection() {
           {/* Trust Indicators */}
           <div className="mb-10 flex flex-wrap gap-10">
             <div>
-              <div className="font-display text-4xl font-medium text-gold">
+              <div className="text-4xl font-semibold text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
                 {AWARD_INFO.yearsOfHistory}
               </div>
-              <div className="mt-1 text-sm text-white/60">Years of History</div>
+              <div className="mt-1 text-sm text-white/70">Years of History</div>
             </div>
             <div>
-              <div className="font-display text-4xl font-medium text-gold">
-                ${AWARD_INFO.scholarshipAmount.toLocaleString()}
+              <div className="text-4xl font-semibold text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                <span className="text-2xl align-baseline">$</span>{AWARD_INFO.scholarshipAmount.toLocaleString()}
               </div>
-              <div className="mt-1 text-sm text-white/60">Scholarships</div>
+              <div className="mt-1 text-sm text-white/70">Scholarships</div>
             </div>
             <div>
-              <div className="font-display text-4xl font-medium text-gold">
-                501(c)(3)
+              <div className="text-4xl font-semibold text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                501<span className="text-2xl">(c)(3)</span>
               </div>
-              <div className="mt-1 text-sm text-white/60">Non-Profit</div>
+              <div className="mt-1 text-sm text-white/70">Non-Profit</div>
             </div>
           </div>
 
@@ -105,15 +105,17 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/hall-of-champions"
-              className="inline-flex items-center justify-center px-8 py-3 bg-gold text-[#1a1a1a] font-medium hover:brightness-110 transition-all"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold/20 backdrop-blur-sm border border-gold/30 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-gold/30 transition-all"
             >
-              Hall of Champions
+              Past Champions
+              <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="/#nominate"
-              className="inline-flex items-center justify-center px-8 py-3 border border-white/30 text-white font-medium hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
             >
               Nominate
+              <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>

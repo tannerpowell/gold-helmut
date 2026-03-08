@@ -353,7 +353,7 @@ export function ApplicationForm() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-gold text-[#1a1a1a] font-medium hover:brightness-110 transition-all"
+            className="w-full py-4 rounded-lg bg-gradient-to-b from-[#cfb67a] via-[#b8a06a] to-[#8e7a4a] text-[#1a1a1a] font-semibold text-lg shadow-[inset_0_2px_0_rgba(255,255,255,0.35),inset_0_-2px_0_rgba(0,0,0,0.15),0_4px_0_#7a6a3e,0_6px_16px_rgba(160,130,70,0.35)] hover:shadow-[inset_0_2px_0_rgba(255,255,255,0.35),inset_0_-2px_0_rgba(0,0,0,0.15),0_2px_0_#7a6a3e,0_3px_8px_rgba(160,130,70,0.3)] hover:translate-y-[2px] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),0_0px_0_#7a6a3e] active:translate-y-[4px] transition-all duration-100"
           >
             Submit Nomination
           </button>

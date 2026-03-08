@@ -29,7 +29,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2025-elian-oliva-modal-v2.jpg",
       webp: "/images/optimized/2025-elian-oliva-modal-v2.webp",
     },
-    focalPoint: "50% 25%",
   },
   2024: {
     portrait: {
@@ -48,7 +47,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2024-marcus-mozer-modal.jpg",
       webp: "/images/optimized/2024-marcus-mozer-modal.webp",
     },
-    focalPoint: "50% 25%",
   },
   2023: {
     portrait: {
@@ -67,7 +65,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2023-josh-snyder-modal.jpg",
       webp: "/images/optimized/2023-josh-snyder-modal.webp",
     },
-    focalPoint: "50% 15%",
   },
   2022: {
     portrait: {
@@ -86,7 +83,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2022-brayden-dorman-modal.jpg",
       webp: "/images/optimized/2022-brayden-dorman-modal.webp",
     },
-    focalPoint: "50% 20%",
   },
   2021: {
     portrait: {
@@ -105,7 +101,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2021-gavin-sawchuk-modal.jpg",
       webp: "/images/optimized/2021-gavin-sawchuk-modal.webp",
     },
-    focalPoint: "70% 20%",
   },
   2020: {
     portrait: {
@@ -124,7 +119,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2020-q-jones-jr-modal.jpg",
       webp: "/images/optimized/2020-q-jones-jr-modal.webp",
     },
-    focalPoint: "50% 20%",
   },
   2019: {
     portrait: {
@@ -143,7 +137,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2019-andrew-gentry-modal.jpg",
       webp: "/images/optimized/2019-andrew-gentry-modal.webp",
     },
-    focalPoint: "55% 20%",
   },
   2018: {
     portrait: {
@@ -162,7 +155,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2018-barrett-miller-modal.jpg",
       webp: "/images/optimized/2018-barrett-miller-modal.webp",
     },
-    focalPoint: "50% 15%",
   },
   2017: {
     portrait: {
@@ -181,7 +173,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2017-max-borghi-modal.jpg",
       webp: "/images/optimized/2017-max-borghi-modal.webp",
     },
-    focalPoint: "55% 20%",
   },
   2016: {
     portrait: {
@@ -200,7 +191,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2016-dylan-mccaffrey-modal.jpg",
       webp: "/images/optimized/2016-dylan-mccaffrey-modal.webp",
     },
-    focalPoint: "55% 20%",
   },
   2015: {
     portrait: {
@@ -219,7 +209,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2015-carlo-kemp-modal.jpg",
       webp: "/images/optimized/2015-carlo-kemp-modal.webp",
     },
-    focalPoint: "50% 18%",
   },
   2014: {
     portrait: {
@@ -238,7 +227,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2014-mike-morean-modal.jpg",
       webp: "/images/optimized/2014-mike-morean-modal.webp",
     },
-    focalPoint: "50% 22%",
   },
   2013: {
     portrait: {
@@ -257,7 +245,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2013-christian-mccaffrey-modal.jpg",
       webp: "/images/optimized/2013-christian-mccaffrey-modal.webp",
     },
-    focalPoint: "50% 20%",
   },
   2012: {
     portrait: {
@@ -276,7 +263,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2012-xavier-lewis-modal.jpg",
       webp: "/images/optimized/2012-xavier-lewis-modal.webp",
     },
-    focalPoint: "45% 22%",
   },
   2011: {
     portrait: {
@@ -295,7 +281,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2011-sean-rubalcaba-modal.jpg",
       webp: "/images/optimized/2011-sean-rubalcaba-modal.webp",
     },
-    focalPoint: "50% 15%",
   },
   2010: {
     portrait: {
@@ -314,7 +299,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2010-ian-imamura-modal.jpg",
       webp: "/images/optimized/2010-ian-imamura-modal.webp",
     },
-    focalPoint: "50% 20%",
   },
   2009: {
     portrait: {
@@ -333,7 +317,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2009-matt-brown-modal.jpg",
       webp: "/images/optimized/2009-matt-brown-modal.webp",
     },
-    focalPoint: "50% 20%",
   },
   2008: {
     portrait: {
@@ -352,7 +335,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2008-bryan-peters-modal.jpg",
       webp: "/images/optimized/2008-bryan-peters-modal.webp",
     },
-    focalPoint: "50% 30%",
   },
   2007: {
     portrait: {
@@ -371,7 +353,6 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/2007-tyler-jackson-modal.jpg",
       webp: "/images/optimized/2007-tyler-jackson-modal.webp",
     },
-    focalPoint: "45% 18%",
   },
   1999: {
     portrait: {
@@ -390,7 +371,150 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       jpg: "/images/optimized/1999-marcus-houston-modal.jpg",
       webp: "/images/optimized/1999-marcus-houston-modal.webp",
     },
-    focalPoint: "45% 20%",
+  },
+  1998: {
+    portrait: {
+      jpg: "/images/optimized/1998-ryan-haywood-portrait.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/1998-ryan-haywood-thumb.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/1998-ryan-haywood-web.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/1998-ryan-haywood-modal.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-modal.webp",
+    },
+  },
+  1997: {
+    portrait: {
+      jpg: "/images/optimized/1997-jason-lucas-portrait.jpg",
+      webp: "/images/optimized/1997-jason-lucas-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/1997-jason-lucas-thumb.jpg",
+      webp: "/images/optimized/1997-jason-lucas-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/1997-jason-lucas-web.jpg",
+      webp: "/images/optimized/1997-jason-lucas-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/1997-jason-lucas-modal.jpg",
+      webp: "/images/optimized/1997-jason-lucas-modal.webp",
+    },
+  },
+  2001: {
+    portrait: {
+      jpg: "/images/optimized/2001-jake-stone-portrait.jpg",
+      webp: "/images/optimized/2001-jake-stone-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2001-jake-stone-thumb.jpg",
+      webp: "/images/optimized/2001-jake-stone-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2001-jake-stone-web.jpg",
+      webp: "/images/optimized/2001-jake-stone-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2001-jake-stone-modal.jpg",
+      webp: "/images/optimized/2001-jake-stone-modal.webp",
+    },
+  },
+  2002: {
+    portrait: {
+      jpg: "/images/optimized/2002-jonathan-lucas-portrait.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2002-jonathan-lucas-thumb.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2002-jonathan-lucas-web.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2002-jonathan-lucas-modal.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-modal.webp",
+    },
+  },
+  2003: {
+    portrait: {
+      jpg: "/images/optimized/2003-jeff-byers-portrait.jpg",
+      webp: "/images/optimized/2003-jeff-byers-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2003-jeff-byers-thumb.jpg",
+      webp: "/images/optimized/2003-jeff-byers-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2003-jeff-byers-web.jpg",
+      webp: "/images/optimized/2003-jeff-byers-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2003-jeff-byers-modal.jpg",
+      webp: "/images/optimized/2003-jeff-byers-modal.webp",
+    },
+  },
+  2004: {
+    portrait: {
+      jpg: "/images/optimized/2004-tyler-sale-portrait.jpg",
+      webp: "/images/optimized/2004-tyler-sale-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2004-tyler-sale-thumb.jpg",
+      webp: "/images/optimized/2004-tyler-sale-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2004-tyler-sale-web.jpg",
+      webp: "/images/optimized/2004-tyler-sale-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2004-tyler-sale-modal.jpg",
+      webp: "/images/optimized/2004-tyler-sale-modal.webp",
+    },
+  },
+  2005: {
+    portrait: {
+      jpg: "/images/optimized/2005-tim-mcgraw-portrait.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2005-tim-mcgraw-thumb.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2005-tim-mcgraw-web.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2005-tim-mcgraw-modal.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-modal.webp",
+    },
+  },
+  2006: {
+    portrait: {
+      jpg: "/images/optimized/2006-clay-garcia-portrait.jpg",
+      webp: "/images/optimized/2006-clay-garcia-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2006-clay-garcia-thumb.jpg",
+      webp: "/images/optimized/2006-clay-garcia-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2006-clay-garcia-web.jpg",
+      webp: "/images/optimized/2006-clay-garcia-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2006-clay-garcia-modal.jpg",
+      webp: "/images/optimized/2006-clay-garcia-modal.webp",
+    },
   },
 };
 
