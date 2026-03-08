@@ -142,11 +142,19 @@ const W = [
   { year: 2008, name: "Bryan Peters", slug: "2008-bryan-peters", orig: "5864173.webp" },
   { year: 2007, name: "Tyler Jackson", slug: "2007-tyler-jackson", orig: "4321516.webp" },
   { year: 1999, name: "Marcus Houston", slug: "1999-marcus-houston", orig: "MARCUS-HOUSTON.webp" },
+  { year: 1998, name: "Ryan Haywood", slug: "1998-ryan-haywood", orig: "1998-ryan-haywood-01-2X.jpeg" },
+  { year: 1997, name: "Jason Lucas", slug: "1997-jason-lucas", orig: "jason-lucas-1997-2X.jpeg" },
+  { year: 2006, name: "Clay Garcia", slug: "2006-clay-garcia", orig: "2006-clay-garcia-01-2X.jpeg" },
+  { year: 2005, name: "Tim McGraw", slug: "2005-tim-mcgraw", orig: "2005-tim-mcgraw-01-2X.jpeg" },
+  { year: 2004, name: "Tyler Sale", slug: "2004-tyler-sale", orig: "2004-tyler-sale-01-2X.jpeg" },
+  { year: 2003, name: "Jeff Byers", slug: "2003-jeff-byers", orig: "2003-jeff-byers-01-2X.jpeg" },
+  { year: 2002, name: "Jonathan Lucas", slug: "2002-jonathan-lucas", orig: "2002-jonathan-lucas-01-2X.jpeg" },
+  { year: 2001, name: "Jake Stone", slug: "2001-jake-stone", orig: "2001-jake-stone-01-2X.jpeg" },
 ];
 
 // Saved Croppie points per year (persisted in localStorage for re-opening)
 const STORE = "goldhelmut-crops";
-let saved = (() => { try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { return {}; } })();
+let saved = (() => { try { const v = JSON.parse(localStorage.getItem(STORE) || "{}"); return (v && typeof v === "object" && !Array.isArray(v)) ? v : {}; } catch { return {}; } })();
 
 let croppie = null;
 let idx = -1;
@@ -226,14 +234,40 @@ function nav(dir) {
   open(next);
 }
 
-function resetCrop() {
+async function resetCrop() {
   if (!croppie || idx < 0) return;
   const w = W[idx];
-  delete saved[w.year];
-  localStorage.setItem(STORE, JSON.stringify(saved));
+
+  // Reset Croppie view to full image
   croppie.bind({ url: `/images/originals/${w.orig}` });
-  refreshCard(w.year);
-  toast("Reset " + w.name);
+
+  // Re-generate server-side assets from the full uncropped image
+  toast("Reverting " + w.name + "...");
+  try {
+    const img = new Image();
+    const dims = await new Promise((res, rej) => {
+      img.onload = () => res({ w: img.naturalWidth, h: img.naturalHeight });
+      img.onerror = rej;
+      img.src = `/images/originals/${w.orig}`;
+    });
+    const res = await fetch("/api/crop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        year: w.year, slug: w.slug, orig: w.orig,
+        points: [0, 0, dims.w, dims.h],
+      }),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || "Server error");
+
+    delete saved[w.year];
+    localStorage.setItem(STORE, JSON.stringify(saved));
+    refreshCard(w.year);
+    toast("Reset " + w.name);
+  } catch (err) {
+    toast("Reset failed: " + err.message, true);
+  }
 }
 
 async function saveCrop() {

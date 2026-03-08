@@ -372,6 +372,150 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       webp: "/images/optimized/1999-marcus-houston-modal.webp",
     },
   },
+  1998: {
+    portrait: {
+      jpg: "/images/optimized/1998-ryan-haywood-portrait.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/1998-ryan-haywood-thumb.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/1998-ryan-haywood-web.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/1998-ryan-haywood-modal.jpg",
+      webp: "/images/optimized/1998-ryan-haywood-modal.webp",
+    },
+  },
+  1997: {
+    portrait: {
+      jpg: "/images/optimized/1997-jason-lucas-portrait.jpg",
+      webp: "/images/optimized/1997-jason-lucas-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/1997-jason-lucas-thumb.jpg",
+      webp: "/images/optimized/1997-jason-lucas-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/1997-jason-lucas-web.jpg",
+      webp: "/images/optimized/1997-jason-lucas-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/1997-jason-lucas-modal.jpg",
+      webp: "/images/optimized/1997-jason-lucas-modal.webp",
+    },
+  },
+  2001: {
+    portrait: {
+      jpg: "/images/optimized/2001-jake-stone-portrait.jpg",
+      webp: "/images/optimized/2001-jake-stone-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2001-jake-stone-thumb.jpg",
+      webp: "/images/optimized/2001-jake-stone-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2001-jake-stone-web.jpg",
+      webp: "/images/optimized/2001-jake-stone-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2001-jake-stone-modal.jpg",
+      webp: "/images/optimized/2001-jake-stone-modal.webp",
+    },
+  },
+  2002: {
+    portrait: {
+      jpg: "/images/optimized/2002-jonathan-lucas-portrait.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2002-jonathan-lucas-thumb.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2002-jonathan-lucas-web.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2002-jonathan-lucas-modal.jpg",
+      webp: "/images/optimized/2002-jonathan-lucas-modal.webp",
+    },
+  },
+  2003: {
+    portrait: {
+      jpg: "/images/optimized/2003-jeff-byers-portrait.jpg",
+      webp: "/images/optimized/2003-jeff-byers-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2003-jeff-byers-thumb.jpg",
+      webp: "/images/optimized/2003-jeff-byers-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2003-jeff-byers-web.jpg",
+      webp: "/images/optimized/2003-jeff-byers-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2003-jeff-byers-modal.jpg",
+      webp: "/images/optimized/2003-jeff-byers-modal.webp",
+    },
+  },
+  2004: {
+    portrait: {
+      jpg: "/images/optimized/2004-tyler-sale-portrait.jpg",
+      webp: "/images/optimized/2004-tyler-sale-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2004-tyler-sale-thumb.jpg",
+      webp: "/images/optimized/2004-tyler-sale-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2004-tyler-sale-web.jpg",
+      webp: "/images/optimized/2004-tyler-sale-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2004-tyler-sale-modal.jpg",
+      webp: "/images/optimized/2004-tyler-sale-modal.webp",
+    },
+  },
+  2005: {
+    portrait: {
+      jpg: "/images/optimized/2005-tim-mcgraw-portrait.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2005-tim-mcgraw-thumb.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2005-tim-mcgraw-web.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2005-tim-mcgraw-modal.jpg",
+      webp: "/images/optimized/2005-tim-mcgraw-modal.webp",
+    },
+  },
+  2006: {
+    portrait: {
+      jpg: "/images/optimized/2006-clay-garcia-portrait.jpg",
+      webp: "/images/optimized/2006-clay-garcia-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/2006-clay-garcia-thumb.jpg",
+      webp: "/images/optimized/2006-clay-garcia-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/2006-clay-garcia-web.jpg",
+      webp: "/images/optimized/2006-clay-garcia-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/2006-clay-garcia-modal.jpg",
+      webp: "/images/optimized/2006-clay-garcia-modal.webp",
+    },
+  },
 };
 
 export function getWinnerImage(
