@@ -8,9 +8,11 @@ const OUTPUT_DIR = path.join(process.cwd(), "public/images/optimized");
 // portrait: 4:5 for grid cards. thumb: 1:1 square, exact Croppie crop for timeline circles.
 // Web (homepage) and modal (detail view) use the full original via process-images.js.
 const SIZES = {
-  portrait: { width: 800, height: 1000, fit: "cover" as const },
-  thumb: { width: 500, height: 500, fit: "fill" as const },
+  portrait: { width: 800, height: 1000, fit: "cover" as const, quality: 85 },
+  thumb: { width: 500, height: 500, fit: "cover" as const, quality: 80 },
 } as const;
+
+const SAFE_FILENAME = /^[\w.\-]+$/;
 
 export async function POST(req: NextRequest) {
   if (process.env.NODE_ENV === "production") {
@@ -24,9 +26,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // Path traversal guard: only allow simple filenames
-    const safeFilename = /^[\w.\-]+$/;
-    if (!safeFilename.test(orig) || !safeFilename.test(slug)) {
+    if (!SAFE_FILENAME.test(orig) || !SAFE_FILENAME.test(slug)) {
       return NextResponse.json({ error: "Invalid filename" }, { status: 400 });
     }
 
@@ -67,25 +67,21 @@ export async function POST(req: NextRequest) {
       })
       .toBuffer();
 
-    // Thumb: direct square resize from the square Croppie crop (WYSIWYG)
-    await sharp(croppedBuffer)
-      .resize({ width: SIZES.thumb.width, height: SIZES.thumb.height, fit: SIZES.thumb.fit })
-      .jpeg({ quality: 80, progressive: true })
-      .toFile(path.join(OUTPUT_DIR, `${slug}-thumb.jpg`));
-    await sharp(croppedBuffer)
-      .resize({ width: SIZES.thumb.width, height: SIZES.thumb.height, fit: SIZES.thumb.fit })
-      .webp({ quality: 80 })
-      .toFile(path.join(OUTPUT_DIR, `${slug}-thumb.webp`));
+    // Resize to each variant, write jpg + webp in parallel per size
+    for (const [sizeName, dims] of Object.entries(SIZES)) {
+      const baseName = `${slug}-${sizeName}`;
+      const resized = sharp(croppedBuffer).resize({
+        width: dims.width, height: dims.height, fit: dims.fit,
+        ...(sizeName === "portrait" && { position: "top" }),
+      });
 
-    // Portrait: 4:5 for grid cards
-    await sharp(croppedBuffer)
-      .resize({ width: SIZES.portrait.width, height: SIZES.portrait.height, fit: SIZES.portrait.fit, position: "top" })
-      .jpeg({ quality: 85, progressive: true })
-      .toFile(path.join(OUTPUT_DIR, `${slug}-portrait.jpg`));
-    await sharp(croppedBuffer)
-      .resize({ width: SIZES.portrait.width, height: SIZES.portrait.height, fit: SIZES.portrait.fit, position: "top" })
-      .webp({ quality: 85 })
-      .toFile(path.join(OUTPUT_DIR, `${slug}-portrait.webp`));
+      await Promise.all([
+        resized.clone().jpeg({ quality: dims.quality, progressive: true })
+          .toFile(path.join(OUTPUT_DIR, `${baseName}.jpg`)),
+        resized.clone().webp({ quality: dims.quality })
+          .toFile(path.join(OUTPUT_DIR, `${baseName}.webp`)),
+      ]);
+    }
 
     return NextResponse.json({ ok: true, year, slug, crop: { x1, y1, cropWidth, cropHeight } });
   } catch (err: unknown) {
