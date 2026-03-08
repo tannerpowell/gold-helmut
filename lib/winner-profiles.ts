@@ -556,7 +556,7 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
 
   2006: {
     headline: "52 touchdown passes and a 4.3261 GPA",
-    bio: `Clay Garcia, a quarterback from Broomfield, rewrote the Colorado record book with 52 touchdown passes in a single season and 4,164 passing yards. He was also valedictorian with a 4.3261 GPA, scored 28 on the ACT, served as student body president, and won the school\u2019s Outstanding Male Student award. He wanted to study engineering and had interest from Ivy League schools.`,
+    bio: `Clay Garcia, a quarterback from Alamosa, rewrote the Colorado record book with 52 touchdown passes in a single season and 4,164 passing yards. He was also valedictorian with a 4.3261 GPA, scored 28 on the ACT, served as student body president, and won the school\u2019s Outstanding Male Student award. He wanted to study engineering and had interest from Ivy League schools.`,
     stats: [
       { label: "Pass TDs", value: "52" },
       { label: "Pass Yards", value: "4,164" },
@@ -605,7 +605,7 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
 
   2003: {
     headline: "First Colorado player to win Gatorade National Player of the Year",
-    bio: `Jeff Byers, a linebacker from Loveland, became the first Colorado player ever named Gatorade National Player of the Year. He racked up 203 tackles with a 3.92 GPA. Coaches and teammates called him a "gentle giant" off the field. He committed to USC.`,
+    bio: `Jeff Byers, a lineman from Loveland, became the first Colorado player ever named Gatorade National Player of the Year. He racked up 203 tackles with a 3.92 GPA. Coaches and teammates called him a "gentle giant" off the field. He committed to USC.`,
     stats: [
       { label: "Tackles", value: "203" },
       { label: "GPA", value: "3.92" },
@@ -619,7 +619,7 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
 
   2002: {
     headline: "Jason\u2019s brother: NHS president, 200+ Race for Cure signups",
-    bio: `Jonathan Lucas, a linebacker from Mullen, followed his brother Jason (1997 winner) as a Gold Helmet honoree. He carried a 3.913 GPA with a 1270 SAT, served as National Honor Society president, and personally recruited over 200 people to sign up for the Race for the Cure.`,
+    bio: `Jonathan Lucas, a linebacker from Arvada West, followed his brother Jason (1997 winner) as a Gold Helmet honoree. He carried a 3.913 GPA with a 1270 SAT, served as National Honor Society president, and personally recruited over 200 people to sign up for the Race for the Cure.`,
     stats: [
       { label: "GPA", value: "3.913" },
       { label: "SAT", value: "1270" },
@@ -679,7 +679,7 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
 
   1997: {
     headline: "Class rank #1 of 560, 14 career interceptions",
-    bio: `Jason Lucas, a 6\u20194\u201D, 195-pound strong safety from Mullen, ranked first in a class of 560 with a 1310 SAT. He picked off 14 passes over his career while playing for coach Dave Logan (1971 Gold Helmet winner). He committed to Brown.`,
+    bio: `Jason Lucas, a 6\u20194\u201D, 195-pound strong safety from Arvada West, ranked first in a class of 560 with a 1310 SAT. He picked off 14 passes over his career while playing for coach Dave Logan (1971 Gold Helmet winner). He committed to Brown.`,
     stats: [
       { label: "INTs", value: "14" },
       { label: "Class Rank", value: "#1/560" },
