@@ -17,23 +17,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Not available in production" }, { status: 403 });
   }
 
-  const { year, slug, orig, points } = await req.json();
-
-  if (!year || !slug || !orig || !points || points.length !== 4) {
-    return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-  }
-
-  const [x1, y1, x2, y2] = points.map((p: number) => Math.round(p));
-  const cropWidth = x2 - x1;
-  const cropHeight = y2 - y1;
-
-  if (cropWidth <= 0 || cropHeight <= 0) {
-    return NextResponse.json({ error: "Invalid crop region" }, { status: 400 });
-  }
-
-  const inputPath = path.join(ORIGINALS_DIR, orig);
-
   try {
+    const { year, slug, orig, points } = await req.json();
+
+    if (!year || !slug || !orig || !points || points.length !== 4) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    }
+
+    // Path traversal guard: only allow simple filenames
+    const safeFilename = /^[\w.\-]+$/;
+    if (!safeFilename.test(orig) || !safeFilename.test(slug)) {
+      return NextResponse.json({ error: "Invalid filename" }, { status: 400 });
+    }
+
+    const [x1, y1, x2, y2] = points.map((p: number) => Math.round(p));
+    const cropWidth = x2 - x1;
+    const cropHeight = y2 - y1;
+
+    if (cropWidth <= 0 || cropHeight <= 0) {
+      return NextResponse.json({ error: "Invalid crop region" }, { status: 400 });
+    }
+
+    const inputPath = path.join(ORIGINALS_DIR, orig);
+    if (!path.resolve(inputPath).startsWith(ORIGINALS_DIR)) {
+      return NextResponse.json({ error: "Invalid path" }, { status: 400 });
+    }
+
     // Croppie points can extend beyond image bounds when zoomed out.
     // Pad the image with black so the extract matches what Croppie shows.
     const meta = await sharp(inputPath).metadata();
@@ -60,21 +69,21 @@ export async function POST(req: NextRequest) {
 
     // Thumb: direct square resize from the square Croppie crop (WYSIWYG)
     await sharp(croppedBuffer)
-      .resize({ width: 500, height: 500, fit: "cover" })
+      .resize({ width: SIZES.thumb.width, height: SIZES.thumb.height, fit: SIZES.thumb.fit })
       .jpeg({ quality: 80, progressive: true })
       .toFile(path.join(OUTPUT_DIR, `${slug}-thumb.jpg`));
     await sharp(croppedBuffer)
-      .resize({ width: 500, height: 500, fit: "cover" })
+      .resize({ width: SIZES.thumb.width, height: SIZES.thumb.height, fit: SIZES.thumb.fit })
       .webp({ quality: 80 })
       .toFile(path.join(OUTPUT_DIR, `${slug}-thumb.webp`));
 
     // Portrait: 4:5 for grid cards
     await sharp(croppedBuffer)
-      .resize({ width: 800, height: 1000, fit: "cover", position: "top" })
+      .resize({ width: SIZES.portrait.width, height: SIZES.portrait.height, fit: SIZES.portrait.fit, position: "top" })
       .jpeg({ quality: 85, progressive: true })
       .toFile(path.join(OUTPUT_DIR, `${slug}-portrait.jpg`));
     await sharp(croppedBuffer)
-      .resize({ width: 800, height: 1000, fit: "cover", position: "top" })
+      .resize({ width: SIZES.portrait.width, height: SIZES.portrait.height, fit: SIZES.portrait.fit, position: "top" })
       .webp({ quality: 85 })
       .toFile(path.join(OUTPUT_DIR, `${slug}-portrait.webp`));
 

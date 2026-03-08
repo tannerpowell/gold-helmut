@@ -8,7 +8,7 @@ const path = require("path");
 const SIZES = {
   web:      { width: 1600, height: 2000, fit: "cover" },
   portrait: { width: 800, height: 1000,  fit: "cover" },
-  thumb:    { width: 500, height: 700,   fit: "cover" },
+  thumb:    { width: 500, height: 500,   fit: "cover" },
   modal:    { width: 1536, fit: "inside" },
 };
 

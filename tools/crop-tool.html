@@ -162,11 +162,11 @@ function renderGrid() {
     card.className = "card" + (s ? " saved" : "");
     card.id = "c-" + w.year;
     card.onclick = () => open(i);
-    // Use portrait for preview; add cache-bust if we've saved a crop
+    // Use thumb for preview; add cache-bust if we've saved a crop
     const bust = s ? `?v=${Date.now()}` : "";
     card.innerHTML = `
       <div class="card-circle">
-        <img src="/images/optimized/${w.slug}-portrait.jpg${bust}" style="object-position:50% 15%">
+        <img src="/images/optimized/${w.slug}-thumb.jpg${bust}" style="object-position:50% 15%">
       </div>
       <div class="card-info">
         <h3>${w.name}</h3>
@@ -186,7 +186,7 @@ function refreshCard(year) {
   card.querySelector(".status").className = "status " + (s ? "done" : "");
   card.querySelector(".status").textContent = s ? "Cropped" : "Default";
   const img = card.querySelector("img");
-  img.src = `/images/optimized/${w.slug}-portrait.jpg?v=${Date.now()}`;
+  img.src = `/images/optimized/${w.slug}-thumb.jpg?v=${Date.now()}`;
 }
 
 // ── Modal ──

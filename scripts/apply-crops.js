@@ -21,7 +21,7 @@ const OUTPUT_DIR = path.join(PROJECT_ROOT, "public/images/optimized");
 const SIZES = {
   web:      { width: 1600, height: 2000 },
   portrait: { width: 800,  height: 1000 },
-  thumb:    { width: 500,  height: 700 },
+  thumb:    { width: 500,  height: 500 },
   modal:    { width: 1536 },
 };
 
@@ -44,16 +44,29 @@ async function applyCrop(year, crop) {
 
   console.log(`  ${year} (${crop.slug}): extract ${cropWidth}x${cropHeight} from [${x1},${y1}]`);
 
-  // Extract the cropped region first, then resize to each output size
-  const cropped = sharp(inputPath).extract({
-    left: Math.max(0, x1),
-    top: Math.max(0, y1),
-    width: cropWidth,
-    height: cropHeight,
-  });
+  // Croppie points can extend beyond image bounds when zoomed out.
+  // Pad the image with black so the extract matches what Croppie shows.
+  const meta = await sharp(inputPath).metadata();
+  const imgW = meta.width;
+  const imgH = meta.height;
 
-  // Get the cropped buffer once, reuse for all sizes
-  const croppedBuffer = await cropped.toBuffer();
+  const padLeft = Math.max(0, -x1);
+  const padTop = Math.max(0, -y1);
+  const padRight = Math.max(0, x2 - imgW);
+  const padBottom = Math.max(0, y2 - imgH);
+
+  const croppedBuffer = await sharp(inputPath)
+    .extend({
+      top: padTop, bottom: padBottom, left: padLeft, right: padRight,
+      background: { r: 0, g: 0, b: 0, alpha: 1 },
+    })
+    .extract({
+      left: x1 + padLeft,
+      top: y1 + padTop,
+      width: cropWidth,
+      height: cropHeight,
+    })
+    .toBuffer();
 
   for (const [sizeName, dims] of Object.entries(SIZES)) {
     const baseName = `${crop.slug}-${sizeName}`;
