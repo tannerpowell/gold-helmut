@@ -37,11 +37,25 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://goldhelmetaward.com"),
   title: "Gold Helmet Award - Colorado's Premier High School Football Honor",
   description:
     "The Gold Helmet Award recognizes excellence, leadership, and character in Colorado high school football since 1951. View winners, apply, and support student-athletes.",
   keywords:
     "Gold Helmet Award, Colorado football, high school football, scholarship, sports award",
+  openGraph: {
+    title: "Gold Helmet Award",
+    description:
+      "Recognizing excellence, leadership, and character in Colorado high school football since 1951.",
+    images: [{ url: "/images/1280x720-social-share.png", width: 1280, height: 720 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gold Helmet Award",
+    description:
+      "Recognizing excellence, leadership, and character in Colorado high school football since 1951.",
+    images: ["/images/1280x720-social-share.png"],
+  },
 };
 
 export default function RootLayout({
