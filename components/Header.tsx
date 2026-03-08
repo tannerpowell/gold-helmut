@@ -78,33 +78,33 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <nav id="mobile-navigation" className="md:hidden chrome-bar border-t border-white/10 px-6 py-4 space-y-3">
+        <nav id="mobile-navigation" className="md:hidden chrome-bar border-t border-white/10 px-6 py-3 space-y-0">
           <Link
             href="/hall-of-champions"
             onClick={() => setMobileOpen(false)}
-            className={`block ${navLinkClass(pathname === "/hall-of-champions")}`}
+            className={`block py-3 ${navLinkClass(pathname === "/hall-of-champions")}`}
           >
             Hall of Champions
           </Link>
           <Link
             href="/#board"
             onClick={() => { setHash("#board"); setMobileOpen(false); }}
-            className={`block ${navLinkClass(pathname === "/" && hash === "#board")}`}
+            className={`block py-3 ${navLinkClass(pathname === "/" && hash === "#board")}`}
           >
             Leadership
           </Link>
           <Link
             href="/#nominate"
             onClick={() => { setHash("#nominate"); setMobileOpen(false); }}
-            className={`block ${navLinkClass(pathname === "/" && hash === "#nominate")}`}
+            className={`block py-3 ${navLinkClass(pathname === "/" && hash === "#nominate")}`}
           >
             Nominate
           </Link>
-          <div className="h-px w-8 bg-white/10" />
+          <div className="h-px w-8 bg-white/10 my-1" />
           <Link
             href="/#donate"
             onClick={() => { setHash("#donate"); setMobileOpen(false); }}
-            className={`block ${navLinkClass(pathname === "/" && hash === "#donate")}`}
+            className={`block py-3 ${navLinkClass(pathname === "/" && hash === "#donate")}`}
           >
             Donate
           </Link>
