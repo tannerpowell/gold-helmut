@@ -272,13 +272,13 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               </p>
 
               {/* Stats grid */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {OLIVA_2025.stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="bg-white/[0.06] border border-white/[0.12] rounded-md px-3 py-4 text-center"
                   >
-                    <div className="text-white font-display font-bold text-4xl leading-none tracking-tight">
+                    <div className="text-white font-display font-bold text-2xl sm:text-4xl leading-none tracking-tight">
                       {stat.value}
                     </div>
                     <div className="text-gold text-[11px] uppercase tracking-[0.12em] font-semibold mt-2">
@@ -393,13 +393,13 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
             )}
 
             {profile.stats && profile.stats.length > 0 && (
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {profile.stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="bg-white/[0.06] border border-white/[0.12] rounded-md px-3 py-4 text-center"
                   >
-                    <div className="text-white font-display font-bold text-4xl leading-none tracking-tight">
+                    <div className="text-white font-display font-bold text-2xl sm:text-4xl leading-none tracking-tight">
                       {stat.value}
                     </div>
                     <div className="text-gold text-[11px] uppercase tracking-[0.12em] font-semibold mt-2">
