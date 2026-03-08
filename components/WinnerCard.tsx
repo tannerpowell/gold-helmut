@@ -38,7 +38,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
         tabIndex={onClick ? 0 : undefined}
         onKeyDown={handleActivateKey(onClick)}
       >
-        <div className="relative w-[6.5rem] h-[6.5rem] sm:w-[8.5rem] sm:h-[8.5rem] md:w-[10.75rem] md:h-[10.75rem] flex-shrink-0 rounded-full overflow-hidden shadow-[0_0_0_5px_#fafafa,0_2px_8px_rgba(0,0,0,0.12)] bg-surface-elevated transition-transform duration-200 ease-in-out group-hover:scale-[1.04]">
+        <div className="relative w-[7.5rem] h-[7.5rem] sm:w-[8.5rem] sm:h-[8.5rem] md:w-[10.75rem] md:h-[10.75rem] flex-shrink-0 rounded-full overflow-hidden shadow-[0_0_0_3px_#fafafa,0_2px_8px_rgba(0,0,0,0.12)] sm:shadow-[0_0_0_5px_#fafafa,0_2px_8px_rgba(0,0,0,0.12)] bg-surface-elevated transition-transform duration-200 ease-in-out group-hover:scale-[1.04]">
           {image ? (
             <Image
               src={image.jpg}
@@ -46,13 +46,13 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
               fill
               className="object-cover"
               style={{ objectPosition: image.focalPoint ?? DEFAULT_FOCAL_POINT }}
-              sizes="(min-width: 768px) 172px, (min-width: 640px) 136px, 104px"
+              sizes="(min-width: 768px) 172px, (min-width: 640px) 136px, 120px"
             />
           ) : (
             <Initials name={winner.name} />
           )}
         </div>
-        <div className="flex-1 pt-4 sm:pt-8 md:pt-10">
+        <div className="flex-1 pt-6 sm:pt-8 md:pt-10">
           <h3 className="font-display font-semibold text-foreground mb-1 text-xl sm:text-[1.725rem] leading-[1.2]">
             {winner.name}
           </h3>
