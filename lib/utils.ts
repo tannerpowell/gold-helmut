@@ -16,6 +16,24 @@ export function getInitials(name: string): string {
     .slice(0, 2);
 }
 
+export function addUtmParams(
+  url: string,
+  campaign: string,
+  content?: string | number,
+): string {
+  const [baseUrl, ...hashParts] = url.split("#");
+  const hashFragment = hashParts.length > 0 ? hashParts.join("#") : null;
+  const sep = baseUrl.includes("?") ? "&" : "?";
+  const params = new URLSearchParams({
+    utm_source: "goldhelmetaward.com",
+    utm_medium: "referral",
+    utm_campaign: campaign,
+    ...(content != null && { utm_content: String(content) }),
+  });
+  const result = `${baseUrl}${sep}${params}`;
+  return hashFragment != null ? `${result}#${hashFragment}` : result;
+}
+
 export function handleActivateKey(fn?: () => void) {
   if (!fn) return undefined;
   return (e: React.KeyboardEvent) => {

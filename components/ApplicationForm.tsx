@@ -104,7 +104,6 @@ export function ApplicationForm() {
   return (
     <section className="py-12 lg:py-16 px-6 bg-background">
       <div className="max-w-2xl mx-auto">
-
         {submitted && (
           <div className="p-6 bg-gold/10 border border-gold/30 mb-8">
             <p className="text-foreground font-medium mb-1">

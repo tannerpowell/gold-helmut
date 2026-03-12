@@ -22,6 +22,8 @@ export default function WinnersTimeline() {
   const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
   const handleModalClose = useCallback(() => setSelectedWinner(null), []);
   const [scrollDirection, setScrollDirection] = useState<"top" | "bottom">("bottom");
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [sidebarOverflows, setSidebarOverflows] = useState(false);
   const yearRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const isScrollingTo = useRef(false);
   const scrollEndHandlerRef = useRef<(() => void) | null>(null);
@@ -43,6 +45,25 @@ export default function WinnersTimeline() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Track whether sidebar content overflows to conditionally show fade gradient
+  useEffect(() => {
+    const el = sidebarRef.current;
+    if (!el) return;
+    const check = () => {
+      const scrollable = el.scrollHeight > el.clientHeight + 10;
+      const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
+      setSidebarOverflows(scrollable && !nearBottom);
+    };
+    requestAnimationFrame(check);
+    el.addEventListener("scroll", check, { passive: true });
+    const resizeObserver = new ResizeObserver(check);
+    resizeObserver.observe(el);
+    return () => {
+      el.removeEventListener("scroll", check);
+      resizeObserver.disconnect();
+    };
   }, []);
 
   // Track which year is visible via a single shared IntersectionObserver.
@@ -193,8 +214,9 @@ export default function WinnersTimeline() {
           </div>
 
           {/* Sidebar: School Leaderboard */}
-          <div className="hidden xl:block w-[540px] flex-shrink-0 sticky top-[160px] max-h-[calc(100vh-180px)] overflow-y-auto pr-4">
+          <div ref={sidebarRef} className="hidden xl:block w-[540px] flex-shrink-0 sticky top-[160px] max-h-[calc(100vh-180px)] overflow-y-auto pr-4 relative">
             <SchoolLeaderboard onYearClick={handleYearClick} />
+            {sidebarOverflows && <div className="sticky bottom-0 h-12 bg-gradient-to-t from-[hsl(var(--background))] to-transparent pointer-events-none" />}
           </div>
         </div>
       </div>
