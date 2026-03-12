@@ -173,15 +173,15 @@ export default function WinnersTimeline() {
           {/* Timeline */}
           <div className="flex-1 max-w-4xl relative">
             {/* Gold vertical line */}
-            <div className="absolute left-5 md:left-[8.5rem] top-0 bottom-0 w-px bg-gold/20" />
+            <div className="absolute left-7 sm:left-5 md:left-[8.5rem] top-0 bottom-0 w-px bg-gold/20" />
 
-            <div className="space-y-8 pl-12 md:pl-44">
+            <div className="space-y-8 pl-16 sm:pl-12 md:pl-44">
               {WINNERS_BY_YEAR.map((winner) => {
                 return (
                   <div key={winner.year} ref={setYearRef(winner.year)} data-year={winner.year} className="relative">
                     {/* Card with year centered in left gutter */}
                     <div className="relative">
-                      <span className="absolute top-1/2 -translate-y-1/2 font-sans font-semibold text-sm md:text-xl text-gold tracking-wide text-center w-12 md:w-32 -left-12 md:-left-44">
+                      <span className="absolute top-1/2 -translate-y-1/2 font-sans font-semibold text-sm md:text-xl text-gold tracking-wide text-center w-14 sm:w-12 md:w-32 -left-16 sm:-left-12 md:-left-44">
                         {winner.year}
                       </span>
                       <WinnerCard winner={winner} variant="timeline" onClick={() => setSelectedWinner(winner)} />

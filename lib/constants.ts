@@ -8,6 +8,8 @@ export const AWARD_INFO = Object.freeze({
   chairman: "Matt Schubert",
 });
 
+export const NOMINATION_EMAILS = "KNewman@denverpost.com,GoldHelmet2025@gmail.com";
+
 export const ATTRIBUTION_EMAIL = "thetannerpowell@gmail.com";
 
 export interface Winner {
@@ -37,7 +39,7 @@ export const WINNERS: readonly Winner[] = [
   { year: 2014, name: "Mike Morean", school: "Cherry Creek", position: "S", college: "Princeton", storyUrl: "https://www.denverpost.com/preps/ci_27179856/mike-morean-cherry-creek-wins-2014-gold-helmet-award" },
   { year: 2013, name: "Christian McCaffrey", school: "Valor Christian", position: "RB", college: "Stanford", storyUrl: "https://www.denverpost.com/preps/ci_24683116/christian-mccaffrey-wins-denver-post-gold-helmet-award" },
   { year: 2012, name: "Xavier Lewis", school: "Eaglecrest", position: "S", college: "Wyoming", storyUrl: "https://www.denverpost.com/ci_22240900/gold-helmet-award-eaglecrests-xavier-lewis-hard-hitting" },
-  { year: 2011, name: "Sean Rubalcaba", school: "Grand Junction", position: "QB", college: "Colorado Mesa", storyUrl: "https://www.denverpost.com/ci_19616237" },
+  { year: 2011, name: "Sean Rubalcaba", school: "Grand Junction", position: "QB", college: "Northern Colorado", storyUrl: "https://www.denverpost.com/ci_19616237" },
   { year: 2010, name: "Ian Imamura", school: "Pueblo West", position: "TE/LB", college: "Air Force", storyUrl: "https://www.denverpost.com/ci_16942944" },
   { year: 2009, name: "Matt Brown", school: "Limon", position: "QB", college: "Colorado School of Mines", storyUrl: "https://www.denverpost.com/preps/ci_14034333" },
   { year: 2008, name: "Bryan Peters", school: "Rocky Mountain", position: "QB", college: "Nebraska", storyUrl: "https://www.denverpost.com/preps/ci_11279702" },
@@ -105,15 +107,15 @@ Object.freeze(WINNERS);
 
 export interface GivingLevel {
   name: string;
-  range: string;
-  perks?: string | null;
+  /** Donor names to display under this level once donations come in */
+  donors?: string[];
 }
 
 export const GIVING_LEVELS: readonly GivingLevel[] = [
-  { name: "Gold Helmet Legends", range: "$5,000\u2013$9,999" },
-  { name: "Captain\u2019s Club", range: "$2,500\u2013$4,999" },
-  { name: "Gold Helmet Brotherhood", range: "$1,000\u2013$2,499" },
-  { name: "Teammate Level", range: "Up to $999" },
+  { name: "$5,000" },
+  { name: "$2,500" },
+  { name: "$1,000" },
+  { name: "Other" },
 ];
 
 // WINNERS is already ordered most recent first (2025 → 1951)

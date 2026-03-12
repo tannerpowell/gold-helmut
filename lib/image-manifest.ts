@@ -7,6 +7,8 @@ type WinnerImageSet = {
   thumb: ImageVariant;
   web: ImageVariant;
   modal: ImageVariant;
+  /** Wide landscape variant for hero backgrounds on desktop viewports */
+  hero?: ImageVariant;
   /** CSS object-position for cropping (face-priority), e.g. "50% 20%" */
   focalPoint?: string;
 };
@@ -28,6 +30,10 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
     modal: {
       jpg: "/images/optimized/2025-elian-oliva-modal-v2.jpg",
       webp: "/images/optimized/2025-elian-oliva-modal-v2.webp",
+    },
+    hero: {
+      jpg: "/images/optimized/2025-elian-oliva-hero.jpg",
+      webp: "/images/optimized/2025-elian-oliva-hero.webp",
     },
   },
   2024: {
@@ -520,9 +526,12 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
 
 export function getWinnerImage(
   year: number,
-  type: "portrait" | "thumb" | "web" | "modal" = "portrait"
+  type: "portrait" | "thumb" | "web" | "modal" | "hero" = "portrait"
 ) {
   const entry = IMAGE_MANIFEST[year];
   if (!entry) return undefined;
+  if (type === "hero") {
+    return entry.hero ? { ...entry.hero, focalPoint: entry.focalPoint } : undefined;
+  }
   return { ...entry[type], focalPoint: entry.focalPoint };
 }

@@ -65,7 +65,7 @@ export function DonateSection() {
             Support the Mission
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium italic text-white mb-4">
-            Fund a Scholarship
+            Make a Donation
           </h2>
           <p className="text-lg chrome-bar-text leading-relaxed mb-4">
             Your donation directly funds ${AWARD_INFO.scholarshipAmount.toLocaleString()} scholarships

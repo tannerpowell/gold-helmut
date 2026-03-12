@@ -25,7 +25,30 @@ const SIZES = {
   modal:    { width: 1536 },
 };
 
+const SAFE_SLUG_RE = /^[a-z0-9_-]+$/i;
+
 async function applyCrop(year, crop) {
+  if (!crop || typeof crop.orig !== "string" || !crop.orig) {
+    console.warn(`  SKIP ${year}: missing or invalid crop.orig`);
+    return;
+  }
+  if (!Array.isArray(crop.points) || crop.points.length !== 4
+      || !crop.points.every(p => typeof p === "number" && Number.isFinite(p))) {
+    console.warn(`  SKIP ${year}: invalid crop.points (${JSON.stringify(crop.points)})`);
+    return;
+  }
+
+  // Reject path traversal in orig filename
+  if (crop.orig.includes("..") || path.isAbsolute(crop.orig)) {
+    console.warn(`  SKIP ${year}: unsafe orig path "${crop.orig}"`);
+    return;
+  }
+  // Validate slug to prevent writing files outside output dir
+  if (typeof crop.slug !== "string" || !SAFE_SLUG_RE.test(crop.slug)) {
+    console.warn(`  SKIP ${year}: unsafe or missing slug "${crop.slug}"`);
+    return;
+  }
+
   const inputPath = path.join(ORIGINALS_DIR, crop.orig);
   if (!fs.existsSync(inputPath)) {
     console.warn(`  SKIP ${year}: ${crop.orig} not found`);

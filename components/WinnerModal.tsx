@@ -7,6 +7,7 @@ import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { getInitials } from "@/lib/utils";
 import { WINNER_PROFILES } from "@/lib/winner-profiles";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 interface WinnerModalProps {
   winner: Winner | null;
@@ -97,23 +98,11 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
       );
     }
     document.addEventListener("keydown", handleKey);
-    // Lock body scroll (position:fixed pattern works on iOS Safari)
-    const scrollY = window.scrollY;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-    if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+    lockScroll();
     closeRef.current?.focus();
     return () => {
       document.removeEventListener("keydown", handleKey);
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-      window.scrollTo({ top: scrollY, left: 0, behavior: "instant" });
+      unlockScroll();
       focusableRef.current = [];
       // Restore focus to the element that opened the modal
       if (prevFocusRef.current instanceof HTMLElement) {
@@ -156,7 +145,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6"
     >
       {/* Backdrop: clicking this closes the modal */}
       <button
@@ -226,32 +215,36 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 </span>
               </div>
             ) : (
-              <p className="text-gold text-sm font-medium uppercase tracking-[0.2em] mb-2">
+              <p className="inline-block bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full text-gold text-sm font-semibold uppercase tracking-[0.2em] mb-2">
                 {winner.year} Gold Helmet Award
               </p>
             )}
-            <h2 className="font-display font-semibold text-3xl sm:text-4xl text-white mb-1">
-              {winner.name}
-            </h2>
-            <p className="text-[#c0c0c0] text-lg mb-0.5">{winner.school}</p>
-            {(winner.position || winner.college) && (
-              <p className="text-white text-lg font-medium">
-                {winner.position && <span>{winner.position}</span>}
-                {winner.position && winner.college && " \u00b7 "}
-                {winner.college}
-              </p>
-            )}
-            {winner.storyUrl && (
-              <a
-                href={winner.storyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-gold text-sm font-medium mt-2 hover:underline"
-              >
-                Read full story
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            )}
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="font-display font-semibold text-3xl sm:text-4xl text-white mb-1">
+                  {winner.name}
+                </h2>
+                <p className="text-[#c0c0c0] text-lg mb-0.5">{winner.school}</p>
+                {(winner.position || winner.college) && (
+                  <p className="text-white text-lg font-medium">
+                    {winner.position && <span>{winner.position}</span>}
+                    {winner.position && winner.college && " \u00b7 "}
+                    {winner.college}
+                  </p>
+                )}
+              </div>
+              {winner.storyUrl && (
+                <a
+                  href={winner.storyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 inline-flex items-center gap-1.5 text-gold text-sm font-medium hover:underline"
+                >
+                  Read full story
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
@@ -272,13 +265,13 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               </p>
 
               {/* Stats grid */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {OLIVA_2025.stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="bg-white/[0.06] border border-white/[0.12] rounded-md px-3 py-4 text-center"
                   >
-                    <div className="text-white font-display font-bold text-4xl leading-none tracking-tight">
+                    <div className="text-white font-display font-bold text-2xl sm:text-4xl leading-none tracking-tight">
                       {stat.value}
                     </div>
                     <div className="text-gold text-[11px] uppercase tracking-[0.12em] font-semibold mt-2">
@@ -299,19 +292,19 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               </div>
 
               {/* Academics + Track */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
                     {OLIVA_2025.academics.title}
                   </div>
-                  <div className="text-white text-4xl font-display font-bold leading-tight">{OLIVA_2025.academics.weightedGpa}</div>
+                  <div className="text-white text-2xl sm:text-4xl font-display font-bold leading-tight">{OLIVA_2025.academics.weightedGpa}</div>
                   <div className="text-[#a0a0a0] text-sm mt-0.5">{OLIVA_2025.academics.label}</div>
                 </div>
                 <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
                     {OLIVA_2025.track.title}
                   </div>
-                  <div className="text-white text-4xl font-display font-bold leading-tight">{OLIVA_2025.track.rank}</div>
+                  <div className="text-white text-2xl sm:text-4xl font-display font-bold leading-tight">{OLIVA_2025.track.rank}</div>
                   <div className="text-[#a0a0a0] text-sm mt-0.5">{OLIVA_2025.track.description}</div>
                 </div>
               </div>
@@ -331,7 +324,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-3 font-semibold">
                   Community & Leadership
                 </div>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {OLIVA_2025.community.map((item) => (
                     <div
                       key={item}
@@ -393,13 +386,13 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
             )}
 
             {profile.stats && profile.stats.length > 0 && (
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {profile.stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="bg-white/[0.06] border border-white/[0.12] rounded-md px-3 py-4 text-center"
                   >
-                    <div className="text-white font-display font-bold text-4xl leading-none tracking-tight">
+                    <div className="text-white font-display font-bold text-2xl sm:text-4xl leading-none tracking-tight">
                       {stat.value}
                     </div>
                     <div className="text-gold text-[11px] uppercase tracking-[0.12em] font-semibold mt-2">
@@ -422,7 +415,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
             )}
 
             {profile.highlights && profile.highlights.length > 0 && (
-              <div className={`grid gap-3 ${profile.highlights.length > 1 ? "grid-cols-2" : ""}`}>
+              <div className={`grid gap-3 ${profile.highlights.length > 1 ? "grid-cols-1 sm:grid-cols-2" : ""}`}>
                 {profile.highlights.map((h) => (
                   <div
                     key={h.title}
@@ -431,7 +424,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                     <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
                       {h.title}
                     </div>
-                    <div className="text-white text-4xl font-display font-bold leading-tight">
+                    <div className="text-white text-2xl sm:text-4xl font-display font-bold leading-tight">
                       {h.value}
                     </div>
                     <div className="text-[#a0a0a0] text-sm mt-0.5">{h.description}</div>
@@ -456,7 +449,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-3 font-semibold">
                   Community & Leadership
                 </div>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {profile.community.map((item) => (
                     <div
                       key={item}
@@ -478,6 +471,19 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                   {profile.coachQuote.attribution}
                 </cite>
               </blockquote>
+            )}
+
+            {profile.closingImage && (
+              <div className="rounded-md overflow-hidden">
+                <Image
+                  src={profile.closingImage}
+                  alt={`${winner.name}`}
+                  width={800}
+                  height={500}
+                  className="w-full h-auto object-cover"
+                  sizes="(min-width: 768px) 768px, 100vw"
+                />
+              </div>
             )}
 
             {profile.future && (

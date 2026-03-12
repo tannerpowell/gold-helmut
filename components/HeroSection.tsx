@@ -7,28 +7,54 @@ import { AWARD_INFO, WINNERS } from "@/lib/constants";
 
 export function HeroSection() {
   const spotlight = WINNERS.length ? WINNERS[0] : null;
-  const image = spotlight ? getWinnerImage(spotlight.year, "web") : null;
+  const webImage = spotlight ? getWinnerImage(spotlight.year, "web") : null;
+  const heroImage = spotlight ? getWinnerImage(spotlight.year, "hero") : null;
 
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden">
-      {/* Background Image (always visible) */}
+      {/* Background Image: art-directed by viewport */}
       <div className="absolute inset-0 z-0">
-        {image && spotlight && (
+        {/* Mobile: portrait crop (taller viewport reveals full body naturally) */}
+        {webImage && spotlight && (
           <Image
-            src={image.jpg}
+            src={webImage.jpg}
             alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
             fill
-            className="object-cover object-center"
+            className="object-cover object-[center_30%] md:hidden"
             priority
-            quality={80}
-            sizes="100vw"
+            quality={85}
+            sizes="(min-width: 768px) 0px, 100vw"
+          />
+        )}
+        {/* Desktop: wide landscape from the original shoot (2560px, retina-ready) */}
+        {heroImage && spotlight && (
+          <Image
+            src={heroImage.jpg}
+            alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
+            fill
+            className="object-cover object-[center_40%] hidden md:block"
+            priority
+            quality={85}
+            sizes="(min-width: 768px) 100vw, 0px"
+          />
+        )}
+        {/* Fallback: if no hero variant exists, use web image on desktop too */}
+        {!heroImage && webImage && spotlight && (
+          <Image
+            src={webImage.jpg}
+            alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
+            fill
+            className="object-cover object-[center_30%] hidden md:block"
+            priority
+            quality={85}
+            sizes="(min-width: 768px) 100vw, 0px"
           />
         )}
         <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 w-full mx-auto max-w-6xl px-6 lg:px-8 py-20">
+      <div className="relative z-10 w-full mx-auto max-w-6xl px-6 lg:px-8 py-12 md:py-14">
         <div className="max-w-2xl">
           {/* Logo */}
           <Image
@@ -36,32 +62,32 @@ export function HeroSection() {
             alt="Gold Helmet Award trophy"
             width={256}
             height={256}
-            className="w-40 md:w-56 h-auto mb-8 drop-shadow-[0_4px_16px_rgba(184,149,62,0.3)]"
+            className="w-32 md:w-44 h-auto mb-6 drop-shadow-[0_4px_16px_rgba(184,149,62,0.3)]"
             priority
           />
 
           {/* Gold accent line */}
-          <div className="mb-8 h-px w-16 bg-gold" />
+          <div className="mb-6 h-px w-16 bg-gold" />
 
           {/* Eyebrow */}
-          <p className="text-gold text-base md:text-xl font-medium uppercase tracking-[0.2em] mb-4">
+          <p className="text-gold text-base md:text-lg font-medium uppercase tracking-[0.2em] mb-3">
             The Colorado
           </p>
 
           {/* Main Headline */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium italic leading-tight text-white mb-6">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium italic leading-tight text-white mb-4">
             Gold Helmet Award
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-white/80 leading-relaxed mb-12 max-w-xl">
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-8 max-w-xl">
             Honoring {AWARD_INFO.yearsOfHistory} years of excellence, character,
             and leadership in Colorado high school football.
           </p>
 
           {/* Current Winner Spotlight */}
           {spotlight && (
-            <div className="mb-10 bg-black/30 backdrop-blur-sm border border-white/15 p-8 max-w-xl">
+            <div className="mb-8 bg-black/30 backdrop-blur-sm border border-white/15 p-6 md:p-8 max-w-xl">
               <div className="flex items-center gap-4 border-b border-gold/30 pb-4 mb-4">
                 <h2 className="font-display italic text-3xl font-medium text-white">
                   {spotlight.name}
@@ -80,21 +106,21 @@ export function HeroSection() {
           )}
 
           {/* Trust Indicators */}
-          <div className="mb-10 flex flex-wrap gap-10">
+          <div className="mb-8 flex flex-wrap gap-10">
             <div>
-              <div className="text-4xl font-semibold text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
                 {AWARD_INFO.yearsOfHistory}
               </div>
               <div className="mt-1 text-sm text-white/70">Years of History</div>
             </div>
             <div>
-              <div className="text-4xl font-semibold text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
                 <span className="text-2xl align-baseline">$</span>{AWARD_INFO.scholarshipAmount.toLocaleString()}
               </div>
               <div className="mt-1 text-sm text-white/70">Scholarships</div>
             </div>
             <div>
-              <div className="text-4xl font-semibold text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
                 501<span className="text-2xl">(c)(3)</span>
               </div>
               <div className="mt-1 text-sm text-white/70">Non-Profit</div>
@@ -111,7 +137,7 @@ export function HeroSection() {
               <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
-              href="/#nominate"
+              href="/nominate"
               className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
             >
               Nominate
