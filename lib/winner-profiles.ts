@@ -9,6 +9,7 @@ export interface WinnerProfile {
   community?: string[];
   future?: { title: string; subtitle?: string };
   actionImage?: string;
+  closingImage?: string;
 }
 
 export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
@@ -44,6 +45,41 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
     ],
     future: { title: "San Diego State", subtitle: "Financial Services" },
     actionImage: "/images/action/2024-marcus-mozer-action.jpg",
+  },
+
+  2023: {
+    headline: "5A state champion, CHSAA Player of the Year, three-way starter",
+    bio: `Josh Snyder, a running back and defensive back from Columbine, was the best player on the 5A state champions and rarely came off the field. A three-way contributor who started on offense, defense, and special teams, he broke the title game open with a 98-yard kickoff return after Cherry Creek had clawed within a score. Coach Andy Lowry called it "maybe the game\u2019s biggest play." Snyder shared carries in a loaded Columbine backfield and still ran for 1,717 yards with 28 total touchdowns, topping 100 yards 11 times. He finished his career with 3,358 rushing yards and a pair of 1,000-yard seasons.`,
+    stats: [
+      { label: "Rush Yards", value: "1,717" },
+      { label: "Total TDs", value: "28" },
+      { label: "Total Yards", value: "1,927" },
+      { label: "Tackles", value: "36" },
+      { label: "INTs", value: "2" },
+      { label: "40-Yard", value: "4.5s" },
+    ],
+    careerHighlight: "3,358 career rushing yards, two 1,000-yard seasons, 98-yard kickoff return in state title game",
+    highlights: [
+      { title: "Academics", value: "4.46", description: "GPA" },
+      { title: "Awards", value: "3x", description: "5A Player of the Year, MaxPreps CO POY, Gold Helmet" },
+    ],
+    quote: {
+      text: "The reason we were successful was because no one really cared about their personal stats or personal social status. All we cared about was our success as a whole, as a team.",
+      attribution: "Josh Snyder",
+    },
+    coachQuote: {
+      text: "He was all-everything. He\u2019d be our best corner, best safety, probably our best slot receiver, and our best running back. We could play him anywhere we wanted to play him, and he\u2019s probably the most selfless person there is.",
+      attribution: "Coach Andy Lowry",
+    },
+    community: [
+      "Peer mentor, Jeffco Adaptive Flag Football (2 years)",
+      "Columbine Day of Service volunteer (3 years)",
+      "Denver Rescue Mission",
+      "Front Range Christian service projects",
+    ],
+    future: { title: "Colorado School of Mines" },
+    actionImage: "/images/action/2023-josh-snyder-action.jpg",
+    closingImage: "/images/action/2023-josh-snyder-closing.jpg",
   },
 
   2022: {

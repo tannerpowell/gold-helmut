@@ -215,32 +215,36 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 </span>
               </div>
             ) : (
-              <p className="text-gold text-sm font-medium uppercase tracking-[0.2em] mb-2">
+              <p className="inline-block bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full text-gold text-sm font-semibold uppercase tracking-[0.2em] mb-2">
                 {winner.year} Gold Helmet Award
               </p>
             )}
-            <h2 className="font-display font-semibold text-3xl sm:text-4xl text-white mb-1">
-              {winner.name}
-            </h2>
-            <p className="text-[#c0c0c0] text-lg mb-0.5">{winner.school}</p>
-            {(winner.position || winner.college) && (
-              <p className="text-white text-lg font-medium">
-                {winner.position && <span>{winner.position}</span>}
-                {winner.position && winner.college && " \u00b7 "}
-                {winner.college}
-              </p>
-            )}
-            {winner.storyUrl && (
-              <a
-                href={winner.storyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-gold text-sm font-medium mt-2 hover:underline"
-              >
-                Read full story
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            )}
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="font-display font-semibold text-3xl sm:text-4xl text-white mb-1">
+                  {winner.name}
+                </h2>
+                <p className="text-[#c0c0c0] text-lg mb-0.5">{winner.school}</p>
+                {(winner.position || winner.college) && (
+                  <p className="text-white text-lg font-medium">
+                    {winner.position && <span>{winner.position}</span>}
+                    {winner.position && winner.college && " \u00b7 "}
+                    {winner.college}
+                  </p>
+                )}
+              </div>
+              {winner.storyUrl && (
+                <a
+                  href={winner.storyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 inline-flex items-center gap-1.5 text-gold text-sm font-medium hover:underline"
+                >
+                  Read full story
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
@@ -467,6 +471,19 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                   {profile.coachQuote.attribution}
                 </cite>
               </blockquote>
+            )}
+
+            {profile.closingImage && (
+              <div className="rounded-md overflow-hidden">
+                <Image
+                  src={profile.closingImage}
+                  alt={`${winner.name}`}
+                  width={800}
+                  height={500}
+                  className="w-full h-auto object-cover"
+                  sizes="(min-width: 768px) 768px, 100vw"
+                />
+              </div>
             )}
 
             {profile.future && (
