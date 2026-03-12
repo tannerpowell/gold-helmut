@@ -1,23 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { AWARD_INFO } from "@/lib/constants";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+]?[\d\s()-]{7,20}$/;
-const CURRENT_YEAR = new Date().getFullYear();
-const MIN_GRAD_YEAR = CURRENT_YEAR;
-const MAX_GRAD_YEAR = CURRENT_YEAR + 6;
 
-export function ApplicationForm() {
+const NOMINATION_EMAILS = "KNewman@denverpost.com,GoldHelmet2025@gmail.com";
+
+export function ApplicationForm({ standalone = false }: { standalone?: boolean }) {
   const [formData, setFormData] = useState({
     athleteName: "",
     school: "",
     position: "",
-    year: "",
     gpa: "",
-    communityService: "",
-    collegeCommitment: "",
+    inTheClassroom: "",
+    inTheCommunity: "",
+    onTheField: "",
+    collegeInterest: "",
     videoLink: "",
     nominatorName: "",
     nominatorContact: "",
@@ -43,9 +42,7 @@ export function ApplicationForm() {
       "athleteName",
       "school",
       "position",
-      "year",
       "gpa",
-      "communityService",
       "nominatorName",
       "nominatorContact",
     ] as const;
@@ -57,12 +54,6 @@ export function ApplicationForm() {
     const contact = formData.nominatorContact.trim();
     if (!EMAIL_RE.test(contact) && !PHONE_RE.test(contact)) {
       setContactError("Please enter a valid email address or phone number.");
-      return;
-    }
-
-    const yearNum = parseInt(formData.year, 10);
-    if (isNaN(yearNum) || yearNum < MIN_GRAD_YEAR || yearNum > MAX_GRAD_YEAR) {
-      setError(`Graduation year must be between ${MIN_GRAD_YEAR} and ${MAX_GRAD_YEAR}.`);
       return;
     }
 
@@ -80,11 +71,18 @@ export function ApplicationForm() {
         `Athlete: ${formData.athleteName}`,
         `School: ${formData.school}`,
         `Position: ${formData.position}`,
-        `Graduation Year: ${formData.year}`,
         `GPA: ${formData.gpa}`,
-        `Community Service: ${formData.communityService}`,
-        formData.collegeCommitment
-          ? `College Commitment: ${formData.collegeCommitment}`
+        formData.inTheClassroom
+          ? `In the Classroom: ${formData.inTheClassroom}`
+          : null,
+        formData.inTheCommunity
+          ? `In the Community: ${formData.inTheCommunity}`
+          : null,
+        formData.onTheField
+          ? `On the Field: ${formData.onTheField}`
+          : null,
+        formData.collegeInterest
+          ? `College Interest: ${formData.collegeInterest}`
           : null,
         formData.videoLink ? `Video: ${formData.videoLink}` : null,
         ``,
@@ -94,7 +92,7 @@ export function ApplicationForm() {
         .filter((line) => line !== null)
         .join("\n")
     );
-    window.location.href = `mailto:${AWARD_INFO.contactEmail}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${NOMINATION_EMAILS}?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -104,23 +102,24 @@ export function ApplicationForm() {
     "w-full px-4 py-3 bg-surface border border-red-400 dark:border-red-600 text-foreground focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400 transition-colors";
 
   return (
-    <section id="nominate" className="py-24 lg:py-32 px-6 bg-background">
+    <section className={standalone ? "py-12 lg:py-16 px-6 bg-background" : "py-24 lg:py-32 px-6 bg-background"}>
       <div className="max-w-2xl mx-auto">
-        {/* Section Header */}
-        <div className="mb-12">
-          <div className="h-px w-16 bg-gold mb-6" />
-          <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-            Get Involved
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-medium italic text-foreground mb-4">
-            Nominate a Player
-          </h2>
-          <p className="text-lg text-secondary leading-relaxed">
-            Know a student-athlete who exemplifies character, leadership, and
-            excellence on and off the field? Coaches and athletic directors are
-            encouraged to nominate their top candidates.
-          </p>
-        </div>
+        {!standalone && (
+          <div className="mb-12">
+            <div className="h-px w-16 bg-gold mb-6" />
+            <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
+              Get Involved
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-medium italic text-foreground mb-4">
+              Nominate a Player
+            </h2>
+            <p className="text-lg text-secondary leading-relaxed">
+              Know a Colorado Senior Football player who exemplifies character,
+              leadership, and excellence on and off the field? Coaches and
+              athletic directors are encouraged to nominate their top candidates.
+            </p>
+          </div>
+        )}
 
         {submitted && (
           <div className="p-6 bg-gold/10 border border-gold/30 mb-8">
@@ -234,7 +233,7 @@ export function ApplicationForm() {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label
                   htmlFor="position"
@@ -251,26 +250,6 @@ export function ApplicationForm() {
                   onChange={handleChange}
                   className={inputClasses}
                   placeholder="QB, LB, WR"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="year"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Graduation Year *
-                </label>
-                <input
-                  id="year"
-                  type="number"
-                  name="year"
-                  required
-                  min={MIN_GRAD_YEAR}
-                  max={MAX_GRAD_YEAR}
-                  value={formData.year}
-                  onChange={handleChange}
-                  className={inputClasses}
-                  placeholder={String(CURRENT_YEAR + 1)}
                 />
               </div>
               <div>
@@ -298,37 +277,70 @@ export function ApplicationForm() {
 
             <div>
               <label
-                htmlFor="communityService"
+                htmlFor="inTheClassroom"
                 className="block text-sm font-medium text-foreground mb-2"
               >
-                Community Service *
+                In the Classroom
               </label>
               <textarea
-                id="communityService"
-                name="communityService"
-                required
-                value={formData.communityService}
+                id="inTheClassroom"
+                name="inTheClassroom"
+                value={formData.inTheClassroom}
                 onChange={handleChange}
-                className={`${inputClasses} min-h-[100px] resize-y`}
-                placeholder="Describe community involvement, volunteer work, leadership roles..."
+                className={`${inputClasses} min-h-[80px] resize-y`}
+                placeholder="Academic achievements, honors, AP courses..."
               />
             </div>
 
             <div>
               <label
-                htmlFor="collegeCommitment"
+                htmlFor="inTheCommunity"
                 className="block text-sm font-medium text-foreground mb-2"
               >
-                College Commitment
+                In the Community
+              </label>
+              <textarea
+                id="inTheCommunity"
+                name="inTheCommunity"
+                value={formData.inTheCommunity}
+                onChange={handleChange}
+                className={`${inputClasses} min-h-[80px] resize-y`}
+                placeholder="Community involvement, volunteer work, leadership roles..."
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="onTheField"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                On the Field
+              </label>
+              <textarea
+                id="onTheField"
+                name="onTheField"
+                value={formData.onTheField}
+                onChange={handleChange}
+                className={`${inputClasses} min-h-[80px] resize-y`}
+                placeholder="Stats, awards, athletic accomplishments..."
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="collegeInterest"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                College Interest
               </label>
               <input
-                id="collegeCommitment"
+                id="collegeInterest"
                 type="text"
-                name="collegeCommitment"
-                value={formData.collegeCommitment}
+                name="collegeInterest"
+                value={formData.collegeInterest}
                 onChange={handleChange}
                 className={inputClasses}
-                placeholder="University name (if committed)"
+                placeholder="University name (if interested or committed)"
               />
             </div>
 

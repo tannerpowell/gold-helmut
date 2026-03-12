@@ -71,12 +71,15 @@ export function Header() {
             <Link href="/#board" className={navLinkClass(pathname === "/" && hash === "#board")} onClick={() => setHash("#board")}>
               Leadership
             </Link>
-            <Link href="/#nominate" className={navLinkClass(pathname === "/" && hash === "#nominate")} onClick={() => setHash("#nominate")}>
-              Nominate
+            <Link href="/#supporters" className={navLinkClass(pathname === "/" && hash === "#supporters")} onClick={() => setHash("#supporters")}>
+              Supporters
             </Link>
             <div className="h-4 w-px bg-white/20" />
             <Link href="/#donate" className={navLinkClass(pathname === "/" && hash === "#donate")} onClick={() => setHash("#donate")}>
               Donate
+            </Link>
+            <Link href="/nominate" className={navLinkClass(pathname === "/nominate")}>
+              Nominate
             </Link>
           </nav>
 
@@ -127,13 +130,12 @@ export function Header() {
               Leadership
             </Link>
             <Link
-              href="/#nominate"
-              onClick={() => { setHash("#nominate"); closeDrawer(); }}
-              className={mobileNavLinkClass(pathname === "/" && hash === "#nominate")}
+              href="/#supporters"
+              onClick={() => { setHash("#supporters"); closeDrawer(); }}
+              className={mobileNavLinkClass(pathname === "/" && hash === "#supporters")}
             >
-              Nominate
+              Supporters
             </Link>
-
             <div className="h-px w-10 bg-gold/30 my-3" />
 
             <Link
@@ -142,6 +144,13 @@ export function Header() {
               className={mobileNavLinkClass(pathname === "/" && hash === "#donate")}
             >
               Donate
+            </Link>
+            <Link
+              href="/nominate"
+              onClick={closeDrawer}
+              className={mobileNavLinkClass(pathname === "/nominate")}
+            >
+              Nominate
             </Link>
           </div>
 

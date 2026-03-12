@@ -70,17 +70,18 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <Image
-              src="/images/denver-post-logo.svg"
-              alt="The Denver Post"
-              width={250}
-              height={30}
-              className="mb-4"
-            />
+            <a href="https://www.denverpost.com" target="_blank" rel="noopener noreferrer">
+              <Image
+                src="/images/denver-post-logo.svg"
+                alt="The Denver Post"
+                width={250}
+                height={30}
+                className="mb-4"
+              />
+            </a>
             <p className="chrome-bar-text text-sm leading-relaxed">
-              Recognizing excellence in Colorado high school football since
-              1951. Honoring character, leadership, and achievement on and off
-              the field.
+              The Denver Post founded the Gold Helmet Award in 1951 and
+              supported it for 75 years.
             </p>
           </div>
 
@@ -108,7 +109,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#nominate"
+                  href="/nominate"
                   className="chrome-bar-text hover:text-[hsl(var(--gold))] transition-colors"
                 >
                   Nominate

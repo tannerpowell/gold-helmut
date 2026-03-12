@@ -161,7 +161,7 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
       "Volunteers with special needs students",
       "Peer mentor to incoming Columbine freshmen",
     ],
-    future: { title: "Virginia", subtitle: "After a two-year church mission" },
+    future: { title: "Michigan", subtitle: "After a two-year church mission" },
   },
 
   2018: {
@@ -399,7 +399,7 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
       "Organized Toys for Tots",
       "Delivered meals to homeless shelter",
     ],
-    future: { title: "Exploring options", subtitle: "Wyoming, Nevada, Southern Utah among interested schools" },
+    future: { title: "Northern Colorado", subtitle: "" },
   },
 
   2010: {
