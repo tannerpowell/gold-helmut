@@ -38,14 +38,12 @@ export function Header() {
     };
   }, [pathname]);
 
-  // Lock body scroll when drawer is open
+  // Lock body scroll when drawer is open.
+  // Only lock in the effect body, only unlock in cleanup, to avoid double-decrement.
   useEffect(() => {
-    if (mobileOpen) {
-      lockScroll();
-    } else {
-      unlockScroll();
-    }
-    return () => { if (mobileOpen) unlockScroll(); };
+    if (!mobileOpen) return;
+    lockScroll();
+    return () => unlockScroll();
   }, [mobileOpen]);
 
   // Auto-close drawer when viewport crosses md breakpoint (768px)
@@ -62,7 +60,7 @@ export function Header() {
     <>
       <header className="sticky top-0 z-50 chrome-bar border-b border-white/10">
         {/* Theme toggle: far top-right corner */}
-        <div className="absolute top-3 right-5 z-10">
+        <div className="absolute top-3 right-5 z-10 hidden md:block">
           <ThemeToggle />
         </div>
 
@@ -166,8 +164,9 @@ export function Header() {
             </Link>
           </div>
 
-          <div className="pt-6 border-t border-white/10">
+          <div className="pt-6 border-t border-white/10 flex items-center justify-between">
             <p className="text-white/30 text-xs uppercase tracking-[0.15em]">Since 1951</p>
+            <ThemeToggle />
           </div>
         </div>
       </nav>

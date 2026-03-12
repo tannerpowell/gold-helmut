@@ -19,7 +19,8 @@ export function lockScroll() {
 }
 
 export function unlockScroll() {
-  lockCount = Math.max(0, lockCount - 1);
+  if (lockCount <= 0) return;
+  lockCount--;
   if (lockCount === 0) {
     document.body.style.position = "";
     document.body.style.top = "";
