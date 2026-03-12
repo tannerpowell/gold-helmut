@@ -20,7 +20,7 @@ export function HeroSection() {
             src={webImage.jpg}
             alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
             fill
-            className="object-cover object-[center_30%] md:hidden"
+            className="object-cover object-[center_35%] scale-125 md:hidden"
             priority
             quality={85}
             sizes="(min-width: 768px) 0px, 100vw"
@@ -85,64 +85,67 @@ export function HeroSection() {
             and leadership in Colorado high school football.
           </p>
 
-          {/* Current Winner Spotlight */}
-          {spotlight && (
-            <div className="mb-8 bg-black/30 backdrop-blur-sm border border-white/15 p-6 md:p-8 max-w-md">
-              <div className="flex items-center gap-4 border-b border-gold/30 pb-4 mb-4">
-                <h2 className="font-display italic text-3xl font-medium text-white">
-                  {spotlight.name}
-                </h2>
-                <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
-                  {spotlight.year} Winner
-                </p>
+          {/* Card + indicators + buttons: shared width from button row */}
+          <div className="w-fit">
+            {/* Current Winner Spotlight */}
+            {spotlight && (
+              <div className="mb-8 bg-black/30 backdrop-blur-sm border border-white/15 p-6 md:p-8">
+                <div className="flex items-center gap-4 border-b border-gold/30 pb-4 mb-4">
+                  <h2 className="font-display italic text-3xl font-medium text-white">
+                    {spotlight.name}
+                  </h2>
+                  <p className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
+                    {spotlight.year} Winner
+                  </p>
+                </div>
+                <p className="text-white/80 mb-1">{spotlight.school}</p>
+                {(spotlight.position || spotlight.college) && (
+                  <p className="text-gold font-medium">
+                    {[spotlight.position, spotlight.college].filter(Boolean).join(" \u2022 ")}
+                  </p>
+                )}
               </div>
-              <p className="text-white/80 mb-1">{spotlight.school}</p>
-              {(spotlight.position || spotlight.college) && (
-                <p className="text-gold font-medium">
-                  {[spotlight.position, spotlight.college].filter(Boolean).join(" \u2022 ")}
-                </p>
-              )}
-            </div>
-          )}
+            )}
 
-          {/* Trust Indicators */}
-          <div className="mb-8 flex flex-wrap gap-10">
-            <div>
-              <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
-                {AWARD_INFO.yearsOfHistory}
+            {/* Trust Indicators */}
+            <div className="mb-8 flex flex-wrap gap-8 sm:justify-between">
+              <div>
+                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                  {AWARD_INFO.yearsOfHistory}
+                </div>
+                <div className="mt-1 text-sm text-white/70">Years of History</div>
               </div>
-              <div className="mt-1 text-sm text-white/70">Years of History</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
-                <span className="text-2xl align-baseline">$</span>{AWARD_INFO.scholarshipAmount.toLocaleString()}
+              <div>
+                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                  <span className="text-2xl align-baseline">$</span>{AWARD_INFO.scholarshipAmount.toLocaleString()}
+                </div>
+                <div className="mt-1 text-sm text-white/70">Scholarships</div>
               </div>
-              <div className="mt-1 text-sm text-white/70">Scholarships</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
-                501<span className="text-2xl">(c)(3)</span>
+              <div>
+                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                  501<span className="text-2xl">(c)(3)</span>
+                </div>
+                <div className="mt-1 text-sm text-white/70">Non-Profit</div>
               </div>
-              <div className="mt-1 text-sm text-white/70">Non-Profit</div>
             </div>
-          </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md">
-            <Link
-              href="/hall-of-champions"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold/20 backdrop-blur-sm border border-gold/30 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-gold/30 transition-all"
-            >
-              Past Champions
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
-            <Link
-              href="/nominate"
-              className="flex-1 inline-flex items-center justify-center gap-2 px-8 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
-            >
-              Nominate
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/hall-of-champions"
+                className="whitespace-nowrap inline-flex items-center justify-center gap-2 px-7 py-3 bg-gold/20 backdrop-blur-sm border border-gold/30 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-gold/30 transition-all"
+              >
+                Past Champions
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+              <Link
+                href="/nominate"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
+              >
+                Nominate
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

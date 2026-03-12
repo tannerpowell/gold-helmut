@@ -176,7 +176,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/60 hover:text-white hover:bg-black/70 transition-colors"
+          className="sticky top-4 ml-auto mr-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/60 hover:text-white hover:bg-black/70 transition-colors"
         >
           <X size={18} />
         </button>
