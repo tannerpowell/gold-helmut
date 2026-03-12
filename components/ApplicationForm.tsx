@@ -7,7 +7,7 @@ import { NOMINATION_EMAILS } from "@/lib/constants";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+]?[\d\s()-]{7,20}$/;
 
-export function ApplicationForm({ standalone = false }: { standalone?: boolean }) {
+export function ApplicationForm() {
   const [formData, setFormData] = useState({
     athleteName: "",
     school: "",
@@ -102,24 +102,8 @@ export function ApplicationForm({ standalone = false }: { standalone?: boolean }
     "w-full px-4 py-3 bg-surface border border-red-400 dark:border-red-600 text-foreground focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400 transition-colors";
 
   return (
-    <section className={standalone ? "py-12 lg:py-16 px-6 bg-background" : "py-24 lg:py-32 px-6 bg-background"}>
+    <section className="py-12 lg:py-16 px-6 bg-background">
       <div className="max-w-2xl mx-auto">
-        {!standalone && (
-          <div className="mb-12">
-            <div className="h-px w-16 bg-gold mb-6" />
-            <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-              Get Involved
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-medium italic text-foreground mb-4">
-              Nominate a Player
-            </h2>
-            <p className="text-lg text-secondary leading-relaxed">
-              Know a Colorado Senior Football player who exemplifies character,
-              leadership, and excellence on and off the field? Coaches and
-              athletic directors are encouraged to nominate their top candidates.
-            </p>
-          </div>
-        )}
 
         {submitted && (
           <div className="p-6 bg-gold/10 border border-gold/30 mb-8">

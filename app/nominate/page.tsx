@@ -48,7 +48,7 @@ export default function NominatePage() {
       </div>
 
       {/* Form section */}
-      <ApplicationForm standalone />
+      <ApplicationForm />
     </main>
   );
 }
