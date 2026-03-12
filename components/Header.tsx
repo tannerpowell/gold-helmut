@@ -48,6 +48,14 @@ export function Header() {
     return () => { if (mobileOpen) unlockScroll(); };
   }, [mobileOpen]);
 
+  // Auto-close drawer when viewport crosses md breakpoint (768px)
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => { if (e.matches) setMobileOpen(false); };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   const closeDrawer = useCallback(() => setMobileOpen(false), []);
 
   return (

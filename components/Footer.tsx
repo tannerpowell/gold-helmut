@@ -80,8 +80,9 @@ export function Footer() {
               />
             </a>
             <p className="chrome-bar-text text-sm leading-relaxed">
-              The Denver Post founded the Gold Helmet Award in 1951 and
-              supported it for 75 years.
+              The Denver Post founded the Gold Helmet Award in{" "}
+              {AWARD_INFO.founded} and supported it for{" "}
+              {AWARD_INFO.yearsOfHistory} years.
             </p>
           </div>
 

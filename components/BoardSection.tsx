@@ -67,11 +67,11 @@ export function BoardSection() {
             {GIVING_LEVELS.map((level) => (
               <div
                 key={level.name}
-                className="border border-border bg-surface p-6 md:p-8 hover:border-gold/40 transition-colors text-center"
+                className="border border-border bg-surface p-4 md:p-8 hover:border-gold/40 transition-colors text-center"
               >
-                <p className="text-gold font-display font-medium italic leading-none" style={{ fontSize: "2.75rem" }}>
+                <p className="text-gold font-display text-3xl sm:text-[2.75rem] font-medium italic leading-none">
                   {level.name.startsWith("$") ? (
-                    <><span style={{ fontSize: "1.75rem", verticalAlign: "0.15em" }}>$</span>{level.name.slice(1)}</>
+                    <><span className="text-xl sm:text-[1.75rem]" style={{ verticalAlign: "0.15em" }}>$</span>{level.name.slice(1)}</>
                   ) : (
                     level.name
                   )}
