@@ -5,6 +5,8 @@ import Link from "next/link";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { AWARD_INFO, WINNERS } from "@/lib/constants";
 
+const interFont = { fontFamily: "var(--font-inter), sans-serif" } as const;
+
 export function HeroSection() {
   const spotlight = WINNERS.length ? WINNERS[0] : null;
   const webImage = spotlight ? getWinnerImage(spotlight.year, "web") : null;
@@ -110,19 +112,19 @@ export function HeroSection() {
             {/* Trust Indicators */}
             <div className="mb-8 flex flex-wrap gap-8 sm:justify-between">
               <div>
-                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={interFont}>
                   {AWARD_INFO.yearsOfHistory}
                 </div>
                 <div className="mt-1 text-sm text-white/70">Years of History</div>
               </div>
               <div>
-                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={interFont}>
                   <span className="text-2xl align-baseline">$</span>{AWARD_INFO.scholarshipAmount.toLocaleString()}
                 </div>
                 <div className="mt-1 text-sm text-white/70">Scholarships</div>
               </div>
               <div>
-                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={interFont}>
                   501<span className="text-2xl">(c)(3)</span>
                 </div>
                 <div className="mt-1 text-sm text-white/70">Non-Profit</div>

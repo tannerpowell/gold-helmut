@@ -21,7 +21,7 @@ export default function NominatePage() {
           className="object-cover object-[50%_40%]"
           priority
           quality={85}
-          sizes="100vw"
+          sizes="(min-width: 1280px) 1280px, 100vw"
         />
 
         {/* Gradient overlays: dark sweep from left for text, vignette at bottom for transition */}

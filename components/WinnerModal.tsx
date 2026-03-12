@@ -5,7 +5,7 @@ import Image from "next/image";
 import { X, ChevronDown } from "lucide-react";
 import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
-import { getInitials } from "@/lib/utils";
+import { getInitials, addUtmParams } from "@/lib/utils";
 import { WINNER_PROFILES } from "@/lib/winner-profiles";
 import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
@@ -176,7 +176,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="sticky top-4 ml-auto mr-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/60 hover:text-white hover:bg-black/70 transition-colors"
+          className="sticky top-4 float-right mr-4 mt-4 z-20 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/60 hover:text-white hover:bg-black/70 transition-colors"
         >
           <X size={18} />
         </button>
@@ -235,7 +235,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               </div>
               {winner.storyUrl && (
                 <a
-                  href={`${winner.storyUrl}${winner.storyUrl.includes("?") ? "&" : "?"}utm_source=goldhelmetaward.com&utm_medium=referral&utm_campaign=winner_profile&utm_content=${winner.year}`}
+                  href={addUtmParams(winner.storyUrl, "winner_profile", winner.year)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 inline-flex items-center gap-1.5 text-gold text-sm font-medium hover:underline"

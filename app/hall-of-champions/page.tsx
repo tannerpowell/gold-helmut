@@ -193,8 +193,9 @@ export default function WinnersTimeline() {
           </div>
 
           {/* Sidebar: School Leaderboard */}
-          <div className="hidden xl:block w-[540px] flex-shrink-0 sticky top-[160px] max-h-[calc(100vh-180px)] overflow-y-auto pr-4">
+          <div className="hidden xl:block w-[540px] flex-shrink-0 sticky top-[160px] max-h-[calc(100vh-180px)] overflow-y-auto pr-4 relative">
             <SchoolLeaderboard onYearClick={handleYearClick} />
+            <div className="sticky bottom-0 h-12 bg-gradient-to-t from-[hsl(var(--background))] to-transparent pointer-events-none" />
           </div>
         </div>
       </div>
