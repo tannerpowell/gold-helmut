@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 function navLinkClass(active: boolean) {
   return `text-xs font-semibold uppercase tracking-[0.2em] pb-0.5 transition-all duration-300 ease-in-out ${
@@ -40,11 +41,11 @@ export function Header() {
   // Lock body scroll when drawer is open
   useEffect(() => {
     if (mobileOpen) {
-      document.body.style.overflow = "hidden";
+      lockScroll();
     } else {
-      document.body.style.overflow = "";
+      unlockScroll();
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => { if (mobileOpen) unlockScroll(); };
   }, [mobileOpen]);
 
   const closeDrawer = useCallback(() => setMobileOpen(false), []);
@@ -82,20 +83,20 @@ export function Header() {
               Nominate
             </Link>
           </nav>
-
-          {/* Mobile: hamburger */}
-          <button
-            type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex md:hidden items-center p-2 chrome-bar-text mr-10 relative z-[60]"
-            aria-label="Toggle menu"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-navigation"
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
       </header>
+
+      {/* Mobile hamburger: positioned outside header to escape its stacking context */}
+      <button
+        type="button"
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="fixed top-4 right-6 z-[60] flex md:hidden items-center p-2 chrome-bar-text"
+        aria-label="Toggle menu"
+        aria-expanded={mobileOpen}
+        aria-controls="mobile-navigation"
+      >
+        {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
       {/* Mobile Drawer Overlay */}
       <div
@@ -109,6 +110,9 @@ export function Header() {
       {/* Mobile Drawer */}
       <nav
         id="mobile-navigation"
+        aria-hidden={!mobileOpen}
+        // @ts-expect-error -- inert is a valid HTML attribute, React types lag behind
+        inert={!mobileOpen ? "" : undefined}
         className={`fixed top-0 right-0 z-[58] h-full w-[280px] chrome-bar border-l border-white/10 transform transition-transform duration-300 ease-in-out md:hidden ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}

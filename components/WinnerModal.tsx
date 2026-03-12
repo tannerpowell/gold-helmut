@@ -7,6 +7,7 @@ import { Winner } from "@/lib/constants";
 import { getWinnerImage } from "@/lib/image-manifest";
 import { getInitials } from "@/lib/utils";
 import { WINNER_PROFILES } from "@/lib/winner-profiles";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 interface WinnerModalProps {
   winner: Winner | null;
@@ -97,23 +98,11 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
       );
     }
     document.addEventListener("keydown", handleKey);
-    // Lock body scroll (position:fixed pattern works on iOS Safari)
-    const scrollY = window.scrollY;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-    if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+    lockScroll();
     closeRef.current?.focus();
     return () => {
       document.removeEventListener("keydown", handleKey);
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-      window.scrollTo({ top: scrollY, left: 0, behavior: "instant" });
+      unlockScroll();
       focusableRef.current = [];
       // Restore focus to the element that opened the modal
       if (prevFocusRef.current instanceof HTMLElement) {
@@ -156,7 +145,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6"
     >
       {/* Backdrop: clicking this closes the modal */}
       <button
@@ -299,19 +288,19 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               </div>
 
               {/* Academics + Track */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
                     {OLIVA_2025.academics.title}
                   </div>
-                  <div className="text-white text-4xl font-display font-bold leading-tight">{OLIVA_2025.academics.weightedGpa}</div>
+                  <div className="text-white text-2xl sm:text-4xl font-display font-bold leading-tight">{OLIVA_2025.academics.weightedGpa}</div>
                   <div className="text-[#a0a0a0] text-sm mt-0.5">{OLIVA_2025.academics.label}</div>
                 </div>
                 <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-4">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
                     {OLIVA_2025.track.title}
                   </div>
-                  <div className="text-white text-4xl font-display font-bold leading-tight">{OLIVA_2025.track.rank}</div>
+                  <div className="text-white text-2xl sm:text-4xl font-display font-bold leading-tight">{OLIVA_2025.track.rank}</div>
                   <div className="text-[#a0a0a0] text-sm mt-0.5">{OLIVA_2025.track.description}</div>
                 </div>
               </div>
@@ -331,7 +320,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-3 font-semibold">
                   Community & Leadership
                 </div>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {OLIVA_2025.community.map((item) => (
                     <div
                       key={item}
@@ -422,7 +411,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
             )}
 
             {profile.highlights && profile.highlights.length > 0 && (
-              <div className={`grid gap-3 ${profile.highlights.length > 1 ? "grid-cols-2" : ""}`}>
+              <div className={`grid gap-3 ${profile.highlights.length > 1 ? "grid-cols-1 sm:grid-cols-2" : ""}`}>
                 {profile.highlights.map((h) => (
                   <div
                     key={h.title}
@@ -431,7 +420,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                     <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-1.5 font-semibold">
                       {h.title}
                     </div>
-                    <div className="text-white text-4xl font-display font-bold leading-tight">
+                    <div className="text-white text-2xl sm:text-4xl font-display font-bold leading-tight">
                       {h.value}
                     </div>
                     <div className="text-[#a0a0a0] text-sm mt-0.5">{h.description}</div>
@@ -456,7 +445,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 mb-3 font-semibold">
                   Community & Leadership
                 </div>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {profile.community.map((item) => (
                     <div
                       key={item}

@@ -52,7 +52,7 @@ export function WinnerCard({ winner, variant = "grid", onClick }: WinnerCardProp
             <Initials name={winner.name} />
           )}
         </div>
-        <div className="flex-1 pt-6 sm:pt-8 md:pt-10">
+        <div className="flex-1 min-w-0 pt-6 sm:pt-8 md:pt-10">
           <h3 className="font-display font-semibold text-foreground mb-1 text-xl sm:text-[1.725rem] leading-[1.2]">
             {winner.name}
           </h3>

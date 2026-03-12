@@ -8,6 +8,8 @@ export const AWARD_INFO = Object.freeze({
   chairman: "Matt Schubert",
 });
 
+export const NOMINATION_EMAILS = "KNewman@denverpost.com,GoldHelmet2025@gmail.com";
+
 export const ATTRIBUTION_EMAIL = "thetannerpowell@gmail.com";
 
 export interface Winner {
@@ -105,15 +107,15 @@ Object.freeze(WINNERS);
 
 export interface GivingLevel {
   name: string;
-  range: string;
-  perks?: string | null;
+  /** Donor names to display under this level once donations come in */
+  donors?: string[];
 }
 
 export const GIVING_LEVELS: readonly GivingLevel[] = [
-  { name: "$5,000", range: "" },
-  { name: "$2,500", range: "" },
-  { name: "$1,000", range: "" },
-  { name: "Other", range: "" },
+  { name: "$5,000" },
+  { name: "$2,500" },
+  { name: "$1,000" },
+  { name: "Other" },
 ];
 
 // WINNERS is already ordered most recent first (2025 → 1951)

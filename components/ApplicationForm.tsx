@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
+import { NOMINATION_EMAILS } from "@/lib/constants";
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+]?[\d\s()-]{7,20}$/;
-
-const NOMINATION_EMAILS = "KNewman@denverpost.com,GoldHelmet2025@gmail.com";
 
 export function ApplicationForm({ standalone = false }: { standalone?: boolean }) {
   const [formData, setFormData] = useState({
