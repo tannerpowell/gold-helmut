@@ -32,7 +32,7 @@ export function HeroSection() {
             src={heroImage.jpg}
             alt={`${spotlight.name} - ${spotlight.year} Gold Helmet Award Winner`}
             fill
-            className="object-cover object-[center_40%] hidden md:block"
+            className="object-cover object-[65%_40%] scale-125 hidden md:block"
             priority
             quality={85}
             sizes="(min-width: 768px) 100vw, 0px"
@@ -87,7 +87,7 @@ export function HeroSection() {
 
           {/* Current Winner Spotlight */}
           {spotlight && (
-            <div className="mb-8 bg-black/30 backdrop-blur-sm border border-white/15 p-6 md:p-8 max-w-xl">
+            <div className="mb-8 bg-black/30 backdrop-blur-sm border border-white/15 p-6 md:p-8 max-w-md">
               <div className="flex items-center gap-4 border-b border-gold/30 pb-4 mb-4">
                 <h2 className="font-display italic text-3xl font-medium text-white">
                   {spotlight.name}
@@ -128,7 +128,7 @@ export function HeroSection() {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md">
             <Link
               href="/hall-of-champions"
               className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold/20 backdrop-blur-sm border border-gold/30 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-gold/30 transition-all"
@@ -138,7 +138,7 @@ export function HeroSection() {
             </Link>
             <Link
               href="/nominate"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-8 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
             >
               Nominate
               <span aria-hidden="true">&rarr;</span>
