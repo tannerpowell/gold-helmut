@@ -21,14 +21,17 @@ export function addUtmParams(
   campaign: string,
   content?: string | number,
 ): string {
-  const sep = url.includes("?") ? "&" : "?";
+  const [baseUrl, ...hashParts] = url.split("#");
+  const hashFragment = hashParts.length > 0 ? hashParts.join("#") : null;
+  const sep = baseUrl.includes("?") ? "&" : "?";
   const params = new URLSearchParams({
     utm_source: "goldhelmetaward.com",
     utm_medium: "referral",
     utm_campaign: campaign,
     ...(content != null && { utm_content: String(content) }),
   });
-  return `${url}${sep}${params}`;
+  const result = `${baseUrl}${sep}${params}`;
+  return hashFragment != null ? `${result}#${hashFragment}` : result;
 }
 
 export function handleActivateKey(fn?: () => void) {

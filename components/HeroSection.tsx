@@ -142,7 +142,7 @@ export function HeroSection() {
               </Link>
               <Link
                 href="/nominate"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-black/40 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-black/30 backdrop-blur-sm border border-white/15 text-[#fafafa] hover:text-white font-medium uppercase tracking-widest text-sm hover:bg-white/10 hover:border-white/30 transition-all"
               >
                 Nominate
                 <span aria-hidden="true">&rarr;</span>
