@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, DM_Sans, Inter } from "next/font/google";
 import { Playfair_Display, Dancing_Script } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -76,6 +77,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

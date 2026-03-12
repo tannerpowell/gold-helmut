@@ -235,7 +235,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
               </div>
               {winner.storyUrl && (
                 <a
-                  href={winner.storyUrl}
+                  href={`${winner.storyUrl}${winner.storyUrl.includes("?") ? "&" : "?"}utm_source=goldhelmetaward.com&utm_medium=referral&utm_campaign=winner_profile&utm_content=${winner.year}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 inline-flex items-center gap-1.5 text-gold text-sm font-medium hover:underline"

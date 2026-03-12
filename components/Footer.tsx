@@ -70,7 +70,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <a href="https://www.denverpost.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.denverpost.com?utm_source=goldhelmetaward.com&utm_medium=referral&utm_campaign=footer_logo" target="_blank" rel="noopener noreferrer">
               <Image
                 src="/images/denver-post-logo.svg"
                 alt="The Denver Post"
