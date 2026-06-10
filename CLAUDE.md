@@ -12,7 +12,8 @@ Users prefer apps that feel fast. 3-layer feedback:
 | Fast      | >150ms   | Show progress bar + skeleton         |
 | Complete  | Variable | Fade in content                      |
 
-Required:
+Recommended when applicable (none of these are implemented in this repo yet,
+and that's a deliberate fit-for-size call, not an oversight):
 1. Navigation progress bar (150ms threshold), NProgress pattern.
 2. Route loading skeletons (`loading.tsx`) that mirror the actual layout.
 3. Dynamic imports for >100KB deps (PDF, charts, editors, maps).
@@ -20,4 +21,4 @@ Required:
 
 Key: zero perceived wait time, not zero actual wait time.
 
-**Caveat:** this was added across all Next.js projects in bulk, so its presence here isn't a deliberate signal that this repo needs it. If this isn't a user-facing product where perceived performance matters yet (early-stage, internal tool, few or no users), bring that up rather than chasing the checklist. "This app is too small to need skeletons and a warmup script yet" is a fine thing to say, then skip it.
+**Caveat:** this was added across all Next.js projects in bulk, so its presence here isn't a deliberate signal that this repo needs it. This site is a small mostly-static brochure with a donation flow; skip the checklist until traffic or interactivity justifies it.
