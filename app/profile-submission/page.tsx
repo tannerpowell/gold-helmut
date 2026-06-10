@@ -25,7 +25,10 @@ type FormData = {
   coachQuote: string;
   coachName: string;
   nextChapterTitle: string;
-  nextChapterSubtitle: string;
+  collegiateAchievements: string;
+  professionalAchievements: string;
+  currentCityState: string;
+  currentProfession: string;
   actionPhotoUrl: string;
 };
 
@@ -37,7 +40,8 @@ const empty: FormData = {
   careerHighlight: "", academics: "", otherAchievement: "",
   community1: "", community2: "", community3: "", community4: "",
   playerQuote: "", coachQuote: "", coachName: "",
-  nextChapterTitle: "", nextChapterSubtitle: "", actionPhotoUrl: "",
+  nextChapterTitle: "", collegiateAchievements: "", professionalAchievements: "",
+  currentCityState: "", currentProfession: "", actionPhotoUrl: "",
 };
 
 const inputClass =
@@ -388,12 +392,44 @@ export default function ProfileSubmission() {
               />
             </div>
             <div>
-              <label htmlFor="ps-context" className={labelClass}>Any extra context</label>
+              <label htmlFor="ps-collegiate" className={labelClass}>Collegiate Achievements</label>
+              <textarea
+                id="ps-collegiate"
+                value={form.collegiateAchievements}
+                onChange={set("collegiateAchievements")}
+                rows={2}
+                placeholder="All-conference honors, degrees, awards"
+                className={`${inputClass} resize-none`}
+              />
+            </div>
+            <div>
+              <label htmlFor="ps-professional" className={labelClass}>Professional Achievements</label>
+              <textarea
+                id="ps-professional"
+                value={form.professionalAchievements}
+                onChange={set("professionalAchievements")}
+                rows={2}
+                placeholder="Career milestones you're proud of"
+                className={`${inputClass} resize-none`}
+              />
+            </div>
+            <div>
+              <label htmlFor="ps-city" className={labelClass}>City/State Where You Currently Live</label>
               <input
-                id="ps-context"
-                value={form.nextChapterSubtitle}
-                onChange={set("nextChapterSubtitle")}
-                placeholder="Optional"
+                id="ps-city"
+                value={form.currentCityState}
+                onChange={set("currentCityState")}
+                placeholder="Denver, CO"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="ps-profession" className={labelClass}>Current Profession</label>
+              <input
+                id="ps-profession"
+                value={form.currentProfession}
+                onChange={set("currentProfession")}
+                placeholder="What you do now"
                 className={inputClass}
               />
             </div>

@@ -5,10 +5,10 @@ import { AWARD_INFO } from "@/lib/constants";
 
 const MAX_DONATION = 10_000;
 
-const DONATION_TIERS = [50, 100, 250, 500, 1000];
+const DONATION_TIERS = [100, 500, 1000, 2500, 5000];
 
 export function DonateSection() {
-  const [selectedAmount, setSelectedAmount] = useState(100);
+  const [selectedAmount, setSelectedAmount] = useState(0);
   const [customAmount, setCustomAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,18 +62,21 @@ export function DonateSection() {
         <div className="text-center mb-12">
           <div className="h-px w-16 bg-gold mx-auto mb-6" />
           <p className="text-gold text-xs font-medium uppercase tracking-[0.2em] mb-4">
-            Support the Mission
+            Make a Donation
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium italic text-white mb-4">
-            Make a Donation
+            Support the Gold Helmet Award
           </h2>
           <p className="text-lg chrome-bar-text leading-relaxed mb-4">
-            Your donation directly funds ${AWARD_INFO.scholarshipAmount.toLocaleString()} scholarships
-            for student-athletes who exemplify character, leadership, and
-            excellence.
+            Your contribution helps fund the Gold Helmet Award tradition,
+            including the gold-plated helmet presented to each year&rsquo;s
+            recipient and the annual banquet honoring the winner alongside
+            past recipients, the recipient&rsquo;s family, coaches, and
+            teammates.
           </p>
           <p className="text-gold text-sm">
-            {AWARD_INFO.charity} is a registered 501(c)(3) non-profit.
+            {AWARD_INFO.charity}. is a registered 501(c)(3) nonprofit
+            organization.
           </p>
         </div>
 
@@ -100,7 +103,7 @@ export function DonateSection() {
                       : "bg-white/[0.03] text-white/80 border-white/10 hover:bg-white/[0.06] hover:border-white/20 hover:text-white"
                   }`}
                 >
-                  <div className="text-lg">${amount}</div>
+                  <div className="text-lg">${amount.toLocaleString("en-US")}</div>
                 </button>
               );
             })}
@@ -151,8 +154,8 @@ export function DonateSection() {
           {isLoading
             ? "Redirecting..."
             : finalAmount > 0
-              ? `Donate $${finalAmount.toFixed(2)}`
-              : "Enter an amount"}
+              ? `Donate $${finalAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+              : "Donate"}
         </button>
 
         <p className="text-center text-sm text-white/40 mt-6">

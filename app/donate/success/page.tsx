@@ -54,7 +54,8 @@ export default async function DonateSuccessPage({
           {paid
             ? "A receipt has been sent to your email. "
             : "If you completed your donation, a receipt will arrive by email shortly. "}
-          Your gift directly funds scholarships for Colorado student-athletes.
+          Your gift directly funds the gold-plated helmet and the annual
+          banquet honoring each year&rsquo;s recipient.
         </p>
         <Link
           href="/"

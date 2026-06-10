@@ -59,7 +59,10 @@ export async function POST(req: NextRequest) {
     "Coach Quote": body.coachQuote || undefined,
     "Coach Name": body.coachName || undefined,
     "Next Chapter Title": body.nextChapterTitle || undefined,
-    "Next Chapter Subtitle": body.nextChapterSubtitle || undefined,
+    "Collegiate Achievements": body.collegiateAchievements || undefined,
+    "Professional Achievements": body.professionalAchievements || undefined,
+    "Current City/State": body.currentCityState || undefined,
+    "Current Profession": body.currentProfession || undefined,
     "Submitted At": new Date().toISOString().split("T")[0],
   };
 
