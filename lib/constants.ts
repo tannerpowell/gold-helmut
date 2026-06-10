@@ -3,10 +3,32 @@ export const AWARD_INFO = Object.freeze({
   founded: 1951,
   yearsOfHistory: 75,
   charity: "Gold Helmet Award Corp",
-  scholarshipAmount: 1000,
   contactEmail: "goldhelmet2025@gmail.com",
   chairman: "Matt Schubert",
 });
+
+export interface GivingLevel {
+  name: string;
+  minAmount: number;
+  donors: readonly string[];
+}
+
+// Donor recognition wall, maintained by the board (source: Jason's
+// giving-levels spreadsheet, June 2026)
+export const GIVING_LEVELS: readonly GivingLevel[] = Object.freeze([
+  { name: "Gold Helmet Legends", minAmount: 5000, donors: [] },
+  { name: "Captain’s Club", minAmount: 2500, donors: ["Jason Lucas"] },
+  {
+    name: "Gold Helmet Brotherhood",
+    minAmount: 1000,
+    donors: ["Maurice Frilot", "Doug Quimby", "Jonathan Lucas"],
+  },
+  {
+    name: "Teammate Level",
+    minAmount: 100,
+    donors: ["Mike Edwards", "Eric McCarty", "David Gaines", "Matt Schubert", "Nick Brown"],
+  },
+]);
 
 export const NOMINATION_EMAILS = "KNewman@denverpost.com,GoldHelmet2025@gmail.com";
 
@@ -104,19 +126,6 @@ export const WINNERS: readonly Winner[] = [
 
 WINNERS.forEach(Object.freeze);
 Object.freeze(WINNERS);
-
-export interface GivingLevel {
-  name: string;
-  /** Donor names to display under this level once donations come in */
-  donors?: string[];
-}
-
-export const GIVING_LEVELS: readonly GivingLevel[] = [
-  { name: "$5,000" },
-  { name: "$2,500" },
-  { name: "$1,000" },
-  { name: "Other" },
-];
 
 // WINNERS is already ordered most recent first (2025 → 1951)
 export const WINNERS_BY_YEAR: readonly Winner[] = WINNERS;

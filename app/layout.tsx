@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   description:
     "The Gold Helmet Award recognizes excellence, leadership, and character in Colorado high school football since 1951. View winners, apply, and support student-athletes.",
   keywords:
-    "Gold Helmet Award, Colorado football, high school football, scholarship, sports award",
+    "Gold Helmet Award, Colorado football, high school football, sports award",
   openGraph: {
     title: "Gold Helmet Award",
     description:

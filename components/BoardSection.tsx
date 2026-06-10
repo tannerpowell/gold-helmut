@@ -63,23 +63,27 @@ export function BoardSection() {
           <h3 className="font-display text-2xl font-medium italic text-foreground mb-8">
             Giving Levels
           </h3>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {GIVING_LEVELS.map((level) => (
               <div
                 key={level.name}
                 className="border border-border bg-surface p-4 md:p-8 hover:border-gold/40 transition-colors text-center"
               >
-                <p className="text-gold font-display text-3xl sm:text-[2.75rem] font-medium italic leading-none">
-                  {level.name.startsWith("$") ? (
-                    <><span className="text-xl sm:text-[1.75rem]" style={{ verticalAlign: "0.15em" }}>$</span>{level.name.slice(1)}</>
-                  ) : (
-                    level.name
-                  )}
+                <p className="text-gold font-display text-2xl sm:text-3xl font-medium italic leading-tight text-balance sm:min-h-[2.5em] sm:flex sm:items-center sm:justify-center">
+                  {level.name}
                 </p>
-                {/* TODO: Replace with actual donor names once donations come in */}
-                {/* <ul className="text-secondary text-sm mt-4 space-y-1">
-                  <li>Donor Name</li>
-                </ul> */}
+                <p className="text-secondary text-sm mt-2 mb-5">
+                  ${level.minAmount.toLocaleString("en-US")}+
+                </p>
+                {level.donors.length > 0 ? (
+                  <ul className="text-foreground text-sm space-y-1.5">
+                    {level.donors.map((donor) => (
+                      <li key={donor}>{donor}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-secondary text-sm italic">Be the first</p>
+                )}
               </div>
             ))}
           </div>

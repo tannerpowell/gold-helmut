@@ -45,8 +45,9 @@ export default async function DonateSuccessPage({
             : `Your donation to ${AWARD_INFO.charity} has been received.`}
         </p>
         <p className="text-sm text-secondary mb-8">
-          A receipt has been sent to your email. Your gift directly funds
-          scholarships for Colorado student-athletes.
+          A receipt has been sent to your email. Your gift directly funds the
+          gold-plated helmet and the annual banquet honoring each
+          year&rsquo;s recipient.
         </p>
         <Link
           href="/"

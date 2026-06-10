@@ -27,10 +27,10 @@ export default function Home() {
               exceptional character, leadership, and academic commitment.
             </p>
             <p className="text-lg text-secondary leading-relaxed">
-              Each year, the {AWARD_INFO.charity} awards a $
-              {AWARD_INFO.scholarshipAmount.toLocaleString()} scholarship to the
-              winner, supporting their journey from the high school field to
-              college and beyond.
+              Each year, the {AWARD_INFO.charity}. honors the recipient at a
+              banquet attended by past winners, the recipient&rsquo;s family,
+              coaches, and teammates, culminating in the presentation of a
+              gold-plated helmet.
             </p>
           </div>
         </div>
