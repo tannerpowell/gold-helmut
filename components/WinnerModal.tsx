@@ -63,6 +63,14 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
   const prevFocusRef = useRef<Element | null>(null);
   const [showScrollHint, setShowScrollHint] = useState(false);
 
+  // Reset the hint when the displayed winner changes (state adjustment during
+  // render, per react.dev/learn/you-might-not-need-an-effect)
+  const [prevWinner, setPrevWinner] = useState(winner);
+  if (winner !== prevWinner) {
+    setPrevWinner(winner);
+    setShowScrollHint(false);
+  }
+
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -113,7 +121,7 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
   }, [winner, handleKey]);
 
   useEffect(() => {
-    if (!winner) { setShowScrollHint(false); return; }
+    if (!winner) return;
     const el = modalRef.current;
     if (!el) return;
     const check = () => {

@@ -31,7 +31,7 @@ export function SchoolLeaderboard({ onYearClick }: SchoolLeaderboardProps) {
           </tr>
         </thead>
         <tbody>
-          {leaderboard.map(({ school, years }, i) => (
+          {leaderboard.map(({ school, years }) => (
             <tr key={school} className="border-b border-border/50 last:border-0">
               <td className="py-2 pr-2 pl-3 text-foreground text-sm font-semibold tracking-wide align-baseline whitespace-nowrap" style={{ fontVariant: "all-small-caps" }}>
                 {school}

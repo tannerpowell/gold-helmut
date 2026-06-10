@@ -13,20 +13,26 @@ export default async function DonateSuccessPage({
 }) {
   const { session_id } = await searchParams;
   let amount: string | null = null;
+  let paid = false;
 
   if (session_id && /^cs_/.test(session_id)) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(session_id);
-      if (session.amount_total != null) {
-        amount = (session.amount_total / 100).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+      // Only claim the donation went through for sessions that actually paid;
+      // unpaid/expired sessions fall through to the hedged thank-you.
+      if (session.payment_status === "paid") {
+        paid = true;
+        if (session.amount_total != null) {
+          amount = (session.amount_total / 100).toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+        }
       }
     } catch {
-      // Invalid session ID, just show generic thank-you
+      // Invalid session ID, just show the hedged thank-you
     }
   }
 
@@ -38,13 +44,17 @@ export default async function DonateSuccessPage({
           Thank You
         </h1>
         <p className="text-lg text-secondary leading-relaxed mb-2">
-          {amount
-            ? `Your ${amount} donation to ${AWARD_INFO.charity} has been received.`
-            : `Your donation to ${AWARD_INFO.charity} has been received.`}
+          {!paid
+            ? `Thank you for supporting ${AWARD_INFO.charity}.`
+            : amount
+              ? `Your ${amount} donation to ${AWARD_INFO.charity} has been received.`
+              : `Your donation to ${AWARD_INFO.charity} has been received.`}
         </p>
         <p className="text-sm text-secondary mb-8">
-          A receipt has been sent to your email. Your gift directly funds
-          scholarships for Colorado student-athletes.
+          {paid
+            ? "A receipt has been sent to your email. "
+            : "If you completed your donation, a receipt will arrive by email shortly. "}
+          Your gift directly funds scholarships for Colorado student-athletes.
         </p>
         <Link
           href="/"

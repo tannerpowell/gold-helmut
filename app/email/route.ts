@@ -1,6 +1,7 @@
+import { getSiteOrigin } from "@/lib/site-url";
+
 export async function GET() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://goldhelmetaward.com";
-  const formUrl = `${siteUrl}/profile-submission`;
+  const formUrl = `${getSiteOrigin()}/profile-submission`;
 
   const html = `<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">

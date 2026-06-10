@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -43,3 +44,11 @@ next-env.d.ts
 # working files
 docs/
 kite-pricing-design.json
+
+# image source material and scratch exports (the site serves the tracked
+# files in public/images/optimized and friends; these are pipeline inputs)
+public/images/originals/
+public/images/optimized-backup-*/
+public/images/Gemini_Generated_Image_*.png
+public/images/logo-edit-high-res.png
+public/images/1280x720-social-share.jpg
