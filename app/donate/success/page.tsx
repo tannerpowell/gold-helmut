@@ -17,7 +17,9 @@ export default async function DonateSuccessPage({
   if (session_id && /^cs_/.test(session_id)) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(session_id);
-      if (session.amount_total != null) {
+      // Only confirm a specific amount for sessions that actually paid;
+      // unpaid/expired sessions fall through to the generic thank-you.
+      if (session.payment_status === "paid" && session.amount_total != null) {
         amount = (session.amount_total / 100).toLocaleString("en-US", {
           style: "currency",
           currency: "USD",

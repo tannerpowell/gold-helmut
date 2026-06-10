@@ -43,3 +43,4 @@ next-env.d.ts
 # working files
 docs/
 kite-pricing-design.json
+!.env.example

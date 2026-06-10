@@ -24,7 +24,19 @@ export async function POST(req: Request) {
   }
 
   try {
-    const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
+    // success_url/cancel_url must come from config in production: the request
+    // origin is derived from the Host header, which a client can set.
+    let origin = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!origin) {
+      if (process.env.NODE_ENV === "production") {
+        console.error("NEXT_PUBLIC_SITE_URL is not set");
+        return NextResponse.json(
+          { error: "Server configuration error" },
+          { status: 500 }
+        );
+      }
+      origin = new URL(req.url).origin;
+    }
 
     const session = await getStripe().checkout.sessions.create({
       submit_type: "donate",
