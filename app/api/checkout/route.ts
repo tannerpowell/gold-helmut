@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { getSiteOrigin } from "@/lib/site-url";
 import { AWARD_INFO } from "@/lib/constants";
 
 export async function POST(req: Request) {
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
+    const origin = getSiteOrigin(new URL(req.url).origin);
 
     const session = await getStripe().checkout.sessions.create({
       submit_type: "donate",

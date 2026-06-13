@@ -105,7 +105,7 @@ async function downloadAllImages() {
   for (const image of imageUrls) {
     try {
       await downloadImage(image.url, image.name);
-    } catch (error) {
+    } catch {
       console.log(`Skipping ${image.name} due to download error`);
     }
   }

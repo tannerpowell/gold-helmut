@@ -119,9 +119,9 @@ export function HeroSection() {
               </div>
               <div>
                 <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={interFont}>
-                  <span className="text-2xl align-baseline">$</span>{AWARD_INFO.scholarshipAmount.toLocaleString()}
+                  {AWARD_INFO.founded}
                 </div>
-                <div className="mt-1 text-sm text-white/70">Scholarships</div>
+                <div className="mt-1 text-sm text-white/70">Founded</div>
               </div>
               <div>
                 <div className="text-4xl font-light text-[#fafafa] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" style={interFont}>

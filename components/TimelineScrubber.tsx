@@ -22,7 +22,6 @@ export function TimelineScrubber({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
   const draggedRef = useRef(false);
@@ -33,7 +32,6 @@ export function TimelineScrubber({
     const el = scrollRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 2);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 2);
   }, []);
 
   useEffect(() => {

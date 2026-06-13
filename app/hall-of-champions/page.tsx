@@ -143,15 +143,6 @@ export default function WinnersTimeline() {
     }, 2000);
   }, []);
 
-  const yearRefCallbacks = useRef<Map<number, (el: HTMLDivElement | null) => void>>(new Map());
-  const setYearRef = useCallback((year: number) => {
-    if (!yearRefCallbacks.current.has(year)) {
-      yearRefCallbacks.current.set(year, (el: HTMLDivElement | null) => {
-        if (el) yearRefs.current.set(year, el);
-      });
-    }
-    return yearRefCallbacks.current.get(year)!;
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -199,7 +190,18 @@ export default function WinnersTimeline() {
             <div className="space-y-8 pl-16 sm:pl-12 md:pl-44">
               {WINNERS_BY_YEAR.map((winner) => {
                 return (
-                  <div key={winner.year} ref={setYearRef(winner.year)} data-year={winner.year} className="relative">
+                  <div
+                    key={winner.year}
+                    ref={(el) => {
+                      if (el) {
+                        yearRefs.current.set(winner.year, el);
+                      } else {
+                        yearRefs.current.delete(winner.year);
+                      }
+                    }}
+                    data-year={winner.year}
+                    className="relative"
+                  >
                     {/* Card with year centered in left gutter */}
                     <div className="relative">
                       <span className="absolute top-1/2 -translate-y-1/2 font-sans font-semibold text-sm md:text-xl text-gold tracking-wide text-center w-14 sm:w-12 md:w-32 -left-16 sm:-left-12 md:-left-44">
