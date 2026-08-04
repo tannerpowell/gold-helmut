@@ -33,7 +33,12 @@ export function SchoolLeaderboard({ onYearClick }: SchoolLeaderboardProps) {
         <tbody>
           {leaderboard.map(({ school, years }) => (
             <tr key={school} className="border-b border-border/50 last:border-0">
-              <td className="py-2 pr-2 pl-3 text-foreground text-sm font-semibold tracking-wide align-baseline whitespace-nowrap" style={{ fontVariant: "all-small-caps" }}>
+              {/* Real capitals rather than font-variant: all-small-caps. DM Sans
+                  ships no smcp table, so the browser synthesized small caps by
+                  scaling capitals to 0.714 -- against 0.88 for the system font
+                  this used to fall back to, which made the column read a size
+                  too small. 12px caps restore the old optical size and width. */}
+              <td className="py-2 pr-2 pl-3 font-accent text-xs font-medium uppercase tracking-[0.06em] text-foreground align-baseline whitespace-nowrap">
                 {school}
               </td>
               <td className="py-2 px-2 font-display text-base font-bold text-foreground tabular-nums text-center align-baseline w-9">

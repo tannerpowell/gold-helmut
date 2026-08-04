@@ -16,17 +16,18 @@ export interface GivingLevel {
 // Donor recognition wall, maintained by the board (source: Jason's
 // giving-levels spreadsheet, June 2026)
 export const GIVING_LEVELS: readonly GivingLevel[] = Object.freeze([
-  { name: "Gold Helmet Legends", minAmount: 5000, donors: [] },
+  // Donors are listed alphabetically by last name within each level.
+  { name: "Gold Helmet Legends", minAmount: 5000, donors: ["Shane Cook", "Maurice Frilot"] },
   { name: "Captain’s Club", minAmount: 2500, donors: ["Jason Lucas"] },
   {
     name: "Gold Helmet Brotherhood",
     minAmount: 1000,
-    donors: ["Maurice Frilot", "Doug Quimby", "Jonathan Lucas"],
+    donors: ["Mike Edwards", "Jonathan Lucas", "Doug Quimby", "Matt Rillos", "Jeff Singleton"],
   },
   {
     name: "Teammate Level",
     minAmount: 100,
-    donors: ["Mike Edwards", "Eric McCarty", "David Gaines", "Matt Schubert", "Nick Brown"],
+    donors: ["Nick Brown", "David Gaines", "Eric McCarty", "Matt Schubert", "Wayne Southam"],
   },
 ]);
 
