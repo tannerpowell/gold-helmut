@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, DM_Sans, Inter } from "next/font/google";
-import { Playfair_Display, Dancing_Script } from "next/font/google";
+import { Playfair_Display, Jost } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Header } from "@/components/Header";
@@ -18,10 +18,12 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const dancingScript = Dancing_Script({
-  variable: "--font-script",
+// Geometric grotesk used for tracked all-caps accents (donor names, giving
+// tiers). Its wide, even caps hold up at small sizes where DM Sans goes soft.
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600"],
 });
 
 const inter = Inter({
@@ -65,9 +67,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    // The font variables live on <html>, not <body>: globals.css builds
+    // --font-body and --font-accent on :root, and a custom property whose
+    // var() can't resolve on its own element becomes guaranteed-invalid
+    // rather than falling through to the next name in the list. Declared on
+    // <body> they were invisible to :root, so every --font-* chain collapsed
+    // and the whole site rendered in the default system stack.
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${dmSans.variable} ${inter.variable} ${playfair.variable} ${jost.variable}`}
+    >
       <body
-        className={`${geistSans.variable} ${dmSans.variable} ${inter.variable} ${playfair.variable} ${dancingScript.variable} antialiased`}
+        className="antialiased"
         style={{
           "--font-display": "var(--font-playfair), Georgia, serif",
         } as React.CSSProperties}

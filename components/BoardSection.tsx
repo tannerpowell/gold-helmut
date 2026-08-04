@@ -72,17 +72,20 @@ export function BoardSection() {
                 <p className="text-gold font-display text-2xl sm:text-3xl font-medium italic leading-tight text-balance sm:min-h-[2.5em] sm:flex sm:items-center sm:justify-center">
                   {level.name}
                 </p>
-                <p className="text-secondary text-sm mt-2 mb-5">
+                <p className="font-accent text-lg sm:text-xl font-medium text-secondary tracking-wide mt-3">
                   ${level.minAmount.toLocaleString("en-US")}+
                 </p>
+                <div className="h-px bg-border my-6" />
                 {level.donors.length > 0 ? (
-                  <ul className="text-foreground text-sm space-y-1.5">
+                  <ul className="font-accent text-[0.9375rem] sm:text-base uppercase tracking-[0.14em] ps-[0.14em] font-medium text-foreground space-y-3">
                     {level.donors.map((donor) => (
                       <li key={donor}>{donor}</li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-secondary text-sm italic">Be the first</p>
+                  <p className="font-accent text-[0.9375rem] sm:text-base uppercase tracking-[0.14em] ps-[0.14em] text-muted">
+                    Be the first
+                  </p>
                 )}
               </div>
             ))}

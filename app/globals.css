@@ -37,6 +37,7 @@
   --border-accent: rgba(184, 149, 62, 0.3);
 
   --font-body: var(--font-dm-sans), var(--font-geist-sans), system-ui, sans-serif;
+  --font-accent: var(--font-jost), var(--font-dm-sans), system-ui, sans-serif;
 }
 
 .dark {
@@ -69,6 +70,10 @@
 @layer utilities {
   .font-display {
     font-family: var(--font-display);
+  }
+
+  .font-accent {
+    font-family: var(--font-accent);
   }
 
   .text-gold {
