@@ -522,6 +522,24 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       webp: "/images/optimized/2006-clay-garcia-modal.webp",
     },
   },
+  1984: {
+    portrait: {
+      jpg: "/images/optimized/1984-maurice-frilot-portrait.jpg",
+      webp: "/images/optimized/1984-maurice-frilot-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/1984-maurice-frilot-thumb.jpg",
+      webp: "/images/optimized/1984-maurice-frilot-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/1984-maurice-frilot-web.jpg",
+      webp: "/images/optimized/1984-maurice-frilot-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/1984-maurice-frilot-modal.jpg",
+      webp: "/images/optimized/1984-maurice-frilot-modal.webp",
+    },
+  },
 };
 
 export function getWinnerImage(
