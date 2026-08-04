@@ -7,7 +7,12 @@ export function getStripe() {
     if (!process.env.STRIPE_SECRET_KEY) {
       throw new Error("STRIPE_SECRET_KEY is not set");
     }
-    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    // Pinned explicitly. Without this the SDK sends whatever version it
+    // happens to ship with, so a routine `stripe` package bump silently
+    // moves the wire API version used against the live account.
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2026-07-29.dahlia",
+    });
   }
   return _stripe;
 }
