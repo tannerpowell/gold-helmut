@@ -21,6 +21,18 @@
   --color-border-accent: var(--border-accent);
   --font-sans: var(--font-body);
   --font-display: 'Playfair Display', Georgia, serif;
+
+  /* Body type runs ~6% larger than Tailwind's defaults. DM Sans has a
+     smaller x-height than the system stack the site used to fall back to
+     (7.1px vs 7.5px at 14px), so matching px sizes read a size light. The
+     bump tapers off toward the top of the scale, where sizes are Playfair
+     display type and unaffected; 2xl and above are left at their defaults.
+     Line heights are unitless ratios in Tailwind, so they follow along. */
+  --text-xs: 0.8rem;      /* 12   -> 12.8 */
+  --text-sm: 0.9375rem;   /* 14   -> 15   */
+  --text-base: 1.0625rem; /* 16   -> 17   */
+  --text-lg: 1.1875rem;   /* 18   -> 19   */
+  --text-xl: 1.3125rem;   /* 20   -> 21   */
 }
 
 :root {

@@ -77,13 +77,13 @@ export function BoardSection() {
                 </p>
                 <div className="h-px bg-border my-6" />
                 {level.donors.length > 0 ? (
-                  <ul className="font-accent text-[0.9375rem] sm:text-base uppercase tracking-[0.14em] ps-[0.14em] font-medium text-foreground space-y-3">
+                  <ul className="font-accent text-sm sm:text-base uppercase tracking-[0.14em] ps-[0.14em] font-medium text-foreground space-y-3">
                     {level.donors.map((donor) => (
                       <li key={donor}>{donor}</li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="font-accent text-[0.9375rem] sm:text-base uppercase tracking-[0.14em] ps-[0.14em] text-muted">
+                  <p className="font-accent text-sm sm:text-base uppercase tracking-[0.14em] ps-[0.14em] text-muted">
                     Be the first
                   </p>
                 )}
