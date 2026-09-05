@@ -41,7 +41,7 @@ export function SchoolLeaderboard({ onYearClick }: SchoolLeaderboardProps) {
               <td className="py-2 pr-2 pl-3 font-accent text-xs font-medium uppercase tracking-[0.06em] text-foreground align-baseline whitespace-nowrap">
                 {school}
               </td>
-              <td className="py-2 px-2 text-base font-bold text-foreground tabular-nums text-center align-baseline w-9">
+              <td className="py-2 px-2 text-sm font-medium text-foreground tabular-nums text-center align-baseline w-9">
                 {years.length}
               </td>
               <td className="py-2 pl-1 text-[13px] tabular-nums align-baseline whitespace-nowrap">
