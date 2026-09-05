@@ -17,12 +17,12 @@ export interface GivingLevel {
 // giving-levels spreadsheet, June 2026)
 export const GIVING_LEVELS: readonly GivingLevel[] = Object.freeze([
   // Donors are listed alphabetically by last name within each level.
-  { name: "Gold Helmet Legends", minAmount: 5000, donors: ["Shane Cook", "Maurice Frilot"] },
+  { name: "Gold Helmet Legends", minAmount: 5000, donors: ["Shane Cook", "Maurice Frilot", "Randy Strandberg"] },
   { name: "Captain’s Club", minAmount: 2500, donors: ["Jason Lucas"] },
   {
     name: "Gold Helmet Brotherhood",
     minAmount: 1000,
-    donors: ["Mike Edwards", "Jonathan Lucas", "Doug Quimby", "Matt Rillos", "Jeff Singleton"],
+    donors: ["Bobby Anderson", "Mike Edwards", "Byron Hanson", "Jonathan Lucas", "Doug Quimby", "Matt Rillos", "Jeff Singleton"],
   },
   {
     name: "Teammate Level",
@@ -48,7 +48,7 @@ export interface Winner {
 // Complete list of 75 winners (1951-2025)
 // Source: https://www.denverpost.com/2013/12/09/list-of-gold-helmet-award-winners-for-colorado-prep-football-from-the-denver-post/
 export const WINNERS: readonly Winner[] = [
-  { year: 2025, name: "Elian Oliva", school: "Northfield", position: "LB/S", college: "Air Force", storyUrl: "https://www.denverpost.com/2025/12/14/elian-oliva-gold-helmet-winner-northfield/" },
+  { year: 2025, name: "Elian Oliva", school: "Northfield", position: "LB/S", college: "University of Miami", storyUrl: "https://www.denverpost.com/2025/12/14/elian-oliva-gold-helmet-winner-northfield/" },
   { year: 2024, name: "Marcus Mozer", school: "Fossil Ridge", position: "WR", college: "San Diego State", storyUrl: "https://www.denverpost.com/2024/12/22/marcus-mozer-gold-helmet-award-fossil-ridge/" },
   { year: 2023, name: "Josh Snyder", school: "Columbine", position: "RB/DB", college: "Colorado School of Mines", storyUrl: "https://www.denverpost.com/2023/12/24/josh-snyder-columbine-gold-helmet-winner/" },
   { year: 2022, name: "Brayden Dorman", school: "Vista Ridge", position: "QB", college: "Arizona", storyUrl: "https://www.denverpost.com/2022/12/18/brayden-dorman-vista-ridge-gold-helmet-winner-football/" },
