@@ -53,7 +53,7 @@ const OLIVA_2025 = {
     text: "We\u2019re going to stay away from 15. He\u2019s almost unblockable at the high school level.",
     attribution: "Coach Clint Buderus",
   },
-  future: "Combat medicine in the Air Force",
+  future: "University of Miami (FL)",
 };
 
 export function WinnerModal({ winner, onClose }: WinnerModalProps) {
@@ -362,7 +362,6 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 <div className="text-white text-xl font-semibold">
                   {OLIVA_2025.future}
                 </div>
-                <div className="text-[#a0a0a0] text-sm mt-1">United States Air Force</div>
               </div>
           </div>
         )}
