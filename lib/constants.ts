@@ -22,12 +22,12 @@ export const GIVING_LEVELS: readonly GivingLevel[] = Object.freeze([
   {
     name: "Gold Helmet Brotherhood",
     minAmount: 1000,
-    donors: ["Bobby Anderson", "Mike Edwards", "Byron Hanson", "Jonathan Lucas", "Doug Quimby", "Matt Rillos", "Jeff Singleton"],
+    donors: ["Bobby Anderson", "Mike Edwards", "Byron Hanson", "Jonathan Lucas", "Doug Musgrave", "Doug Quimby", "Matt Rillos", "Jeff Singleton"],
   },
   {
     name: "Teammate Level",
     minAmount: 100,
-    donors: ["Nick Brown", "David Gaines", "Eric McCarty", "Matt Schubert", "Wayne Southam"],
+    donors: ["Jeff Anderson", "Nick Brown", "David Gaines", "Eric McCarty", "Matt Schubert", "Wayne Southam"],
   },
 ]);
 
