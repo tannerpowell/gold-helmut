@@ -371,13 +371,17 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
           <div className="px-8 pb-8 space-y-7">
             <div className="h-px bg-gradient-to-r from-gold/40 via-gold/20 to-transparent" />
 
-            <p className="text-gold text-sm uppercase tracking-[0.2em] font-semibold">
-              {profile.headline}
-            </p>
+            {profile.headline && (
+              <p className="text-gold text-sm uppercase tracking-[0.2em] font-semibold">
+                {profile.headline}
+              </p>
+            )}
 
-            <p className="text-[#d0d0d0] text-[17px] leading-[1.65]">
-              {profile.bio}
-            </p>
+            {profile.bio && (
+              <p className="text-[#d0d0d0] text-[17px] leading-[1.65] text-pretty">
+                {profile.bio}
+              </p>
+            )}
 
             {profile.actionImage && (
               <div className="rounded-md overflow-hidden">
@@ -503,6 +507,30 @@ export function WinnerModal({ winner, onClose }: WinnerModalProps) {
                 </div>
                 {profile.future.subtitle && (
                   <div className="text-[#a0a0a0] text-sm mt-1">{profile.future.subtitle}</div>
+                )}
+              </div>
+            )}
+
+            {profile.whereNow && (
+              <div className="bg-white/[0.06] border border-white/[0.12] rounded-md px-5 py-5 space-y-3">
+                <div className="text-[11px] uppercase tracking-[0.12em] text-gold/70 font-semibold">
+                  Where They Are Now
+                </div>
+                {profile.whereNow.location && (
+                  <div className="text-white text-xl font-semibold text-balance">
+                    {profile.whereNow.location}
+                  </div>
+                )}
+                {profile.whereNow.role && (
+                  <p className="text-[#d0d0d0] text-[17px] leading-[1.65] text-pretty">
+                    {profile.whereNow.role}
+                  </p>
+                )}
+                {profile.whereNow.funFact && (
+                  <p className="text-[#a0a0a0] text-[15px] leading-relaxed text-pretty">
+                    <span className="text-gold/80 font-semibold">Fun fact: </span>
+                    {profile.whereNow.funFact}
+                  </p>
                 )}
               </div>
             )}
