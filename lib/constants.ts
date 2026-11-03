@@ -27,7 +27,7 @@ export const GIVING_LEVELS: readonly GivingLevel[] = Object.freeze([
   {
     name: "Teammate Level",
     minAmount: 100,
-    donors: ["Jeff Anderson", "Nick Brown", "David Gaines", "Eric McCarty", "Matt Schubert", "Wayne Southam"],
+    donors: ["Jeff Anderson", "Nick Brown", "David Gaines", "Eric McCarty", "Elian Oliva", "Alvin Rubalcaba", "Matt Schubert", "Wayne Southam"],
   },
 ]);
 
