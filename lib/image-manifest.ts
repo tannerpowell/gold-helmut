@@ -522,6 +522,24 @@ export const IMAGE_MANIFEST: Partial<Record<number, WinnerImageSet>> = {
       webp: "/images/optimized/2006-clay-garcia-modal.webp",
     },
   },
+  1987: {
+    portrait: {
+      jpg: "/images/optimized/1987-jerry-dunn-portrait.jpg",
+      webp: "/images/optimized/1987-jerry-dunn-portrait.webp",
+    },
+    thumb: {
+      jpg: "/images/optimized/1987-jerry-dunn-thumb.jpg",
+      webp: "/images/optimized/1987-jerry-dunn-thumb.webp",
+    },
+    web: {
+      jpg: "/images/optimized/1987-jerry-dunn-web.jpg",
+      webp: "/images/optimized/1987-jerry-dunn-web.webp",
+    },
+    modal: {
+      jpg: "/images/optimized/1987-jerry-dunn-modal.jpg",
+      webp: "/images/optimized/1987-jerry-dunn-modal.webp",
+    },
+  },
   1984: {
     portrait: {
       jpg: "/images/optimized/1984-maurice-frilot-portrait.jpg",

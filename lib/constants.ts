@@ -86,7 +86,7 @@ export const WINNERS: readonly Winner[] = [
   { year: 1990, name: "Justin Armour", school: "Manitou Springs", position: "WR", college: "Stanford", storyUrl: "https://www.denverpost.com/news/ci_28408922/justin-armour-1990-gold-helmet" },
   { year: 1989, name: "Kent Kahl", school: "Fort Morgan", position: "RB", college: "Iowa", storyUrl: "https://www.denverpost.com/news/ci_28408918/kent-kahl-1989-gold-helmet" },
   { year: 1988, name: "Doug Musgrave", school: "Grand Junction", position: "QB", college: "Oregon" },
-  { year: 1987, name: "Jerry Dunn", school: "Mullen", position: "QB", college: "Colorado State" },
+  { year: 1987, name: "Jerry Dunn", school: "Mullen", position: "QB", college: "Florida/Colorado State" },
   { year: 1986, name: "Lance French", school: "Green Mountain", position: "RB", college: "Yale" },
   { year: 1985, name: "Bill Musgrave", school: "Grand Junction", position: "QB", college: "Oregon" },
   { year: 1984, name: "Maurice Frilot", school: "Montbello", position: "OL", college: "Harvard" },
