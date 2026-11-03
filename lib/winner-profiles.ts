@@ -1,6 +1,6 @@
 export interface WinnerProfile {
-  headline: string;
-  bio: string;
+  headline?: string;
+  bio?: string;
   stats?: { label: string; value: string }[];
   careerHighlight?: string;
   highlights?: { title: string; value: string; description: string }[];
@@ -10,6 +10,8 @@ export interface WinnerProfile {
   future?: { title: string; subtitle?: string };
   actionImage?: string;
   closingImage?: string;
+  /** "Where are they now" update, supplied by the winner. */
+  whereNow?: { location?: string; role?: string; funFact?: string };
 }
 
 export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
@@ -842,6 +844,14 @@ export const WINNER_PROFILES: Partial<Record<number, WinnerProfile>> = {
       { label: "Long Jump", value: "24\u20193\u201D" },
     ],
     careerHighlight: "State long jump record (24\u20193\u201D), first Fort Morgan winner",
+  },
+
+  1987: {
+    whereNow: {
+      location: "Boise, Idaho",
+      role: "Co-founded A10 Capital in 2007 and serves as President, leading all front-end business development and key strategic relationships. Before that, co-founded and led Aviation Finance Group through its acquisition by PNC Bank in 2004.",
+      funFact: "Works with Tyler Jackson, the 2007 Gold Helmet winner.",
+    },
   },
 
   1966: {
