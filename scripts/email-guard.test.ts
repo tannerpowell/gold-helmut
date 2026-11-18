@@ -61,8 +61,31 @@ describe("email guard", () => {
     expect(run(addDonor("Pat Example")).verdict).toBe("auto");
   });
 
-  test.each(["${process.env.X}", "x => x", "import(\"y\")", "<script>", "javascript:alert"])("code-like text %p needs review", (s: string) => {
-    expect(run(addDonor(s)).verdict).toBe("review");
+  // Inserted unquoted: each is a TypeScript expression, not a string.
+  const addRaw = (expr: string) => constants.replace(/donors: \["/, `donors: [${expr}, "`);
+  test.each([
+    "process.env.STRIPE_SECRET_KEY!",
+    "`${process.env.X}`",
+    "(() => \"x\")()",
+    "require(\"fs\").readFileSync(\"/etc/passwd\", \"utf8\")",
+    "...[\"a\"]",
+    "SOME_CONSTANT",
+  ])("non-literal data %p needs review", (expr: string) => {
+    expect(run(addRaw(expr)).verdict).toBe("review");
+  });
+
+  test("text that merely looks like code, inside a plain string, is fine", () => {
+    expect(run(addDonor("${not interpolated} => import")).verdict).toBe("auto");
+  });
+
+  test("a javascript: link needs review", () => {
+    expect(run(addDonor("javascript:alert(1)")).verdict).toBe("review");
+  });
+
+  test("reasons never echo the changed value", () => {
+    const r = run(addDonor("https://private.example/secret-path"));
+    expect(r.verdict).toBe("review");
+    expect(r.reasons.join(" ")).not.toContain("private.example");
   });
 
   test("a large edit needs review", () => {

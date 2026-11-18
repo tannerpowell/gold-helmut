@@ -2,9 +2,11 @@
 //
 //   reject  — a file outside the data allowlist changed. Nothing is committed.
 //   review  — data-only, but unusual (code outside the data blocks changed, a
-//             new URL, code-like text, or a large diff). A PR is opened and
-//             left for a human to merge.
-//   auto    — only donor/winner data changed, small, no new URLs. Merged.
+//             new URL, anything but plain literals in the data, or a large
+//             diff). A PR is opened and left for a human to merge.
+//   auto    — only donor/winner literals changed, small, no new URLs. Merged.
+//
+// Reasons never include the changed values: they land in public logs.
 //
 // The email body is untrusted input. This guard holds no matter what the
 // agent was persuaded to do, so it judges the diff, never the agent's intent.
@@ -28,7 +30,6 @@ export const SCRATCH_FILES = new Set([".email-request.md", ".email-summary.md"])
 
 export const MAX_CHANGED_LINES = 80;
 
-const CODE_LIKE = [/\$\{/, /\bimport\b/, /\brequire\s*\(/, /=>/, /\bfunction\b/, /<\/?script/i, /javascript:/i, /\beval\b/];
 const URL_RE = /https?:\/\/[^\s"'`)]+/g;
 
 /** Splits a file into the text outside its data blocks and the text inside. */
@@ -54,8 +55,53 @@ export function splitData(text, blocks) {
   return { outside: outside.join("\n"), inside: inside.join("\n") };
 }
 
-function count(re, text) {
-  return (text.match(new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g")) ?? []).length;
+const LITERAL_WORDS = new Set(["true", "false", "null", "undefined"]);
+
+/**
+ * Counts tokens in a data block that are not plain literals. Data blocks may
+ * hold only string/number/boolean literals, object keys, comments and the
+ * punctuation { } [ ] , : — so no expression can run or read anything
+ * (e.g. `process.env.SECRET!` as a donor name would typecheck).
+ * Returns a count, never the offending text, since output is public.
+ */
+export function nonLiteralTokens(src) {
+  let bad = 0;
+  let i = 0;
+  const n = src.length;
+  const nextNonSpace = (j) => {
+    while (j < n && /\s/.test(src[j])) j++;
+    return src[j];
+  };
+  while (i < n) {
+    const c = src[i];
+    if (/\s/.test(c)) { i++; continue; }
+    if (src.startsWith("//", i)) { const e = src.indexOf("\n", i); i = e < 0 ? n : e; continue; }
+    if (src.startsWith("/*", i)) { const e = src.indexOf("*/", i + 2); if (e < 0) return bad + 1; i = e + 2; continue; }
+    if (c === '"' || c === "'" || c === "`") {
+      let j = i + 1;
+      while (j < n && src[j] !== c) {
+        if (src[j] === "\\") j++;
+        else if (c === "`" && src[j] === "$" && src[j + 1] === "{") bad++;
+        else if (c !== "`" && src[j] === "\n") { bad++; break; }
+        j++;
+      }
+      if (j >= n) return bad + 1; // unterminated string
+      i = j + 1;
+      continue;
+    }
+    const num = /^-?(?:\d[\d_]*(?:\.\d+)?)/.exec(src.slice(i, i + 32));
+    if (num) { i += num[0].length; continue; }
+    const id = /^[A-Za-z_$][\w$]*/.exec(src.slice(i, i + 256));
+    if (id) {
+      i += id[0].length;
+      if (!LITERAL_WORDS.has(id[0]) && nextNonSpace(i) !== ":") bad++;
+      continue;
+    }
+    if ("{}[],:".includes(c)) { i++; continue; }
+    bad++;
+    i++;
+  }
+  return bad;
 }
 
 function changedLineCount(a, b) {
@@ -97,12 +143,14 @@ export function evaluate(changed, contents) {
       continue;
     }
     if (a.outside !== b.outside) reasons.push(`${path}: changed outside the data blocks`);
-    for (const re of CODE_LIKE) {
-      if (count(re, b.inside) > count(re, a.inside)) reasons.push(`${path}: added code-like text ${re}`);
-    }
+    const bad = nonLiteralTokens(b.inside);
+    if (bad) reasons.push(`${path}: ${bad} non-literal token(s) in the data`);
     const oldUrls = new Set(a.inside.match(URL_RE) ?? []);
-    for (const u of new Set(b.inside.match(URL_RE) ?? [])) {
-      if (!oldUrls.has(u)) reasons.push(`${path}: new URL ${u}`);
+    const newUrls = [...new Set(b.inside.match(URL_RE) ?? [])].filter((u) => !oldUrls.has(u));
+    if (newUrls.length) reasons.push(`${path}: ${newUrls.length} new URL(s)`);
+    const scheme = /\b(?:javascript|data|vbscript):/gi;
+    if ((b.inside.match(scheme) ?? []).length > (a.inside.match(scheme) ?? []).length) {
+      reasons.push(`${path}: new script/data URL scheme`);
     }
     total += changedLineCount(before, after);
   }
