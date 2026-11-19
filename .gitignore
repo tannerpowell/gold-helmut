@@ -53,3 +53,7 @@ public/images/Gemini_Generated_Image_*.png
 public/images/logo-edit-high-res.png
 public/images/1280x720-social-share.jpg
 .gstack/
+
+# Email-update agent scratch files (CI only)
+.email-request.md
+.email-summary.md
