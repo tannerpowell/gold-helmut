@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { checkSender, parseAllowlist, requestText, type PostmarkInbound } from "@/lib/inbound-email";
+import { checkSender, parseAllowlist, parseInbound, requestText } from "@/lib/inbound-email";
 
 // Postmark inbound webhook. Postmark posts each email sent to the site-update
 // address here (webhook URL carries Basic auth credentials). Accepted emails
@@ -27,25 +27,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let msg: PostmarkInbound;
+  let raw: unknown;
   try {
-    msg = (await req.json()) as PostmarkInbound;
+    raw = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
   // Rejections return 200 so Postmark doesn't retry them.
+  const msg = parseInbound(raw);
+  if (!msg) {
+    console.warn("inbound-email: dropped (malformed payload)");
+    return NextResponse.json({ accepted: false });
+  }
+
   const sender = checkSender(msg, parseAllowlist(process.env.INBOUND_EMAIL_ALLOWED_SENDERS));
   if (!sender.ok) {
     console.warn(`inbound-email: dropped (${sender.reason})`);
     return NextResponse.json({ accepted: false });
   }
 
-  const body = requestText(msg);
-  if (!body) {
-    console.warn("inbound-email: dropped (empty body)");
-    return NextResponse.json({ accepted: false });
-  }
+  // Empty or oversized requests still dispatch, flagged for a human, so an
+  // authorized email is never silently dropped.
+  const request = requestText(msg);
 
   const res = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
     method: "POST",
@@ -57,9 +61,9 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       event_type: "site-update-email",
       client_payload: {
-        from: sender.email,
         subject: (msg.Subject ?? "").slice(0, 300),
-        body,
+        body: request.text,
+        triage: request.triage ?? "",
         attachments: msg.Attachments?.length ?? 0,
       },
     }),

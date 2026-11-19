@@ -1,82 +1,100 @@
 # Site updates by email
 
 Board members email a change ("add Jake Stone to Brotherhood") to the
-site-update address. An agent edits the site data, a guard checks the diff,
-and safe edits merge and deploy on their own. Anything unusual becomes a PR
-or an issue for a human.
+site-update address. An agent edits the site data, a guard checks the
+result, and edits that pass every rule publish on their own. Everything else
+publishes nothing and opens an issue for a human.
 
 ## Flow
 
 1. **Postmark inbound** receives mail for `*@in.goldhelmetaward.com` and POSTs
    it as JSON to `https://<user>:<pass>@goldhelmetaward.com/api/inbound-email`.
-2. **`app/api/inbound-email/route.ts`** checks Basic auth (`route.ts:26-28`),
-   then the sender (`route.ts:38`, logic in `lib/inbound-email.ts:50-64`):
-   - From address must be in `INBOUND_EMAIL_ALLOWED_SENDERS`
-   - `Received-SPF` must be `pass`
-   - the `Return-Path` domain must equal the From domain, so SPF is vouching
-     for the sender's own domain
-
-   Accepted mail goes to GitHub as a `repository_dispatch` event
-   (`route.ts:50`). The body is Postmark's reply-only text when it has one,
-   otherwise the full text including any quoted thread, capped at 20,000
-   characters (`lib/inbound-email.ts:66-70`). Rejected mail gets a 200 so
-   Postmark doesn't retry it. GitHub failures get a 500 so it does.
+2. **`app/api/inbound-email/route.ts`**:
+   - checks Basic auth (`route.ts:26`)
+   - validates the payload's shape, and drops malformed bodies with a 200 so
+     Postmark doesn't retry (`route.ts:38`, `lib/inbound-email.ts:69`)
+   - checks the sender (`route.ts:44`, `lib/inbound-email.ts:50`): the From
+     address must be in `INBOUND_EMAIL_ALLOWED_SENDERS`, `Received-SPF` must
+     be `pass`, and the `Return-Path` domain must equal the From domain
+   - picks the text to act on (`route.ts:52`, `lib/inbound-email.ts:91`):
+     Postmark's reply-only text, else the full text. If that's empty, or
+     longer than 20,000 characters, the email is flagged for a human rather
+     than dropped or cut off.
+   - sends it to GitHub as a `repository_dispatch` event (`route.ts:54`). A
+     GitHub failure returns 500 so Postmark retries.
 3. **`.github/workflows/email-update.yml`** runs 2 jobs:
-   - `edit` has a **read-only** token (`email-update.yml:34-35`). The email
-     is read from the event file, never through `env:`, because Actions
-     prints step env in public logs (`email-update.yml:47`). Claude Code runs
-     with only file tools: no shell, no web, no new files
-     (`email-update.yml:61-62`). The guard is copied before the agent runs
-     (`email-update.yml:44`), so the agent can't edit its own judge.
-     Typecheck, lint and tests run here as well, still read-only
-     (`email-update.yml:97`).
-   - `land` has write access but runs no code from the edit
-     (`email-update.yml:125-126`). It maps the edit job's outputs onto fixed
-     values (`email-update.yml:157`), re-applies the patch on a clean
-     checkout and re-runs the guard. It merges only when everything is clean
-     and `main` hasn't moved since the checkout
-     (`email-update.yml:207`, `226`).
+   - `edit` has a **read-only** token (`email-update.yml:39`).
+     - The guard and its TypeScript dependency are installed outside the
+       workspace before the agent runs (`:50`), so the agent can't alter its
+       own judge.
+     - Flagged emails, and any email with attachments, skip the agent
+       (`:56`).
+     - Claude Code runs in restricted mode: file tools only, confined to the
+       workspace, with no shell, web or extra MCP servers (`:78`).
+     - An `auto` edit is frozen as a patch with a SHA-256 digest. Typecheck,
+       lint and tests then run on a clean tree with exactly that patch
+       applied (`:116-126`).
+   - `land` has write access but runs no code from the edit (`:163`).
+     - It treats the edit job's outputs as untrusted (`:176`) and checks the
+       patch digest (`:214`).
+     - It re-applies the patch to a clean checkout and re-runs the guard.
+     - It lands with a fast-forward push to `main` (`:242`). GitHub refuses
+       that push atomically if `main` moved, so the tree that lands is the
+       tree that was checked. A PR records the change.
+     - Anything that wasn't published opens an issue (`:248`).
 4. **Vercel** deploys `main` as usual.
 
 ## What the guard allows
 
-`scripts/email-guard.mjs` judges the diff, not the agent:
+`scripts/email-guard.mjs` parses both versions of each data file with the
+TypeScript compiler and judges the result:
 
-| Verdict | When | Outcome |
-|---|---|---|
-| `auto` | Only the data blocks in `lib/constants.ts` (`GIVING_LEVELS`, `WINNERS`) or `lib/winner-profiles.ts` (`WINNER_PROFILES`) changed, every token in them is a plain literal, object key, comment or `{}[],:` (`email-guard.mjs:67`), no new URLs or `javascript:`/`data:` schemes, at most 80 changed lines | PR auto-merged |
-| `review` | Data files only, but something is unusual (see above) | PR left open |
-| `reject` | Any other file changed, or a data file deleted | Issue opened, nothing committed |
-| `empty` | Agent made no edit (unclear request) | Issue opened |
+- **Literals only.** Every value in `GIVING_LEVELS`, `WINNERS` and
+  `WINNER_PROFILES` must be a literal AST node: string, number, boolean,
+  array or plain object (`email-guard.mjs:48`). No expressions, spreads,
+  getters, template substitutions or new comments (`:218`).
+- **Nothing outside the data changes.**
+- **Field rules** (`:144`):
+  - Level names and amounts are fixed. Donors may be added or moved between
+    levels, but never removed, and never listed in 2 levels.
+  - Winners are never added, removed or reordered. `storyUrl` and
+    `imageUrl` are fixed.
+  - Profiles may be added or edited, but never removed. `actionImage` and
+    `closingImage` are fixed.
+- **No new URL- or path-like values** anywhere, checked on the decoded value
+  (`:43`).
+- **At most 15 records change** (`:39`).
 
-Emails with attachments (photos) always stay open for review
-(`email-update.yml:206`).
+| Verdict | Outcome |
+|---|---|
+| `auto` | Published |
+| `review`, `empty`, `triage`, `checks-failed`, `failed` | Issue opened, nothing published |
+| `reject` (another file changed, or a data file deleted) | Issue opened, nothing published |
 
 ## Privacy
 
 The repo is public. Nothing from the email (sender, subject, body) and no
-agent-written text reaches logs, artifacts, commits, PRs or issues. Those
-carry fixed text plus the data diff, which goes live on the site anyway.
-Guard reasons count problems without echoing values. To see what someone
-asked for, open the message in Postmark's inbound activity.
+agent-written text reaches logs, artifacts, commits, PRs or issues. Only
+`auto` edits upload their patch, which is the same data that goes live. Guard
+reasons never include values or file names. To see what someone asked for,
+open the message in Postmark's inbound activity.
 
 ## Known limits
 
-- **Sender authentication is domain-level.** The check proves the mail came
-  from infrastructure the sender's domain authorizes (aligned SPF). It does
-  not prove which mailbox sent it, and shared senders (Google, Microsoft)
-  are authorized for many customers. A forged email could at worst get a
-  literal-only data edit merged: a fake donor name or bio text, which is
-  visible and revertible. Requiring a per-sender passphrase or DKIM-aligned
-  results would tighten this.
+- **Sender authentication is domain-level** (a deliberate choice,
+  2026-11-19). Aligned SPF proves the mail came from servers the sender's
+  domain authorizes. It doesn't prove which mailbox sent it, and shared
+  providers (Google, Microsoft) are authorized for many customers. A forged
+  email could at worst publish a fake donor name or bio text within the
+  field rules. That would be visible and easy to revert.
 - **Header trust is unverified.** The route assumes Postmark's own
   `Received-SPF` and `Return-Path` headers come first in its `Headers`
   array. Confirm this with the first real email.
 - **No dedup.** A Postmark retry after a lost response dispatches twice. The
-  second run finds nothing to change and opens a "needs a human" issue.
-- **Collisions are loud, not queued.** Runs aren't serialized (GitHub's
-  concurrency groups drop pending runs). Two emails at once can make the
-  second merge fail; its PR then stays open.
+  second run finds nothing to change and opens an issue.
+- **Collisions are loud, not queued.** Runs aren't serialized, because a
+  GitHub concurrency group drops pending runs. If 2 emails land at once, the
+  second fast-forward fails and its PR stays open with a comment.
 
 ## Setup
 
@@ -86,7 +104,7 @@ asked for, open the message in Postmark's inbound activity.
 | Vercel (Production) | `INBOUND_EMAIL_ALLOWED_SENDERS` | comma-separated addresses |
 | Vercel (Production) | `GITHUB_DISPATCH_TOKEN` | fine-grained PAT, this repo only, Contents: read & write |
 | GitHub Actions secret | `ANTHROPIC_API_KEY` | dedicated key, spend-capped |
-| GitHub repo settings → Actions → General | Workflow permissions | check "Allow GitHub Actions to create and approve pull requests" (needed for `gh pr create`) |
+| GitHub repo settings → Actions → General | Workflow permissions | check "Allow GitHub Actions to create and approve pull requests" |
 | GoDaddy DNS | `in` MX 10 | `inbound.postmarkapp.com` |
 | Postmark inbound stream | Inbound domain | `in.goldhelmetaward.com` |
 | Postmark inbound stream | Webhook URL | `https://<user>:<pass>@goldhelmetaward.com/api/inbound-email` |
@@ -95,8 +113,10 @@ Send to any address at `in.goldhelmetaward.com`, e.g. `updates@in.goldhelmetawar
 
 ## Changing the rules
 
-- New editable data: add the file and its block markers to `DATA_FILES` in
-  `scripts/email-guard.mjs`, then add a case to `scripts/email-guard.test.ts`.
-- New sender: edit `INBOUND_EMAIL_ALLOWED_SENDERS` in Vercel and redeploy.
-- Turn off auto-merge: delete the `gh pr merge` line in the workflow. Every
-  edit then waits as a PR.
+- **New editable data:** add the file and its declaration names to
+  `DATA_FILES`, add field rules to `checkPolicy`, and add cases to
+  `scripts/email-guard.test.ts`.
+- **New sender:** edit `INBOUND_EMAIL_ALLOWED_SENDERS` in Vercel and
+  redeploy.
+- **Turn off auto-publish:** replace the fast-forward push in the `Land` step
+  with nothing. Every edit then waits as a PR.

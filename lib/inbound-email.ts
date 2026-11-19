@@ -63,8 +63,35 @@ export function checkSender(msg: PostmarkInbound, allowlist: Set<string>): Sende
   return { ok: true, email };
 }
 
-export function requestText(msg: PostmarkInbound): string {
+const optString = (v: unknown) => v === undefined || typeof v === "string";
+
+/** Validates the webhook body's shape; null means malformed (don't retry). */
+export function parseInbound(raw: unknown): PostmarkInbound | null {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+  const m = raw as Record<string, unknown>;
+  if (!optString(m.Subject) || !optString(m.TextBody) || !optString(m.StrippedTextReply)) return null;
+  const from = m.FromFull;
+  if (from !== undefined && (!from || typeof from !== "object" || !optString((from as Record<string, unknown>).Email))) return null;
+  if (m.Headers !== undefined) {
+    if (!Array.isArray(m.Headers)) return null;
+    if (!m.Headers.every((h) => h && typeof h === "object" && typeof h.Name === "string" && typeof h.Value === "string")) return null;
+  }
+  if (m.Attachments !== undefined && !Array.isArray(m.Attachments)) return null;
+  return m as PostmarkInbound;
+}
+
+export type RequestText =
+  | { triage: null; text: string }
+  | { triage: "empty" | "oversize"; text: "" };
+
+/**
+ * The text the agent acts on. Empty or oversized requests go to a human
+ * instead: acting on a truncated request could drop a trailing condition.
+ */
+export function requestText(msg: PostmarkInbound): RequestText {
   const stripped = (msg.StrippedTextReply ?? "").trim();
   const text = stripped || (msg.TextBody ?? "").trim();
-  return text.slice(0, MAX_BODY_CHARS);
+  if (!text) return { triage: "empty", text: "" };
+  if (text.length > MAX_BODY_CHARS) return { triage: "oversize", text: "" };
+  return { triage: null, text };
 }
